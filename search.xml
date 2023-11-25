@@ -25,7 +25,7 @@
 
 <p>生成的时候可能要等一会，多刷新几次。</p>
 <p>只有md文档同级下有对应文件夹来放图片就可以了。</p>
-<p>如果是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
+<p>如果还是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
 <p><img src="/2023/11/25/create_blog/image-20231125182910235.png" alt="image-20231125182910235"></p>
 <p>去调整<code>index.js</code>的中路径字符串拼接的部分，视自己当前问题来合理调整。</p>
 <p><strong>这里还需要注意的是根目录下的配置文件中<code>url</code>的配置：一定要是自己的仓库名，不然所有组件都会加载失败。</strong></p>
