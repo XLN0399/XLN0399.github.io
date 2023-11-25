@@ -3,7 +3,7 @@
   <entry>
     <title>个人博客搭建</title>
     <url>/2023/11/25/create_blog/</url>
-    <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置</p>
+    <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题</p>
 <span id="more"></span>
 
 <h2 id="初始hexo项目"><a href="#初始hexo项目" class="headerlink" title="初始hexo项目"></a>初始hexo项目</h2><h3 id="初始创建"><a href="#初始创建" class="headerlink" title="初始创建"></a>初始创建</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
@@ -25,6 +25,10 @@
 
 <p>生成的时候可能要等一会，多刷新几次。</p>
 <p>只有md文档同级下有对应文件夹来放图片就可以了。</p>
+<p>如果是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
+<p><img src="/2023/11/25/create_blog/image-20231125182910235.png" alt="image-20231125182910235"></p>
+<p>去调整<code>index.js</code>的中路径字符串拼接的部分，视自己当前问题来合理调整。</p>
+<p><strong>这里还需要注意的是根目录下的配置文件中<code>url</code>的配置：一定要是自己的仓库名，不然所有组件都会加载失败。</strong></p>
 <h2 id="Next主题配置"><a href="#Next主题配置" class="headerlink" title="Next主题配置"></a>Next主题配置</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><p>主题配置文件下：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
 
