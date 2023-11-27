@@ -5,13 +5,10 @@
     <url>/2023/11/25/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</url>
     <content><![CDATA[<p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
 <span id="more"></span>
-
 <h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>其中主要的是：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
-
 <p>参数说明：</p>
 <ul>
 <li>lpApplicationName: 指定要运行的可执行文件的名称。在这种情况下，使用NULL表示使用命令行参数中指定的可执行文件</li>
@@ -32,15 +29,12 @@
 </blockquote>
 <h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><p>定义线程结构体和启动线程两部分最重要。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-
 <p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
 <p>第三个参数是传递线程执行函数的函数指针。</p>
 <p>示例代码：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">create_thread_task1</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;child thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_thread_example_run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 句柄声明定义</span></span><br><span class="line">	<span class="comment">// _beginthreadex()函数创建一个新的线程 指定子线程执行函数指针(函数类型固定) 返回线程的句柄</span></span><br><span class="line">	HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;main thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 句柄可以访问线程中各种系统资源 标识对象 访问对象 资源管理</span></span><br><span class="line">	<span class="comment">// 通过CloseHandle函数关闭线程句柄 释放资源</span></span><br><span class="line">	<span class="built_in">CloseHandle</span>(hTread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这里线程执行的函数是固定的定义方式：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">xxx</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	....</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>LPVOID paramter</code>：可以接收参数，通过创建线程执行语句的第4个参数</li>
 </ul>
@@ -51,37 +45,20 @@
 <li>主线程等待子线程结束语句</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>获取当前线程的ID</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">GetCurrentThreadId</span>()</span><br></pre></td></tr></table></figure>
-
-
-
 <ul>
 <li>对于多个线程的处理，需要依次关闭线程，示例代码如下</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_multi_thread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE handles[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次开启多个线程</span></span><br><span class="line">		handles[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task3, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">10</span>, handles, TRUE, INFINITE);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;main thread ending ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次关闭多个线程</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(handles[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <ul>
 <li>主线程等待所有子线程结束</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>函数指针和函数指针数组，示例如下：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -93,161 +70,138 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/11/25/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <tags>
+        <tag>BLOG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>进程调度算法</title>
+    <url>/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明</p>
+<span id="more"></span>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><p>周转时间：指进程从到达等待队列到完成执行的时间。</p>
+<script type="math/tex; mode=display">
+T_i=作业i完成时间-作业i到达时间 \quad or \quad T_i=作业i执行时间+作业i等待时间</script></li>
+<li><p>完成时间：进程最后执行</p>
+</li>
+</ul>
+<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2>]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+        <tag>进程</tag>
+        <tag>处理机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>个人博客搭建</title>
     <url>/2023/11/25/create_blog/</url>
     <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题，采用git + github + hexo + hexo next主题实现的一个个人博客网站。</p>
 <span id="more"></span>
-
 <h2 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h2><p>下载git，参考网址：<a href="https://juejin.cn/post/7086817870172782623">图文详解 Git 安装【当前最新，最详细版】 - 掘金 (juejin.cn)</a></p>
 <p>下载node.js，参考网址：<a href="https://juejin.cn/post/7090056744549744676">node.js安装及环境配置 - 掘金 (juejin.cn)</a></p>
 <p>然后打开git bash命令窗口输入：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="github创建仓库"><a href="#github创建仓库" class="headerlink" title="github创建仓库"></a>github创建仓库</h3><ol>
 <li><p>自己注册一个账号，开始创建仓库，可以参考<a href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
 <p>需要注意的是仓库名称<code>xxx.github.io</code>。</p>
 </li>
 <li><p>在git上配置远程连接SSH</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -global user.name &quot;用户名&quot;</span><br><span class="line">git config -global user.email &quot;邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成SSH密钥</span></span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
-
 <p>生成结果：</p>
 <p>路径<code>C:\Users\电脑用户名\.ssh\id_rsa.pub</code></p>
 <p><img src="/2023/11/25/create_blog/image-20231125201927788.png" alt="image-20231125201927788"></p>
-<p><img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
 </li>
+</ol>
+<p>   <img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
+<ol>
 <li><p>将密钥全部复制粘贴到GitHub上</p>
 <p><img src="/2023/11/25/create_blog/image-20231125202323393.png" alt="image-20231125202323393"></p>
 </li>
 </ol>
 <h2 id="初始hexo项目"><a href="#初始hexo项目" class="headerlink" title="初始hexo项目"></a>初始hexo项目</h2><h3 id="初始创建"><a href="#初始创建" class="headerlink" title="初始创建"></a>初始创建</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
-
 <p>下载next主题</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:theme-next/hexo-theme-next.git  ./themes/next</span><br></pre></td></tr></table></figure>
-
 <p>更改根目录下的<code>_config.yml</code>文件</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">themes:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p>然后执行以下命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取仓库内容</span></span><br><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行 本地测试</span></span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载hexo-devloper</span></span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-
-
 <p>将根目录下<code>.config.yml</code>配置文件修改：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">url:</span> <span class="comment"># https://xxx.github.io</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="comment"># https://gitee.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
-
 <p>配置修改后执行：（一定要先修改配置文件后在进行提交）</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
 <p>执行上述所有步骤后，就可以通过github看到一个初始状态的个人博客了。</p>
 <h2 id="Next主题配置"><a href="#Next主题配置" class="headerlink" title="Next主题配置"></a>Next主题配置</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><p>主题配置文件下：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
-
 <p>可以自行选择四种样式。</p>
 <h3 id="修改博客头像"><a href="#修改博客头像" class="headerlink" title="修改博客头像"></a>修改博客头像</h3><p>在<code>themes/next/source/images</code>放入设置的图片。</p>
-<img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977">
-
+<p><img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977"></p>
 <p>在主题配置文件中设置路径即可：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="comment"># Replace the default image and set the url here.</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be dispalyed in circle.</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be rotated with the cursor.</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="侧边栏社交添加"><a href="#侧边栏社交添加" class="headerlink" title="侧边栏社交添加"></a>侧边栏社交添加</h3><p>主题配置文件夹下配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment">#GitHub: https://github.com || fab fa-github</span></span><br><span class="line">  <span class="comment">#E-Mail: mailto:yourname@gmail.com || fa fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#FB Page: https://www.facebook.com/yourname || fab fa-facebook</span></span><br><span class="line">  <span class="comment">#StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="comment">#Instagram: https://instagram.com/yourname || fab fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="添加菜单结构"><a href="#添加菜单结构" class="headerlink" title="添加菜单结构"></a>添加菜单结构</h3><p>输入命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-
 <p>这样就可以创建一个tags目录，效果如图所示：</p>
 <p><img src="/2023/11/25/create_blog/image-20231125135239747.png" alt="image-20231125135239747"></p>
 <p>同理还可以创建<code>about、categories、archives</code>等菜单文件。</p>
 <p>我们需要进入到每个文件目录下面去修改它<code>index.md</code>文件，修改它的类型，如图所示：</p>
 <p><img src="/2023/11/25/create_blog/image-20231125135911341.png" alt="image-20231125135911341"></p>
 <figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">tags: tags</span><br><span class="line">categories: categories</span><br><span class="line">留言板: 将comments一栏改为true type改为guestbook</span><br></pre></td></tr></table></figure>
-
 <p>在主题的配置文件<code>_config.yml</code>开启对应菜单：</p>
 <p><img src="/2023/11/25/create_blog/image-20231125140353312.png" alt="image-20231125140353312"></p>
 <p>可以设置显示数量：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h3><p>下载搜索插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
-
 <p>主题目录下配置文件<code>_config.yml</code>开启本地搜索：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
 <p>根目录下<code>_config.yml</code>配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># hexo-generator-searchdb</span></span><br><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="添加动态背景"><a href="#添加动态背景" class="headerlink" title="添加动态背景"></a>添加动态背景</h3><p>打开生成的hexo目录<code>\themes\next\layout\_layout.swig</code>文件，将代码放在<code>&lt;/body&gt;</code>上面。</p>
 <figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">&#123;<span class="comment">% if theme.canvas_nest %&#125;</span></span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;<span class="comment">% endif %&#125;</span></span><br></pre></td></tr></table></figure>
-
 <p>主题配置文件添加配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># background settings</span></span><br><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># add canvas-nest effect</span></span><br><span class="line"><span class="comment"># see detail from https://github.com/hustcc/canvas-nest.js</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="增加阅读时间和文章数字统计"><a href="#增加阅读时间和文章数字统计" class="headerlink" title="增加阅读时间和文章数字统计"></a>增加阅读时间和文章数字统计</h3><p>下载插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
-
 <p>根目录下配置文件添加：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">2</span>    </span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">&quot;mins.&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>主题配置文件下打开开关：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="部件配置"><a href="#部件配置" class="headerlink" title="部件配置"></a>部件配置</h3><p>都在主题配置文件下</p>
 <p>阅读进度条：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Available values: top | bottom</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p>左上角Github图标：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">github_banner:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">permalink:</span> <span class="string">https://github.com/xxx</span></span><br><span class="line">  <span class="attr">title:</span> <span class="string">Follow</span> <span class="string">me</span> <span class="string">on</span> <span class="string">GitHub</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p>开启代码复制：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="comment"># Code Highlight theme</span></span><br><span class="line">  <span class="comment"># Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic</span></span><br><span class="line">  <span class="comment"># See: https://github.com/chriskempson/tomorrow-theme</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="comment"># Add copy button on codeblock</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Show text copy result.</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># Available values: default | flat | mac</span></span><br><span class="line">    <span class="attr">style:</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p>文末尾版权说明</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p>设置回到顶部</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">back2top:</span></span><br><span class="line"> <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"> <span class="comment"># Back to top in sidebar.</span></span><br><span class="line"> <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line"> <span class="comment"># Scroll percent label in b2t button.</span></span><br><span class="line"> <span class="attr">scrollpercent:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="图片不显示"><a href="#图片不显示" class="headerlink" title="图片不显示"></a>图片不显示</h3><p>hexo生成后图片路劲发生改变，导致了生成后文章找不到图片。</p>
 <p>下载插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
 <p>修改根目录下配置文件：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
 <p>生成的时候可能要等一会，多刷新几次。</p>
 <p>只有md文档同级下有对应文件夹来放图片就可以了。</p>
 <p>如果还是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
@@ -261,45 +215,6 @@
       <tags>
         <tag>BLOG</tag>
         <tag>IT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/11/25/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <tags>
-        <tag>BLOG</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>进程调度算法</title>
-    <url>/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明</p>
-<span id="more"></span>
-
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2>]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>操作系统</tag>
-        <tag>进程</tag>
-        <tag>处理机</tag>
       </tags>
   </entry>
 </search>

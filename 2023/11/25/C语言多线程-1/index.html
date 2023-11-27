@@ -265,13 +265,10 @@
       
         <p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
 <span id="more"></span>
-
 <h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>其中主要的是：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
-
 <p>参数说明：</p>
 <ul>
 <li>lpApplicationName: 指定要运行的可执行文件的名称。在这种情况下，使用NULL表示使用命令行参数中指定的可执行文件</li>
@@ -292,15 +289,12 @@
 </blockquote>
 <h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><p>定义线程结构体和启动线程两部分最重要。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-
 <p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
 <p>第三个参数是传递线程执行函数的函数指针。</p>
 <p>示例代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">create_thread_task1</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;child thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_thread_example_run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 句柄声明定义</span></span><br><span class="line">	<span class="comment">// _beginthreadex()函数创建一个新的线程 指定子线程执行函数指针(函数类型固定) 返回线程的句柄</span></span><br><span class="line">	HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;main thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 句柄可以访问线程中各种系统资源 标识对象 访问对象 资源管理</span></span><br><span class="line">	<span class="comment">// 通过CloseHandle函数关闭线程句柄 释放资源</span></span><br><span class="line">	<span class="built_in">CloseHandle</span>(hTread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这里线程执行的函数是固定的定义方式：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">xxx</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	....</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><code>LPVOID paramter</code>：可以接收参数，通过创建线程执行语句的第4个参数</li>
 </ul>
@@ -311,37 +305,20 @@
 <li>主线程等待子线程结束语句</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>获取当前线程的ID</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">GetCurrentThreadId</span>()</span><br></pre></td></tr></table></figure>
-
-
-
 <ul>
 <li>对于多个线程的处理，需要依次关闭线程，示例代码如下</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_multi_thread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE handles[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次开启多个线程</span></span><br><span class="line">		handles[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task3, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">10</span>, handles, TRUE, INFINITE);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;main thread ending ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次关闭多个线程</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(handles[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <ul>
 <li>主线程等待所有子线程结束</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>函数指针和函数指针数组，示例如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
 
     </div>
 
@@ -379,8 +356,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/11/25/create_blog/" rel="prev" title="个人博客搭建">
-      <i class="fa fa-chevron-left"></i> 个人博客搭建
+    <a href="/2023/11/25/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
     </a></div>
       <div class="post-nav-item">
     <a href="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" rel="next" title="进程调度算法">
@@ -590,6 +567,8 @@
 
 
 
+
+  
 
   
 

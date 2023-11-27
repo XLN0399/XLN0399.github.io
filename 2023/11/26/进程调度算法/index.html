@@ -28,7 +28,7 @@
 <meta property="og:description" content="介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-26T07:00:00.000Z">
-<meta property="article:modified_time" content="2023-11-26T07:02:37.892Z">
+<meta property="article:modified_time" content="2023-11-27T05:50:39.867Z">
 <meta property="article:author" content="柠">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="进程">
@@ -218,10 +218,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-26 15:00:00 / 修改时间：15:02:37" itemprop="dateCreated datePublished" datetime="2023-11-26T15:00:00+08:00">2023-11-26</time>
+              <time title="创建时间：2023-11-26 15:00:00" itemprop="dateCreated datePublished" datetime="2023-11-26T15:00:00+08:00">2023-11-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-27 13:50:39" itemprop="dateModified" datetime="2023-11-27T13:50:39+08:00">2023-11-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -238,7 +244,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>40</span>
+              <span>125</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -259,8 +265,14 @@
       
         <p>介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明</p>
 <span id="more"></span>
-
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><p>周转时间：指进程从到达等待队列到完成执行的时间。</p>
+<script type="math/tex; mode=display">
+T_i=作业i完成时间-作业i到达时间 \quad or \quad T_i=作业i执行时间+作业i等待时间</script></li>
+<li><p>完成时间：进程最后执行</p>
+</li>
+</ul>
+<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2>
     </div>
 
     
@@ -507,6 +519,63 @@
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
