@@ -291,8 +291,117 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
   <entry>
     <title>C语言多线程编程 (二)</title>
     <url>/2023/11/28/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/</url>
-    <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过互斥变量等方式实现。</p>
-<span id="more"></span>]]></content>
+    <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过临界区、互斥量、事件、信号量实现线程的同步互斥，同时讲解一下进程之间的同步互斥。</p>
+<span id="more"></span>
+<h1 id="临界区实现同步互斥"><a href="#临界区实现同步互斥" class="headerlink" title="临界区实现同步互斥"></a>临界区实现同步互斥</h1><ol>
+<li><p>首先我们要声明一个临界区的变量，利用临界区变量来实现临界区。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用临界区变量需要先初始临界区变量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">InitializeCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>进入临界区，利用临界区变量上锁。</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">EnterCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>出临界区，解锁。</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">LeaveCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用结束后，删除临界变量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DeleteCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>完成的使用流程：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">thread_task</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 进入临界区</span></span><br><span class="line">	<span class="built_in">EnterCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="comment">// 临界区代码</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 出临界区   </span></span><br><span class="line">	<span class="built_in">LeaveCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">critical_zone_synchronization</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread[<span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 初始化临界区变量</span></span><br><span class="line">	<span class="built_in">InitializeCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		hThread[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">5</span>, hThread, TRUE, INFINITE);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hThread[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">DeleteCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的临界区的设置，只允许同一时间只有一个线程能够执行临界区代码。</p>
+<h1 id="互斥量实现同步互斥"><a href="#互斥量实现同步互斥" class="headerlink" title="互斥量实现同步互斥"></a>互斥量实现同步互斥</h1><p>大致步骤和临界区相同。</p>
+<ol>
+<li><p>初始化互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE mutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, FALSE, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<p><code>CreateMutex</code>的作用是找出当前系统是否存在指定进程的示例，如果没有则创建一个互斥体。</p>
+<ul>
+<li>互斥对象是系统内核维护的一种数据结构，保证对象对单个线程的访问权。</li>
+<li>互斥对象结构包括：使用数量（多少个线程调用该对象），线程ID（互斥对象的维护线程ID），计数器（当前线程调用该对象的次数）。</li>
+<li>参数说明：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CreateMutexA</span>(</span><br><span class="line">    _In_opt_ LPSECURITY_ATTRIBUTES lpMutexAttributes, <span class="comment">// 指向安全属性的指针</span></span><br><span class="line">    _In_ BOOL bInitialOwner, <span class="comment">// 初始化互斥对象的所有者 如果为 TRUE 表示互斥量为创建线程所有</span></span><br><span class="line">    _In_opt_ LPCSTR lpName <span class="comment">// 指向互斥对象名的指针</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待互斥量被触发。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(mutex, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>触发互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(mutex);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(mutex);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="事件实现同步互斥"><a href="#事件实现同步互斥" class="headerlink" title="事件实现同步互斥"></a>事件实现同步互斥</h1><ol>
+<li><p>初始化事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE event = <span class="built_in">CreateEvent</span>(<span class="literal">NULL</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">HANDLE <span class="title">CreateEvent</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  LPSECURITY_ATTRIBUTES lpEventAttributes, 	<span class="comment">// 安全属性结构体指针</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bManualReset,      	<span class="comment">// 是否手动复位</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bInitialState,    	<span class="comment">// 初始状态</span></span></span></span><br><span class="line"><span class="params"><span class="function">  LPCTSTR               lpName             	<span class="comment">// 事件名称</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>lpEventAttributes</code>：一个指向SECURITY_ATTRIBUTES结构体的指针，用于设置事件对象的安全属性。如果该参数为NULL，则事件对象会继承调用进程的安全属性。</li>
+<li><code>bManualReset</code>：一个布尔值，用于指定事件对象的类型。如果该参数为TRUE，则表示创建的是手动复位事件对象；如果该参数为FALSE，则表示创建的是自动复位事件对象。手动复位事件对象必须通过调用<code>ResetEvent</code>函数来将事件状态复位（即重置为未激发状态）；而自动复位事件对象则会在有信号触发时自动将其状态复位。</li>
+<li><code>bInitialState</code>：一个布尔值，用于指定事件对象的初始状态。如果该参数为TRUE，则表示在创建事件对象时立即将其设置为已激发状态（signaled）；如果该参数为FALSE，则表示事件对象初始状态为未激发状态（nonsignaled）。</li>
+<li><code>lpName</code>：一个字符串指针，用于指定事件对象的名称。如果该参数为NULL，则表示创建一个无名事件对象；否则表示创建命名的事件对象。需要注意的是，如果同时存在同名的命名事件对象，则会返回该事件对象的句柄。</li>
+</ul>
+</li>
+<li><p>等待事件发生</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(event, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>触发事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">SetEvent</span>(event);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(event);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="信号量同步"><a href="#信号量同步" class="headerlink" title="信号量同步"></a>信号量同步</h1><ol>
+<li><p>初始化信号量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当前0个资源、最大允许1个同时访问</span></span><br><span class="line">HANDLE semaphore = <span class="built_in">CreateSemaphore</span>(<span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待$信号量&gt;1$</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(semaphore, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>释放一个资源，信号量加1</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseSemaphore</span>(semaphore, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销信号量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(semaphore);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="进程之间互斥信号量实现互斥"><a href="#进程之间互斥信号量实现互斥" class="headerlink" title="进程之间互斥信号量实现互斥"></a>进程之间互斥信号量实现互斥</h1><p>和线程之间原理一样，这里多了一步需要打开互斥对象，互斥对象有操作内核管理，通过名称查找到。</p>
+<p>互斥对象存在时，同名的进程时不能运行的。</p>
+<ol>
+<li><p>创建互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">OpenMutex</span>(MUTEX_ALL_ACCESS, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>触发互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(hMutex);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待互斥量触发</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hMutex, <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h1><h2 id="WaitForSingleObject"><a href="#WaitForSingleObject" class="headerlink" title="WaitForSingleObject()"></a>WaitForSingleObject()</h2><p><code>WaitForSingleObject</code>函数的执行流程如下：</p>
+<ol>
+<li>线程调用<code>WaitForSingleObject</code>函数并传入需要等待的对象的句柄以及等待时间的长度。</li>
+<li>系统检查对象的当前状态：<ul>
+<li>如果对象已经是 signaled 状态（已激发），则直接返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
+<li>如果对象不是 signaled 状态（未激发），则线程进入等待状态，并将该线程从可执行状态转换为等待状态，直到以下三种情况之一发生：<ul>
+<li>对象被激发，即对象状态变为 signaled。此时，线程会被唤醒，并返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
+<li>等待超时，即指定的等待时间到达。此时，线程会被唤醒，并返回<code>WAIT_TIMEOUT</code>，线程可以根据需要进行相应处理。</li>
+<li>等待的对象被放弃。这通常出现在使用互斥体时，当互斥体的所有者线程意外终止而没有正确释放互斥体时，其他线程在等待该互斥体时会返回<code>WAIT_ABANDONED</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>线程根据返回值进行相应的处理。</li>
+</ol>
+]]></content>
       <categories>
         <category>C/C++</category>
       </categories>
@@ -301,6 +410,19 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
         <tag>C++</tag>
         <tag>多线程</tag>
         <tag>同步互斥</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络模拟实验配置</title>
+    <url>/2023/11/28/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<p>主要是记录使用Cisco模拟软件来连接配置局域网，主要包括的是交换机配置虚拟局域网，交换机之间配置协议，路由器与交换机交换配置，路由器与路由器之间的配置等模拟实验。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>Cisco模拟实验</tag>
       </tags>
   </entry>
 </search>
