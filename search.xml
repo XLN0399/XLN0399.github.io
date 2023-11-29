@@ -5,7 +5,8 @@
     <url>/2023/11/25/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</url>
     <content><![CDATA[<p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
 <span id="more"></span>
-<h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
+<h2 id="创建进程">创建进程</h2>
+<p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中主要的是：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
@@ -27,7 +28,8 @@
 <p>疑问：这里主进程是等待子进程结束才会结束，而这个子进程是计算器本身这个进程，还是只开启计算器的进程？</p>
 <p>个人理解是：IpCommandLine是传递命令参数，可能我们自己开启的进程的任务只是开启进程而不是计算器运行本身这个进程。</p>
 </blockquote>
-<h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><p>定义线程结构体和启动线程两部分最重要。</p>
+<h2 id="创建线程">创建线程</h2>
+<p>定义线程结构体和启动线程两部分最重要。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
 <p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
 <p>第三个参数是传递线程执行函数的函数指针。</p>
@@ -41,7 +43,8 @@
 <blockquote>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">&gt;参数<span class="number">1</span>：指定线程安全特性 null 表示使用默认的安全特性</span><br><span class="line">&gt;参数<span class="number">2</span>：指定线程的堆栈大小 通常设置为<span class="number">0</span> 表示使用默认堆栈大小</span><br><span class="line">&gt;参数<span class="number">3</span>：指向线程函数的指针</span><br><span class="line">&gt;参数<span class="number">4</span>：传递给线程函数的参数 可以是任意类型的指针 接收是 <span class="type">void</span>* 类型</span><br><span class="line">&gt;参数<span class="number">5</span>：指定线程初始化标志 通常设置为<span class="number">0</span></span><br><span class="line">&gt;参数<span class="number">6</span>：用于接收新线程的标识符</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h2 id="线程其他相关命令"><a href="#线程其他相关命令" class="headerlink" title="线程其他相关命令"></a>线程其他相关命令</h2><ul>
+<h2 id="线程其他相关命令">线程其他相关命令</h2>
+<ul>
 <li>主线程等待子线程结束语句</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
@@ -57,7 +60,8 @@
 <li>主线程等待所有子线程结束</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
-<h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>函数指针和函数指针数组，示例如下：</p>
+<h2 id="补充知识">补充知识</h2>
+<p>函数指针和函数指针数组，示例如下：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -70,93 +74,158 @@
       </tags>
   </entry>
   <entry>
-    <title>进程调度算法</title>
-    <url>/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明。</p>
+    <title>C语言多线程编程 (二)</title>
+    <url>/2023/11/28/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/</url>
+    <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过临界区、互斥量、事件、信号量实现线程的同步互斥，同时讲解一下进程之间的同步互斥。</p>
 <span id="more"></span>
-<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ul>
-<li><p>完成时间：进程完成的时间。</p>
-</li>
-<li><p>周转时间：指进程从到达等待队列到完成执行的时间。</p>
-<script type="math/tex; mode=display">
-T_i=作业i完成时间-作业i到达时间 \quad or \quad T_i=作业i执行时间+作业i等待时间</script></li>
-<li><p>带权周转时间</p>
-<script type="math/tex; mode=display">
-带权周转时间=\frac{周转时间}{实际执行时间}</script></li>
-<li><p>平均周转时间</p>
-<script type="math/tex; mode=display">
-平均周转时间=\frac{\sum_{i=1}^{n}作业_i周转时间}{n}</script></li>
-<li><p>平均带权周转时间</p>
-<script type="math/tex; mode=display">
-平均带权周转时间=\frac{\sum_{i=1}^{n}带权周转时间}{n}</script></li>
-</ul>
-<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><h2 id="先来先服务调度算法"><a href="#先来先服务调度算法" class="headerlink" title="先来先服务调度算法"></a>先来先服务调度算法</h2><ul>
-<li><p>最简单的调度算法，先进入的队列的进程优先调度</p>
-</li>
-<li><p>非抢占式算法</p>
-</li>
-</ul>
-<h2 id="短作业优先调度算法"><a href="#短作业优先调度算法" class="headerlink" title="短作业优先调度算法"></a>短作业优先调度算法</h2><ul>
-<li>每一次调度从预估运行时间最小的进程优先调度</li>
-<li>非抢占式调度算法</li>
-<li>和先来先服务调度算法相比，降低平局周转时间和平局带权周转时间</li>
-<li>但是存在进程”饿死”问题，即一直有短作业进程进入队列，而长作业进程始终不能被调度</li>
-</ul>
-<h2 id="时间片轮转调度算法"><a href="#时间片轮转调度算法" class="headerlink" title="时间片轮转调度算法"></a>时间片轮转调度算法</h2><ul>
-<li>进程按到达系统时间的先后次序排队，按照先来先服务的规则调度进程，但是每个进程在处理机上运行规定好的一个时间片的时间，如果没有执行完，则将进程重新排队到就绪队列队尾。</li>
-<li>如果进程在一个时间片上执行等待其他事件发生或资源，则将进程插到阻塞队列中，等所有资源拿到后在插入到就绪队列队尾。</li>
-<li>抢占式调度算法。</li>
-</ul>
-<h2 id="高响应比优先调度算法"><a href="#高响应比优先调度算法" class="headerlink" title="高响应比优先调度算法"></a>高响应比优先调度算法</h2><ul>
-<li><p>非抢占式算法</p>
-</li>
-<li><p>在调度进程的时候统计计算响应比的值，来选择调度哪一个进程，计算公式如下：</p>
-<script type="math/tex; mode=display">
-R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优先调度。</p>
-</li>
-</ul>
-<h2 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h2><ul>
-<li><p>静态优先级</p>
-<p>进程创建时就定义一个优先级，之后整个生命周期优先级不在改变。</p>
+<h1>临界区实现同步互斥</h1>
 <ol>
-<li>简单、系统开销小</li>
-<li>不灵活，优先级低的长时间得不到调度</li>
-</ol>
+<li>
+<p>首先我们要声明一个临界区的变量，利用临界区变量来实现临界区。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>动态优先级</p>
-<p>进入系统时根据某种规则赋予一个优先级，其后不断进行动态调整。</p>
+<li>
+<p>使用临界区变量需要先初始临界区变量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">InitializeCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>进入临界区，利用临界区变量上锁。</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">EnterCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>出临界区，解锁。</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">LeaveCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用结束后，删除临界变量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DeleteCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>完成的使用流程：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">thread_task</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 进入临界区</span></span><br><span class="line">	<span class="built_in">EnterCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="comment">// 临界区代码</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 出临界区   </span></span><br><span class="line">	<span class="built_in">LeaveCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">critical_zone_synchronization</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread[<span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 初始化临界区变量</span></span><br><span class="line">	<span class="built_in">InitializeCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		hThread[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">5</span>, hThread, TRUE, INFINITE);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hThread[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">DeleteCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的临界区的设置，只允许同一时间只有一个线程能够执行临界区代码。</p>
+<h1>互斥量实现同步互斥</h1>
+<p>大致步骤和临界区相同。</p>
 <ol>
-<li>灵活、资源利用率高</li>
+<li>
+<p>初始化互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE mutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, FALSE, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<p><code>CreateMutex</code>的作用是找出当前系统是否存在指定进程的示例，如果没有则创建一个互斥体。</p>
+<ul>
+<li>互斥对象是系统内核维护的一种数据结构，保证对象对单个线程的访问权。</li>
+<li>互斥对象结构包括：使用数量（多少个线程调用该对象），线程ID（互斥对象的维护线程ID），计数器（当前线程调用该对象的次数）。</li>
+<li>参数说明：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CreateMutexA</span>(</span><br><span class="line">    _In_opt_ LPSECURITY_ATTRIBUTES lpMutexAttributes, <span class="comment">// 指向安全属性的指针</span></span><br><span class="line">    _In_ BOOL bInitialOwner, <span class="comment">// 初始化互斥对象的所有者 如果为 TRUE 表示互斥量为创建线程所有</span></span><br><span class="line">    _In_opt_ LPCSTR lpName <span class="comment">// 指向互斥对象名的指针</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>等待互斥量被触发。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(mutex, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>触发互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(mutex);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>撤销互斥量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(mutex);</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
+<h1>事件实现同步互斥</h1>
+<ol>
+<li>
+<p>初始化事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE event = <span class="built_in">CreateEvent</span>(<span class="literal">NULL</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">HANDLE <span class="title">CreateEvent</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  LPSECURITY_ATTRIBUTES lpEventAttributes, 	<span class="comment">// 安全属性结构体指针</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bManualReset,      	<span class="comment">// 是否手动复位</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bInitialState,    	<span class="comment">// 初始状态</span></span></span></span><br><span class="line"><span class="params"><span class="function">  LPCTSTR               lpName             	<span class="comment">// 事件名称</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>lpEventAttributes</code>：一个指向SECURITY_ATTRIBUTES结构体的指针，用于设置事件对象的安全属性。如果该参数为NULL，则事件对象会继承调用进程的安全属性。</li>
+<li><code>bManualReset</code>：一个布尔值，用于指定事件对象的类型。如果该参数为TRUE，则表示创建的是手动复位事件对象；如果该参数为FALSE，则表示创建的是自动复位事件对象。手动复位事件对象必须通过调用<code>ResetEvent</code>函数来将事件状态复位（即重置为未激发状态）；而自动复位事件对象则会在有信号触发时自动将其状态复位。</li>
+<li><code>bInitialState</code>：一个布尔值，用于指定事件对象的初始状态。如果该参数为TRUE，则表示在创建事件对象时立即将其设置为已激发状态（signaled）；如果该参数为FALSE，则表示事件对象初始状态为未激发状态（nonsignaled）。</li>
+<li><code>lpName</code>：一个字符串指针，用于指定事件对象的名称。如果该参数为NULL，则表示创建一个无名事件对象；否则表示创建命名的事件对象。需要注意的是，如果同时存在同名的命名事件对象，则会返回该事件对象的句柄。</li>
+</ul>
+</li>
+<li>
+<p>等待事件发生</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(event, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>触发事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">SetEvent</span>(event);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>撤销事件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(event);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1>信号量同步</h1>
+<ol>
+<li>
+<p>初始化信号量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当前0个资源、最大允许1个同时访问</span></span><br><span class="line">HANDLE semaphore = <span class="built_in">CreateSemaphore</span>(<span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>等待$信号量&gt;1$</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(semaphore, INFINITE);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>释放一个资源，信号量加1</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseSemaphore</span>(semaphore, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>撤销信号量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(semaphore);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1>进程之间互斥信号量实现互斥</h1>
+<p>和线程之间原理一样，这里多了一步需要打开互斥对象，互斥对象有操作内核管理，通过名称查找到。</p>
+<p>互斥对象存在时，同名的进程时不能运行的。</p>
+<ol>
+<li>
+<p>创建互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>打开互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">OpenMutex</span>(MUTEX_ALL_ACCESS, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>触发互斥量</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(hMutex);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>等待互斥量触发</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hMutex, <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1>存在问题</h1>
+<h2 id="WaitForSingleObject">WaitForSingleObject()</h2>
+<p><code>WaitForSingleObject</code>函数的执行流程如下：</p>
+<ol>
+<li>线程调用<code>WaitForSingleObject</code>函数并传入需要等待的对象的句柄以及等待时间的长度。</li>
+<li>系统检查对象的当前状态：
+<ul>
+<li>如果对象已经是 signaled 状态（已激发），则直接返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
+<li>如果对象不是 signaled 状态（未激发），则线程进入等待状态，并将该线程从可执行状态转换为等待状态，直到以下三种情况之一发生：
+<ul>
+<li>对象被激发，即对象状态变为 signaled。此时，线程会被唤醒，并返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
+<li>等待超时，即指定的等待时间到达。此时，线程会被唤醒，并返回<code>WAIT_TIMEOUT</code>，线程可以根据需要进行相应处理。</li>
+<li>等待的对象被放弃。这通常出现在使用互斥体时，当互斥体的所有者线程意外终止而没有正确释放互斥体时，其他线程在等待该互斥体时会返回<code>WAIT_ABANDONED</code>。</li>
+</ul>
 </li>
 </ul>
-<p>优先级调度算法分为抢占式和非抢占式两种。</p>
-<p>抢占式指的是只有就绪队列中有比当前运行进程的优先级高的，运行进程被切换下来，运行优先高的进程。</p>
-<p>非抢占式指的是当有优先级高的进程在队列中，当前运行的的进程不会切换下来，而是等它执行完。</p>
-<p>抢占式适合对实时性要求高的系统，但是会增加系统进程切换的开销。</p>
-<p>非抢占式适合批处理系统，只有线程完成或者等待资源才会从处理机上下来。</p>
-<h2 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h2><ul>
-<li><p>有多个就绪队列，每个队列对应一个优先级。每个优先级队列分配的时间片不同，优先级越高，时间片长度越短。</p>
 </li>
-<li><p>新进程进入系统先放入最高优先队列Q1中，执行一个时间片的时间，如果没有执行完，则放入到下一个优先级的队列Q2的队尾。</p>
-</li>
-<li><p>仅当前面优先级高的几个队列为空，才能调度后面较低优先级队列中的进程。</p>
-<p>当低优先级队列中进程上处理运行，如果此时高优先级队列中进入新进程，处理机采用抢占式策略，将当前运行进程切换下来，然后运行优先级高队列上的进程。</p>
-<p>同优先级队列中的进程按照先来先服务的策略，不进行抢占。</p>
-</li>
-</ul>
-<p>多级反馈队列调度算法能够满足段进程优先处理，系统开销小（长作业进程主要在低优先级队列中进行），能够同时支持分时，实时，批处理的通用操作系统。还是存在较低队列中进程长时间得不到运行，导致”饥饿”。</p>
-<h1 id="解题方法"><a href="#解题方法" class="headerlink" title="解题方法"></a>解题方法</h1><p>对于进程调度求解可以进行画图的形式来做题。例题：</p>
-<p><img src="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/image-20231127150238829.png" alt="image-20231127150238829"></p>
-<p><img src="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/image-20231127151608032.png" alt="image-20231127151608032" style="zoom:70%;"></p>
+<li>线程根据返回值进行相应的处理。</li>
+</ol>
+<h2 id="不同线程之间临界区和互斥量不起作用">不同线程之间临界区和互斥量不起作用</h2>
 ]]></content>
       <categories>
-        <category>操作系统</category>
+        <category>C/C++</category>
       </categories>
       <tags>
-        <tag>操作系统</tag>
-        <tag>进程</tag>
-        <tag>处理机</tag>
+        <tag>C</tag>
+        <tag>C++</tag>
+        <tag>多线程</tag>
+        <tag>同步互斥</tag>
       </tags>
   </entry>
   <entry>
@@ -164,28 +233,33 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
     <url>/2023/11/25/create_blog/</url>
     <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题，采用git + github + hexo + hexo next主题实现的一个个人博客网站。</p>
 <span id="more"></span>
-<h2 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h2><p>下载git，参考网址：<a href="https://juejin.cn/post/7086817870172782623">图文详解 Git 安装【当前最新，最详细版】 - 掘金 (juejin.cn)</a></p>
+<h2 id="工具准备">工具准备</h2>
+<p>下载git，参考网址：<a href="https://juejin.cn/post/7086817870172782623">图文详解 Git 安装【当前最新，最详细版】 - 掘金 (juejin.cn)</a></p>
 <p>下载node.js，参考网址：<a href="https://juejin.cn/post/7090056744549744676">node.js安装及环境配置 - 掘金 (juejin.cn)</a></p>
 <p>然后打开git bash命令窗口输入：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<h3 id="github创建仓库"><a href="#github创建仓库" class="headerlink" title="github创建仓库"></a>github创建仓库</h3><ol>
-<li><p>自己注册一个账号，开始创建仓库，可以参考<a href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
+<h3 id="github创建仓库">github创建仓库</h3>
+<ol>
+<li>
+<p>自己注册一个账号，开始创建仓库，可以参考<a href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
 <p>需要注意的是仓库名称<code>xxx.github.io</code>。</p>
 </li>
-<li><p>在git上配置远程连接SSH</p>
+<li>
+<p>在git上配置远程连接SSH</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -global user.name &quot;用户名&quot;</span><br><span class="line">git config -global user.email &quot;邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成SSH密钥</span></span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
 <p>生成结果：</p>
 <p>路径<code>C:\Users\电脑用户名\.ssh\id_rsa.pub</code></p>
 <p><img src="/2023/11/25/create_blog/image-20231125201927788.png" alt="image-20231125201927788"></p>
+<p><img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
 </li>
-</ol>
-<p>   <img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
-<ol>
-<li><p>将密钥全部复制粘贴到GitHub上</p>
+<li>
+<p>将密钥全部复制粘贴到GitHub上</p>
 <p><img src="/2023/11/25/create_blog/image-20231125202323393.png" alt="image-20231125202323393"></p>
 </li>
 </ol>
-<h2 id="初始hexo项目"><a href="#初始hexo项目" class="headerlink" title="初始hexo项目"></a>初始hexo项目</h2><h3 id="初始创建"><a href="#初始创建" class="headerlink" title="初始创建"></a>初始创建</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
+<h2 id="初始hexo项目">初始hexo项目</h2>
+<h3 id="初始创建">初始创建</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
 <p>下载next主题</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:theme-next/hexo-theme-next.git  ./themes/next</span><br></pre></td></tr></table></figure>
 <p>更改根目录下的<code>_config.yml</code>文件</p>
@@ -199,16 +273,21 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
 <p>配置修改后执行：（一定要先修改配置文件后在进行提交）</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>执行上述所有步骤后，就可以通过github看到一个初始状态的个人博客了。</p>
-<h2 id="Next主题配置"><a href="#Next主题配置" class="headerlink" title="Next主题配置"></a>Next主题配置</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><p>主题配置文件下：</p>
+<h2 id="Next主题配置">Next主题配置</h2>
+<h3 id="选择主题">选择主题</h3>
+<p>主题配置文件下：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
 <p>可以自行选择四种样式。</p>
-<h3 id="修改博客头像"><a href="#修改博客头像" class="headerlink" title="修改博客头像"></a>修改博客头像</h3><p>在<code>themes/next/source/images</code>放入设置的图片。</p>
-<p><img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977"></p>
+<h3 id="修改博客头像">修改博客头像</h3>
+<p>在<code>themes/next/source/images</code>放入设置的图片。</p>
+<img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977">
 <p>在主题配置文件中设置路径即可：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="comment"># Replace the default image and set the url here.</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be dispalyed in circle.</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be rotated with the cursor.</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="侧边栏社交添加"><a href="#侧边栏社交添加" class="headerlink" title="侧边栏社交添加"></a>侧边栏社交添加</h3><p>主题配置文件夹下配置：</p>
+<h3 id="侧边栏社交添加">侧边栏社交添加</h3>
+<p>主题配置文件夹下配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment">#GitHub: https://github.com || fab fa-github</span></span><br><span class="line">  <span class="comment">#E-Mail: mailto:yourname@gmail.com || fa fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#FB Page: https://www.facebook.com/yourname || fab fa-facebook</span></span><br><span class="line">  <span class="comment">#StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="comment">#Instagram: https://instagram.com/yourname || fab fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加菜单结构"><a href="#添加菜单结构" class="headerlink" title="添加菜单结构"></a>添加菜单结构</h3><p>输入命令：</p>
+<h3 id="添加菜单结构">添加菜单结构</h3>
+<p>输入命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
 <p>这样就可以创建一个tags目录，效果如图所示：</p>
 <p><img src="/2023/11/25/create_blog/image-20231125135239747.png" alt="image-20231125135239747"></p>
@@ -220,23 +299,27 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
 <p><img src="/2023/11/25/create_blog/image-20231125140353312.png" alt="image-20231125140353312"></p>
 <p>可以设置显示数量：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h3><p>下载搜索插件：</p>
+<h3 id="添加搜索功能">添加搜索功能</h3>
+<p>下载搜索插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
 <p>主题目录下配置文件<code>_config.yml</code>开启本地搜索：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <p>根目录下<code>_config.yml</code>配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># hexo-generator-searchdb</span></span><br><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加动态背景"><a href="#添加动态背景" class="headerlink" title="添加动态背景"></a>添加动态背景</h3><p>打开生成的hexo目录<code>\themes\next\layout\_layout.swig</code>文件，将代码放在<code>&lt;/body&gt;</code>上面。</p>
+<h3 id="添加动态背景">添加动态背景</h3>
+<p>打开生成的hexo目录<code>\themes\next\layout\_layout.swig</code>文件，将代码放在<code>&lt;/body&gt;</code>上面。</p>
 <figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">&#123;<span class="comment">% if theme.canvas_nest %&#125;</span></span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;<span class="comment">% endif %&#125;</span></span><br></pre></td></tr></table></figure>
 <p>主题配置文件添加配置：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># background settings</span></span><br><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># add canvas-nest effect</span></span><br><span class="line"><span class="comment"># see detail from https://github.com/hustcc/canvas-nest.js</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="增加阅读时间和文章数字统计"><a href="#增加阅读时间和文章数字统计" class="headerlink" title="增加阅读时间和文章数字统计"></a>增加阅读时间和文章数字统计</h3><p>下载插件：</p>
+<h3 id="增加阅读时间和文章数字统计">增加阅读时间和文章数字统计</h3>
+<p>下载插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
 <p>根目录下配置文件添加：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">2</span>    </span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">&quot;mins.&quot;</span></span><br></pre></td></tr></table></figure>
 <p>主题配置文件下打开开关：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="部件配置"><a href="#部件配置" class="headerlink" title="部件配置"></a>部件配置</h3><p>都在主题配置文件下</p>
+<h3 id="部件配置">部件配置</h3>
+<p>都在主题配置文件下</p>
 <p>阅读进度条：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Available values: top | bottom</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
 <p>左上角Github图标：</p>
@@ -247,7 +330,9 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
 <p>设置回到顶部</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">back2top:</span></span><br><span class="line"> <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"> <span class="comment"># Back to top in sidebar.</span></span><br><span class="line"> <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line"> <span class="comment"># Scroll percent label in b2t button.</span></span><br><span class="line"> <span class="attr">scrollpercent:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="图片不显示"><a href="#图片不显示" class="headerlink" title="图片不显示"></a>图片不显示</h3><p>hexo生成后图片路劲发生改变，导致了生成后文章找不到图片。</p>
+<h2 id="问题">问题</h2>
+<h3 id="图片不显示">图片不显示</h3>
+<p>hexo生成后图片路劲发生改变，导致了生成后文章找不到图片。</p>
 <p>下载插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
 <p>修改根目录下配置文件：</p>
@@ -258,14 +343,17 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
 <p><img src="/2023/11/25/create_blog/image-20231125182910235.png" alt="image-20231125182910235"></p>
 <p>去调整<code>index.js</code>的中路径字符串拼接的部分，视自己当前问题来合理调整。</p>
 <p><strong>这里还需要注意的是根目录下的配置文件中<code>url</code>的配置：一定要是自己的仓库名，不然所有组件都会加载失败。</strong></p>
-<h3 id="hexo的不支持Latex语法"><a href="#hexo的不支持Latex语法" class="headerlink" title="hexo的不支持Latex语法"></a>hexo的不支持Latex语法</h3><p>我们需要进行重新选择插件进行渲染。</p>
+<h3 id="hexo的不支持Latex语法">hexo的不支持Latex语法</h3>
+<p>我们需要进行重新选择插件进行渲染。</p>
 <p>需要重新更新插件：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
 <p>修改主题配置文件：</p>
-<p><img src="/2023/11/25/create_blog/image-20231127152223788.png" alt="image-20231127152223788" style="zoom:80%;"></p>
+<img src="/2023/11/25/create_blog/image-20231127152223788.png" alt="image-20231127152223788" style="zoom:80%;">
 <p>修改插件文件，路径<code>\blog\node_modules\kramed\lib\rules\inline.js</code>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> inline = &#123;</span><br><span class="line">  <span class="comment">// escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line">  <span class="attr">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br><span class="line">  <span class="attr">autolink</span>: <span class="regexp">/^&lt;([^ &gt;]+(@|:\/)[^ &gt;]+)&gt;/</span>,</span><br><span class="line">  <span class="attr">url</span>: noop,</span><br><span class="line">  <span class="attr">html</span>: <span class="regexp">/^&lt;!--[\s\S]*?--&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)*?(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;([\s\S]*?)?&lt;\/\1&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;/</span>,</span><br><span class="line">  <span class="attr">link</span>: <span class="regexp">/^!?\[(inside)\]\(href\)/</span>,</span><br><span class="line">  <span class="attr">reflink</span>: <span class="regexp">/^!?\[(inside)\]\s*\[([^\]]*)\]/</span>,</span><br><span class="line">  <span class="attr">nolink</span>: <span class="regexp">/^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/</span>,</span><br><span class="line">  <span class="attr">reffn</span>: <span class="regexp">/^!?\[\^(inside)\]/</span>,</span><br><span class="line">  <span class="attr">strong</span>: <span class="regexp">/^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/</span>,</span><br><span class="line">  <span class="comment">// em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">  <span class="attr">em</span>: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br><span class="line">  <span class="attr">code</span>: <span class="regexp">/^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/</span>,</span><br><span class="line">  <span class="attr">br</span>: <span class="regexp">/^ &#123;2,&#125;\n(?!\s*$)/</span>,</span><br><span class="line">  <span class="attr">del</span>: noop,</span><br><span class="line">  <span class="attr">text</span>: <span class="regexp">/^[\s\S]+?(?=[\\&lt;!\[_*`$]| &#123;2,&#125;\n|$)/</span>,</span><br><span class="line">  <span class="attr">math</span>: <span class="regexp">/^\$\$\s*([\s\S]*?[^\$])\s*\$\$(?!\$)/</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>然后重新生成运行就可以了。</p>
+<h3 id="markdown不支持上标和下标的语法">markdown不支持上标和下标的语法</h3>
+<p>使用html来实现上下标，不使用<code>~~和^^</code>。</p>
 ]]></content>
       <categories>
         <category>技术栈</category>
@@ -273,143 +361,6 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
       <tags>
         <tag>BLOG</tag>
         <tag>IT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机网络-物理层</title>
-    <url>/2023/11/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%89%A9%E7%90%86%E5%B1%82/</url>
-    <content><![CDATA[<p>大致对计算机网络物理层的概念进行一个总结复习。</p>
-<span id="more"></span>
-<h1 id="物理特性"><a href="#物理特性" class="headerlink" title="物理特性"></a>物理特性</h1>]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C语言多线程编程 (二)</title>
-    <url>/2023/11/28/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/</url>
-    <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过临界区、互斥量、事件、信号量实现线程的同步互斥，同时讲解一下进程之间的同步互斥。</p>
-<span id="more"></span>
-<h1 id="临界区实现同步互斥"><a href="#临界区实现同步互斥" class="headerlink" title="临界区实现同步互斥"></a>临界区实现同步互斥</h1><ol>
-<li><p>首先我们要声明一个临界区的变量，利用临界区变量来实现临界区。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用临界区变量需要先初始临界区变量。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">InitializeCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>进入临界区，利用临界区变量上锁。</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">EnterCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>出临界区，解锁。</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">LeaveCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用结束后，删除临界变量。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">DeleteCriticalSection</span>(&amp;global_cirtical_sectioin);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>完成的使用流程：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">CRITICAL_SECTION global_cirtical_sectioin;</span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">thread_task</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 进入临界区</span></span><br><span class="line">	<span class="built_in">EnterCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="comment">// 临界区代码</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 出临界区   </span></span><br><span class="line">	<span class="built_in">LeaveCriticalSection</span>(&amp;global_thread_parameter);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">critical_zone_synchronization</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread[<span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 初始化临界区变量</span></span><br><span class="line">	<span class="built_in">InitializeCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		hThread[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">5</span>, hThread, TRUE, INFINITE);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hThread[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">DeleteCriticalSection</span>(&amp;global_thread_code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的临界区的设置，只允许同一时间只有一个线程能够执行临界区代码。</p>
-<h1 id="互斥量实现同步互斥"><a href="#互斥量实现同步互斥" class="headerlink" title="互斥量实现同步互斥"></a>互斥量实现同步互斥</h1><p>大致步骤和临界区相同。</p>
-<ol>
-<li><p>初始化互斥量。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE mutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, FALSE, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-<p><code>CreateMutex</code>的作用是找出当前系统是否存在指定进程的示例，如果没有则创建一个互斥体。</p>
-<ul>
-<li>互斥对象是系统内核维护的一种数据结构，保证对象对单个线程的访问权。</li>
-<li>互斥对象结构包括：使用数量（多少个线程调用该对象），线程ID（互斥对象的维护线程ID），计数器（当前线程调用该对象的次数）。</li>
-<li>参数说明：</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CreateMutexA</span>(</span><br><span class="line">    _In_opt_ LPSECURITY_ATTRIBUTES lpMutexAttributes, <span class="comment">// 指向安全属性的指针</span></span><br><span class="line">    _In_ BOOL bInitialOwner, <span class="comment">// 初始化互斥对象的所有者 如果为 TRUE 表示互斥量为创建线程所有</span></span><br><span class="line">    _In_opt_ LPCSTR lpName <span class="comment">// 指向互斥对象名的指针</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>等待互斥量被触发。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(mutex, INFINITE);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>触发互斥量。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(mutex);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>撤销互斥量。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(mutex);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="事件实现同步互斥"><a href="#事件实现同步互斥" class="headerlink" title="事件实现同步互斥"></a>事件实现同步互斥</h1><ol>
-<li><p>初始化事件</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE event = <span class="built_in">CreateEvent</span>(<span class="literal">NULL</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">HANDLE <span class="title">CreateEvent</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">  LPSECURITY_ATTRIBUTES lpEventAttributes, 	<span class="comment">// 安全属性结构体指针</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bManualReset,      	<span class="comment">// 是否手动复位</span></span></span></span><br><span class="line"><span class="params"><span class="function">  BOOL                  bInitialState,    	<span class="comment">// 初始状态</span></span></span></span><br><span class="line"><span class="params"><span class="function">  LPCTSTR               lpName             	<span class="comment">// 事件名称</span></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>lpEventAttributes</code>：一个指向SECURITY_ATTRIBUTES结构体的指针，用于设置事件对象的安全属性。如果该参数为NULL，则事件对象会继承调用进程的安全属性。</li>
-<li><code>bManualReset</code>：一个布尔值，用于指定事件对象的类型。如果该参数为TRUE，则表示创建的是手动复位事件对象；如果该参数为FALSE，则表示创建的是自动复位事件对象。手动复位事件对象必须通过调用<code>ResetEvent</code>函数来将事件状态复位（即重置为未激发状态）；而自动复位事件对象则会在有信号触发时自动将其状态复位。</li>
-<li><code>bInitialState</code>：一个布尔值，用于指定事件对象的初始状态。如果该参数为TRUE，则表示在创建事件对象时立即将其设置为已激发状态（signaled）；如果该参数为FALSE，则表示事件对象初始状态为未激发状态（nonsignaled）。</li>
-<li><code>lpName</code>：一个字符串指针，用于指定事件对象的名称。如果该参数为NULL，则表示创建一个无名事件对象；否则表示创建命名的事件对象。需要注意的是，如果同时存在同名的命名事件对象，则会返回该事件对象的句柄。</li>
-</ul>
-</li>
-<li><p>等待事件发生</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(event, INFINITE);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>触发事件</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">SetEvent</span>(event);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>撤销事件</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(event);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="信号量同步"><a href="#信号量同步" class="headerlink" title="信号量同步"></a>信号量同步</h1><ol>
-<li><p>初始化信号量</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 当前0个资源、最大允许1个同时访问</span></span><br><span class="line">HANDLE semaphore = <span class="built_in">CreateSemaphore</span>(<span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>等待$信号量&gt;1$</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(semaphore, INFINITE);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>释放一个资源，信号量加1</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseSemaphore</span>(semaphore, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>撤销信号量</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">CloseHandle</span>(semaphore);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="进程之间互斥信号量实现互斥"><a href="#进程之间互斥信号量实现互斥" class="headerlink" title="进程之间互斥信号量实现互斥"></a>进程之间互斥信号量实现互斥</h1><p>和线程之间原理一样，这里多了一步需要打开互斥对象，互斥对象有操作内核管理，通过名称查找到。</p>
-<p>互斥对象存在时，同名的进程时不能运行的。</p>
-<ol>
-<li><p>创建互斥量</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">CreateMutex</span>(<span class="literal">NULL</span>, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打开互斥量</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hMutex = <span class="built_in">OpenMutex</span>(MUTEX_ALL_ACCESS, TRUE, MUTEX_NAME);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>触发互斥量</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ReleaseMutex</span>(hMutex);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>等待互斥量触发</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hMutex, <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h1><h2 id="WaitForSingleObject"><a href="#WaitForSingleObject" class="headerlink" title="WaitForSingleObject()"></a>WaitForSingleObject()</h2><p><code>WaitForSingleObject</code>函数的执行流程如下：</p>
-<ol>
-<li>线程调用<code>WaitForSingleObject</code>函数并传入需要等待的对象的句柄以及等待时间的长度。</li>
-<li>系统检查对象的当前状态：<ul>
-<li>如果对象已经是 signaled 状态（已激发），则直接返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
-<li>如果对象不是 signaled 状态（未激发），则线程进入等待状态，并将该线程从可执行状态转换为等待状态，直到以下三种情况之一发生：<ul>
-<li>对象被激发，即对象状态变为 signaled。此时，线程会被唤醒，并返回<code>WAIT_OBJECT_0</code>，线程可以继续执行后续操作。</li>
-<li>等待超时，即指定的等待时间到达。此时，线程会被唤醒，并返回<code>WAIT_TIMEOUT</code>，线程可以根据需要进行相应处理。</li>
-<li>等待的对象被放弃。这通常出现在使用互斥体时，当互斥体的所有者线程意外终止而没有正确释放互斥体时，其他线程在等待该互斥体时会返回<code>WAIT_ABANDONED</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>线程根据返回值进行相应的处理。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-        <tag>C++</tag>
-        <tag>多线程</tag>
-        <tag>同步互斥</tag>
       </tags>
   </entry>
   <entry>
@@ -423,6 +374,234 @@ R_p=\frac{运行时间+等待时间}{运行时间}</script><p>响应比大，优
       </categories>
       <tags>
         <tag>Cisco模拟实验</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络-物理层</title>
+    <url>/2023/11/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%89%A9%E7%90%86%E5%B1%82/</url>
+    <content><![CDATA[<p>大致对计算机网络物理层的概念进行一个总结复习。</p>
+<span id="more"></span>
+<h1>物理特性</h1>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络-网络层</title>
+    <url>/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/</url>
+    <content><![CDATA[<p>​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              主要说明网络层IP层的基本概念和相关协议，以及协议的工作流程等基本理论知识。</p>
+<span id="more"></span>
+<h1>基本概念</h1>
+<ul>
+<li>网络的工作主要就是对IP协议的基本内容。</li>
+<li>网络层不提供服务质量保证，有运输层来保证。</li>
+</ul>
+<p>网络连接设备：</p>
+<ol>
+<li>物理层：转发器</li>
+<li>数据链路层：网桥、交换机</li>
+<li>网络层：路由器</li>
+<li>网关：网络层</li>
+</ol>
+<h1>网际协议IP</h1>
+<p>网际协议IP配套使用三种协议：</p>
+<ul>
+<li>地址解析协议（ARP）</li>
+<li>网际控制报文协议（ICMP）</li>
+<li>网际组管理协议（IGMP）</li>
+</ul>
+<h2 id="IP地址">IP地址</h2>
+<p><strong>全球范围唯一的32位标识符</strong></p>
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129164207215.png" alt="image-20231129164207215"></p>
+<h3 id="分类的IP地址">分类的IP地址</h3>
+<p>分为A、B、C、D、E类地址。</p>
+<ul>
+<li>A（8位）、B（16位）、C（24位）类是单播地址，最常用</li>
+<li>D类是多播地址（一对多通信）</li>
+<li>E类是保留地址</li>
+</ul>
+<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129164502642.png" alt="image-20231129164502642" style="zoom:80%;">
+<h4 id="不指派的IP">不指派的IP</h4>
+<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129165910304.png" alt="image-20231129165910304" style="zoom:80%;">
+<p>主要是注意全0表示位网络的网络号，全1表示该网络的广播地址。</p>
+<h3 id="无分类编址CIDR">无分类编址CIDR</h3>
+<p><code>/</code>后的数字来指定网络前缀，以此确定网络号</p>
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129165624467.png" alt="image-20231129165624467"></p>
+<p>斜线后面的数字就是地址掩码中1的个数。</p>
+<ul>
+<li>前缀n =32，即32位IP 地址都是前缀，没有主机号。这其实就是一个IP 地址。这个特殊地址用于主机路由。</li>
+<li>前缀n=31，这个地址块中只有两个IP 地址，其主机号分别为0和1。这个地址块用于点对点链路(见后面的第4小节)。</li>
+<li>前缀n=0同时IP 地址也是全0，即0.0.0.0/0。</li>
+</ul>
+<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170621284.png" alt="image-20231129170621284" style="zoom:80%;">
+<p>同一局域网中主机的网络前缀相同。</p>
+<h2 id="IP地址与MAC地址">IP地址与MAC地址</h2>
+<p>MAC地址成为硬件地址或物理地址。</p>
+<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170944235.png" alt="image-20231129170944235" style="zoom:80%;">
+<ul>
+<li>IP 地址放在 IP 数据报的首部。</li>
+<li>MAC 地址则放在 MAC 的首部。</li>
+<li>在网络层和网络层以上使用的是 IP 地址，而数据链路层及以下使用的是 MAC 地址。</li>
+<li>当IP数据报插入到数据链路层的 MAC 以后，整个的IP数据报就成为 MAC的数据，因而在数据链路层看不见数据报的IP地址。</li>
+</ul>
+<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129171408560.png" alt="image-20231129171408560" style="zoom:80%;">
+<ol>
+<li>
+<p>在IP层抽象的互联网上只能看到IP数据报，在数据包传送过程中<strong>IP的源地址和目的地址始终不变</strong>。</p>
+</li>
+<li>
+<p>路由器只根据目的站的IP地址进行转发。</p>
+</li>
+<li>
+<p>在不同网络上传送时，其MAC首部中的源地址和目的地址要发生变化。</p>
+<p>如图所示，开始在H到间传送时，MAC首部中写的是从MAC地址MAC<sub>1</sub>发送到MAC<sub>3</sub>地址。路由器R<sub>1</sub>收到此MAC后，在数据链路层，要剥去原来的MAC的首部和尾部。在转发时，在数据链路层，要重新添加上MAC的首部和尾部。这时首部中的源地址和目的地址分别变成为MAC<sub>4</sub>和MAC<sub>5</sub>。</p>
+</li>
+</ol>
+<h1>地址解析协议ARP</h1>
+<p>地址解析协议ARP主要是为了解决主机<strong>通过IP地址找到相应的MAC地址</strong>。</p>
+<p>在主机的<strong>ARP高速缓冲</strong>存放从IP地址到MAC地址的映射表，映射表动态更新。</p>
+<h2 id="工作流程">工作流程</h2>
+<p>主机A要向本局域网上的某台主机B发送IP数据报时，就先在其ARP高速缓存中查看有无主机B的IP地址。如有，就在ARP高速缓存中查出其对应的MAC地址，再把这个MAC地址写入MAC，然后通过局域网把该MAC发往此MAC地址。</p>
+<p>如果没有则执行以下步骤：</p>
+<ol>
+<li>ARP进程在本局域网上<strong>广播</strong>发送一个ARP请求分组</li>
+<li>在本局域网上的所有主机上运行的ARP进程都收到此ARP请求分组</li>
+<li>主机B的IP地址与ARP请求分组中要查询的IP地址一致，就收下这个ARP请求分组，并向主机A发送ARP响应分组，同时在这个ARP响应分组中写入自己的MAC地址</li>
+<li>其余所有主机的IP地址都与ARP请求分组中要查询的P地址不一致，因此都不理睬这个ARP请求分组</li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>进程调度算法</title>
+    <url>/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>介绍一些进程调度上判断依据的概念和计算方式以及进程调度算法的说明。</p>
+<span id="more"></span>
+<h1>基本概念</h1>
+<ul>
+<li>
+<p>完成时间：进程完成的时间。</p>
+</li>
+<li>
+<p>周转时间：指进程从到达等待队列到完成执行的时间。<br>
+$$<br>
+T_i=作业i完成时间-作业i到达时间 \quad or \quad T_i=作业i执行时间+作业i等待时间<br>
+$$</p>
+</li>
+<li>
+<p>带权周转时间<br>
+$$<br>
+带权周转时间=\frac{周转时间}{实际执行时间}<br>
+$$</p>
+</li>
+<li>
+<p>平均周转时间<br>
+$$<br>
+平均周转时间=\frac{\sum_{i=1}^{n}作业_i周转时间}{n}<br>
+$$</p>
+</li>
+<li>
+<p>平均带权周转时间<br>
+$$<br>
+平均带权周转时间=\frac{\sum_{i=1}^{n}带权周转时间}{n}<br>
+$$</p>
+</li>
+</ul>
+<h1>调度算法</h1>
+<h2 id="先来先服务调度算法">先来先服务调度算法</h2>
+<ul>
+<li>
+<p>最简单的调度算法，先进入的队列的进程优先调度</p>
+</li>
+<li>
+<p>非抢占式算法</p>
+</li>
+</ul>
+<h2 id="短作业优先调度算法">短作业优先调度算法</h2>
+<ul>
+<li>每一次调度从预估运行时间最小的进程优先调度</li>
+<li>非抢占式调度算法</li>
+<li>和先来先服务调度算法相比，降低平局周转时间和平局带权周转时间</li>
+<li>但是存在进程&quot;饿死&quot;问题，即一直有短作业进程进入队列，而长作业进程始终不能被调度</li>
+</ul>
+<h2 id="时间片轮转调度算法">时间片轮转调度算法</h2>
+<ul>
+<li>进程按到达系统时间的先后次序排队，按照先来先服务的规则调度进程，但是每个进程在处理机上运行规定好的一个时间片的时间，如果没有执行完，则将进程重新排队到就绪队列队尾。</li>
+<li>如果进程在一个时间片上执行等待其他事件发生或资源，则将进程插到阻塞队列中，等所有资源拿到后在插入到就绪队列队尾。</li>
+<li>抢占式调度算法。</li>
+</ul>
+<h2 id="高响应比优先调度算法">高响应比优先调度算法</h2>
+<ul>
+<li>
+<p>非抢占式算法</p>
+</li>
+<li>
+<p>在调度进程的时候统计计算响应比的值，来选择调度哪一个进程，计算公式如下：<br>
+$$<br>
+R_p=\frac{运行时间+等待时间}{运行时间}<br>
+$$<br>
+响应比大，优先调度。</p>
+</li>
+</ul>
+<h2 id="优先级调度算法">优先级调度算法</h2>
+<ul>
+<li>
+<p>静态优先级</p>
+<p>进程创建时就定义一个优先级，之后整个生命周期优先级不在改变。</p>
+<ol>
+<li>简单、系统开销小</li>
+<li>不灵活，优先级低的长时间得不到调度</li>
+</ol>
+</li>
+<li>
+<p>动态优先级</p>
+<p>进入系统时根据某种规则赋予一个优先级，其后不断进行动态调整。</p>
+<ol>
+<li>灵活、资源利用率高</li>
+</ol>
+</li>
+</ul>
+<p>优先级调度算法分为抢占式和非抢占式两种。</p>
+<p>抢占式指的是只有就绪队列中有比当前运行进程的优先级高的，运行进程被切换下来，运行优先高的进程。</p>
+<p>非抢占式指的是当有优先级高的进程在队列中，当前运行的的进程不会切换下来，而是等它执行完。</p>
+<p>抢占式适合对实时性要求高的系统，但是会增加系统进程切换的开销。</p>
+<p>非抢占式适合批处理系统，只有线程完成或者等待资源才会从处理机上下来。</p>
+<h2 id="多级反馈队列调度算法">多级反馈队列调度算法</h2>
+<ul>
+<li>
+<p>有多个就绪队列，每个队列对应一个优先级。每个优先级队列分配的时间片不同，优先级越高，时间片长度越短。</p>
+</li>
+<li>
+<p>新进程进入系统先放入最高优先队列Q1中，执行一个时间片的时间，如果没有执行完，则放入到下一个优先级的队列Q2的队尾。</p>
+</li>
+<li>
+<p>仅当前面优先级高的几个队列为空，才能调度后面较低优先级队列中的进程。</p>
+<p>当低优先级队列中进程上处理运行，如果此时高优先级队列中进入新进程，处理机采用抢占式策略，将当前运行进程切换下来，然后运行优先级高队列上的进程。</p>
+<p>同优先级队列中的进程按照先来先服务的策略，不进行抢占。</p>
+</li>
+</ul>
+<p>多级反馈队列调度算法能够满足段进程优先处理，系统开销小（长作业进程主要在低优先级队列中进行），能够同时支持分时，实时，批处理的通用操作系统。还是存在较低队列中进程长时间得不到运行，导致&quot;饥饿&quot;。</p>
+<h1>解题方法</h1>
+<p>对于进程调度求解可以进行画图的形式来做题。例题：</p>
+<p><img src="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/image-20231127150238829.png" alt="image-20231127150238829"></p>
+<img src="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/image-20231127151608032.png" alt="image-20231127151608032" style="zoom:70%;">
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+        <tag>进程</tag>
+        <tag>处理机</tag>
       </tags>
   </entry>
 </search>

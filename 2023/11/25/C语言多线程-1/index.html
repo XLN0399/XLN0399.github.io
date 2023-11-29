@@ -139,7 +139,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">7</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -265,7 +265,8 @@
       
         <p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
 <span id="more"></span>
-<h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
+<h2 id="创建进程">创建进程</h2>
+<p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中主要的是：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
@@ -287,7 +288,8 @@
 <p>疑问：这里主进程是等待子进程结束才会结束，而这个子进程是计算器本身这个进程，还是只开启计算器的进程？</p>
 <p>个人理解是：IpCommandLine是传递命令参数，可能我们自己开启的进程的任务只是开启进程而不是计算器运行本身这个进程。</p>
 </blockquote>
-<h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><p>定义线程结构体和启动线程两部分最重要。</p>
+<h2 id="创建线程">创建线程</h2>
+<p>定义线程结构体和启动线程两部分最重要。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
 <p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
 <p>第三个参数是传递线程执行函数的函数指针。</p>
@@ -301,7 +303,8 @@
 <blockquote>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;参数<span class="number">1</span>：指定线程安全特性 null 表示使用默认的安全特性</span><br><span class="line">&gt;参数<span class="number">2</span>：指定线程的堆栈大小 通常设置为<span class="number">0</span> 表示使用默认堆栈大小</span><br><span class="line">&gt;参数<span class="number">3</span>：指向线程函数的指针</span><br><span class="line">&gt;参数<span class="number">4</span>：传递给线程函数的参数 可以是任意类型的指针 接收是 <span class="type">void</span>* 类型</span><br><span class="line">&gt;参数<span class="number">5</span>：指定线程初始化标志 通常设置为<span class="number">0</span></span><br><span class="line">&gt;参数<span class="number">6</span>：用于接收新线程的标识符</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h2 id="线程其他相关命令"><a href="#线程其他相关命令" class="headerlink" title="线程其他相关命令"></a>线程其他相关命令</h2><ul>
+<h2 id="线程其他相关命令">线程其他相关命令</h2>
+<ul>
 <li>主线程等待子线程结束语句</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
@@ -317,7 +320,8 @@
 <li>主线程等待所有子线程结束</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
-<h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><p>函数指针和函数指针数组，示例如下：</p>
+<h2 id="补充知识">补充知识</h2>
+<p>函数指针和函数指针数组，示例如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -437,7 +441,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,12 +511,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">13k</span>
+    <span title="站点总字数">15k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">12 分钟</span>
+    <span title="站点阅读时长">13 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
