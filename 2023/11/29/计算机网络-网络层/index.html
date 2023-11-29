@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://xln0399.github.io/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129212448388.png">
 <meta property="og:image" content="http://xln0399.github.io/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129214842428.png">
 <meta property="article:published_time" content="2023-11-29T02:34:00.000Z">
-<meta property="article:modified_time" content="2023-11-29T14:10:58.835Z">
+<meta property="article:modified_time" content="2023-11-29T16:18:11.562Z">
 <meta property="article:author" content="柠">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -227,10 +227,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-29 10:34:00 / 修改时间：22:10:58" itemprop="dateCreated datePublished" datetime="2023-11-29T10:34:00+08:00">2023-11-29</time>
+              <time title="创建时间：2023-11-29 10:34:00" itemprop="dateCreated datePublished" datetime="2023-11-29T10:34:00+08:00">2023-11-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-30 00:18:11" itemprop="dateModified" datetime="2023-11-30T00:18:11+08:00">2023-11-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -247,7 +253,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -268,10 +274,9 @@
       
         <p>​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              主要说明网络层IP层的基本概念和相关协议，以及协议的工作流程等基本理论知识。</p>
 <span id="more"></span>
-<h1>基本概念</h1>
-<ul>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><ul>
 <li>网络的工作主要就是对IP协议的基本内容。</li>
-<li>网络层不提供服务质量保证，有运输层来保证。</li>
+<li>网络层不提供服务质量保证，有运输层来保证。                  </li>
 </ul>
 <p>网络连接设备：</p>
 <ol>
@@ -280,63 +285,52 @@
 <li>网络层：路由器</li>
 <li>网关：网络层</li>
 </ol>
-<h1>网际协议IP</h1>
-<p>网际协议IP配套使用三种协议：</p>
+<h1 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a>网际协议IP</h1><p>网际协议IP配套使用三种协议：</p>
 <ul>
 <li>地址解析协议（ARP）</li>
 <li>网际控制报文协议（ICMP）</li>
 <li>网际组管理协议（IGMP）</li>
 </ul>
-<h2 id="IP地址">IP地址</h2>
-<p><strong>全球范围唯一的32位标识符</strong></p>
+<h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><p><strong>全球范围唯一的32位标识符</strong></p>
 <p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129164207215.png" alt="image-20231129164207215"></p>
-<h3 id="分类的IP地址">分类的IP地址</h3>
-<p>分为A、B、C、D、E类地址。</p>
+<h3 id="分类的IP地址"><a href="#分类的IP地址" class="headerlink" title="分类的IP地址"></a>分类的IP地址</h3><p>分为A、B、C、D、E类地址。</p>
 <ul>
 <li>A（8位）、B（16位）、C（24位）类是单播地址，最常用</li>
 <li>D类是多播地址（一对多通信）</li>
 <li>E类是保留地址</li>
 </ul>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129164502642.png" alt="image-20231129164502642" style="zoom:80%;">
-<h4 id="不指派的IP">不指派的IP</h4>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129165910304.png" alt="image-20231129165910304" style="zoom:80%;">
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129164502642.png" alt="image-20231129164502642" style="zoom:80%;"></p>
+<h4 id="不指派的IP"><a href="#不指派的IP" class="headerlink" title="不指派的IP"></a>不指派的IP</h4><p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129165910304.png" alt="image-20231129165910304" style="zoom:80%;"></p>
 <p>主要是注意全0表示位网络的网络号，全1表示该网络的广播地址。</p>
-<h3 id="无分类编址CIDR">无分类编址CIDR</h3>
-<p><code>/</code>后的数字来指定网络前缀，以此确定网络号</p>
+<h3 id="无分类编址CIDR"><a href="#无分类编址CIDR" class="headerlink" title="无分类编址CIDR"></a>无分类编址CIDR</h3><p><code>/</code>后的数字来指定网络前缀，以此确定网络号</p>
 <p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129165624467.png" alt="image-20231129165624467"></p>
 <p>斜线后面的数字就是地址掩码中1的个数。</p>
 <ul>
 <li>前缀n =32，即32位IP 地址都是前缀，没有主机号。这其实就是一个IP 地址。这个特殊地址用于主机路由。</li>
 </ul>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170621284.png" alt="image-20231129170621284" style="zoom:80%;">
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170621284.png" alt="image-20231129170621284" style="zoom:80%;"></p>
 <p>同一局域网中主机的网络前缀相同。</p>
-<h2 id="IP地址与MAC地址">IP地址与MAC地址</h2>
-<p>MAC地址成为硬件地址或物理地址。</p>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170944235.png" alt="image-20231129170944235" style="zoom:80%;">
+<h4 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a>划分子网</h4><h2 id="IP地址与MAC地址"><a href="#IP地址与MAC地址" class="headerlink" title="IP地址与MAC地址"></a>IP地址与MAC地址</h2><p>MAC地址成为硬件地址或物理地址。</p>
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129170944235.png" alt="image-20231129170944235" style="zoom:80%;"></p>
 <ul>
 <li>IP 地址放在 IP 数据报的首部。</li>
 <li>MAC 地址则放在 MAC 的首部。</li>
 <li>在网络层和网络层以上使用的是 IP 地址，而数据链路层及以下使用的是 MAC 地址。</li>
 <li>当IP数据报插入到数据链路层的 MAC 以后，整个的IP数据报就成为 MAC的数据，因而在数据链路层看不见数据报的IP地址。</li>
 </ul>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129171408560.png" alt="image-20231129171408560" style="zoom:80%;">
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129171408560.png" alt="image-20231129171408560" style="zoom:80%;"></p>
 <ol>
-<li>
-<p>在IP层抽象的互联网上只能看到IP数据报，在数据包传送过程中<strong>IP的源地址和目的地址始终不变</strong>。</p>
+<li><p>在IP层抽象的互联网上只能看到IP数据报，在数据包传送过程中<strong>IP的源地址和目的地址始终不变</strong>。</p>
 </li>
-<li>
-<p>路由器只根据目的站的IP地址进行转发。</p>
+<li><p>路由器只根据目的站的IP地址进行转发。</p>
 </li>
-<li>
-<p>在不同网络上传送时，其MAC首部中的源地址和目的地址要发生变化。</p>
+<li><p>在不同网络上传送时，其MAC首部中的源地址和目的地址要发生变化。</p>
 <p>如图所示，开始在H到间传送时，MAC首部中写的是从MAC地址MAC<sub>1</sub>发送到MAC<sub>3</sub>地址。路由器R<sub>1</sub>收到此MAC后，在数据链路层，要剥去原来的MAC的首部和尾部。在转发时，在数据链路层，要重新添加上MAC的首部和尾部。这时首部中的源地址和目的地址分别变成为MAC<sub>4</sub>和MAC<sub>5</sub>。</p>
 </li>
 </ol>
-<h1>地址解析协议ARP</h1>
-<p>地址解析协议ARP主要是为了解决主机<strong>通过IP地址找到相应的MAC地址</strong>。</p>
+<h1 id="地址解析协议ARP"><a href="#地址解析协议ARP" class="headerlink" title="地址解析协议ARP"></a>地址解析协议ARP</h1><p>地址解析协议ARP主要是为了解决主机<strong>通过IP地址找到相应的MAC地址</strong>。</p>
 <p>在主机的<strong>ARP高速缓冲</strong>存放从IP地址到MAC地址的映射表，映射表动态更新。</p>
-<h2 id="工作流程">工作流程</h2>
-<p>主机A要向本局域网上的某台主机B发送IP数据报时，就先在其ARP高速缓存中查看有无主机B的IP地址。如有，就在ARP高速缓存中查出其对应的MAC地址，再把这个MAC地址写入MAC，然后通过局域网把该MAC发往此MAC地址。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>主机A要向本局域网上的某台主机B发送IP数据报时，就先在其ARP高速缓存中查看有无主机B的IP地址。如有，就在ARP高速缓存中查出其对应的MAC地址，再把这个MAC地址写入MAC，然后通过局域网把该MAC发往此MAC地址。</p>
 <p>如果没有则执行以下步骤：</p>
 <ol>
 <li>ARP进程在本局域网上<strong>广播</strong>发送一个ARP请求分组</li>
@@ -345,45 +339,45 @@
 <li>其余所有主机的IP地址都与ARP请求分组中要查询的P地址不一致，因此都不理睬这个ARP请求分组。</li>
 <li>主机A收到主机B的ARP响应分组后，就在其ARP高速缓存中写入主机B的IP地址到MAC地址的映射。</li>
 </ol>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129211609859.png" alt="image-20231129211609859" style="zoom:80%;">
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129211609859.png" alt="image-20231129211609859" style="zoom:80%;"></p>
 <ul>
 <li>发送方是主机(如H<sub>1</sub>)，要把IP数据报发送到同一个网络上的另一台主机(如H<sub>2</sub>)。这时H<sub>1</sub>发送ARP请求分组(在网络N<sub>1</sub>上广播)，找到目的主机H<sub>2</sub>的MAC地址。</li>
 <li>发送方是主机(如H<sub>1</sub>)，要把IP数据报发送到另一个网络上的一台主机(如 H<sub>3</sub>或H<sub>4</sub>)。这时H<sub>1</sub>发送ARP请求分组(在网络N<sub>1</sub>上广播)，找到上的一个路由器R<sub>1</sub>的MAC地址。</li>
 <li>发送方是路由器(如R<sub>1</sub>，要把IP数据报转发到与连接在同一个网络N<sub>2</sub>上的主机(如H<sub>3</sub>)。这时R发送ARP请求分组(在N<sub>2</sub>上广播)，找到目的主机H<sub>3</sub>的MAC地址。</li>
 <li>发送方是路由器(如R<sub>1</sub>)，要把IP数据报转发到网络N<sub>3</sub>的一台主机(如H<sub>4</sub>），H<sub>4</sub>与R<sub>1</sub>不是连接在同一个网络上的。这时R<sub>1</sub>发送ARP请求分组(在N<sub>2</sub>上广播)，找到连接在N<sub>3</sub>上的一个路由器R<sub>2</sub>的MAC地址。</li>
 </ul>
-<h1>IP数据报格式</h1>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129212448388.png" alt="image-20231129212448388" style="zoom:80%;">
+<h1 id="IP数据报格式"><a href="#IP数据报格式" class="headerlink" title="IP数据报格式"></a>IP数据报格式</h1><p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129212448388.png" alt="image-20231129212448388" style="zoom:80%;"></p>
 <p>首部宽度32位（4字节），IP数据报由首部和数据部分两部分组成。</p>
 <ul>
-<li>
-<p><strong>首部长度：占4位，能够表示最大十进制为15，表示单位是32位字长（4字节），也就是说首部最长为$15\times4=60$个字节</strong>。</p>
+<li><p><strong>首部长度：占4位，能够表示最大十进制为15，表示单位是32位字长（4字节），也就是说首部最长为$15\times4=60$个字节</strong>。</p>
 <p>IP首部固定是20个字节，也就是前四排，第五排是可选字段，通过首部长度可以算出可选字段的长度。</p>
 <p>首部长度长度单位是32位字长（4字节），所以首部长度一定是4字节整数倍，不足用填充字段补充。</p>
 </li>
-<li>
-<p>总长度：指整个IP数据报的长度，通过和首部长度计算出数据部分的长度。</p>
+<li><p>总长度：指整个IP数据报的长度，通过和首部长度计算出数据部分的长度。</p>
 <p>IP数据报长，能够提高传输效率。数据报短，路由转发速度快，各有好处。</p>
 <p><strong>但以太网规定最大的传输单元MTU是1500字节，如果IP数据报过长，需要对数据报进行分片处理</strong>。</p>
 </li>
-<li>
-<p>标志：占3位，只有两位有意义。</p>
+<li><p>标志：占3位，只有两位有意义。</p>
 <p><strong>最低为MF，MF=1 表示后面“还有分片”的数据报；MF=0 表示这已是若干数据报片的最后一个。</strong></p>
 <p><strong>中间是DF，DF=0 允许分片。</strong></p>
 </li>
-<li>
-<p>片偏移：占13位，指在<strong>原分组中的相对位置，该片从何处开始</strong>。<strong>片偏移以8个字节为偏移单位</strong>。除最后一个数据报片外，其他每个分片的长度一定是 8 字节(64 位)的整数倍。</p>
+<li><p>片偏移：占13位，指在<strong>原分组中的相对位置，该片从何处开始</strong>。<strong>片偏移以8个字节为偏移单位</strong>。除最后一个数据报片外，其他每个分片的长度一定是 8 字节(64 位)的整数倍。</p>
 </li>
-<li>
-<p>生存时间位：（8位，TTL(Time To Live)）每经过一个路由器时，就把TTL减去数据报在路由器所消耗掉的一段时间。若数据报在路由器消耗的时间小于1秒，就把TTL值减1。当TTL值减为零时，就丢弃这个数据报。</p>
+<li><p>生存时间位：（8位，TTL(Time To Live)）每经过一个路由器时，就把TTL减去数据报在路由器所消耗掉的一段时间。若数据报在路由器消耗的时间小于1秒，就把TTL值减1。当TTL值减为零时，就丢弃这个数据报。</p>
 </li>
-<li>
-<p><strong>首部检验和：占16位，只检验数据报的首部，但不包括数据部分</strong>。</p>
-<img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129214842428.png" alt="image-20231129214842428" style="zoom:80%;">
+<li><p><strong>首部检验和：占16位，只检验数据报的首部，但不包括数据部分</strong>。</p>
+<p><img src="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/image-20231129214842428.png" alt="image-20231129214842428" style="zoom:80%;"></p>
 </li>
 </ul>
-<h1>IP分组转发</h1>
-
+<h1 id="IP分组转发"><a href="#IP分组转发" class="headerlink" title="IP分组转发"></a>IP分组转发</h1><ul>
+<li>从收到的分组的首部提取目的主机的IP地址D(即目的地址)。</li>
+<li>若查找到有特定主机路由(目的地址为D)，就按照这条路由的下一跳转发分组，否则从转发表中下一行(也就是前缀最长的一行)开始检查。</li>
+<li>把这一行的<strong>子网掩码与目的地址D按位进行AND运算，若运算结果与本行的前缀匹配</strong>，则查找结束，按照“下一跳”所指出的进行处理(或直接交付本网络上的目的主机，或通过指定接口发送到下一跳路由器)。</li>
+<li>若为没有对应的网络，则使用默认路由，则按照指明的接口，把分组传送到指明的默认路由器，否则，报告转发分组出错。</li>
+</ul>
+<p>核心就是将目的地址和子网掩码进行AND运算，判断是否是对应的网路前缀，如果是则发送到指定的下一跳。</p>
+<p>在和掩码进行AND运算时，可能有多个转发结果，此时需要采用<strong>最长前缀匹配的原则</strong>进行跳转。</p>
+<h1 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h1>
     </div>
 
     
@@ -480,7 +474,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">网际协议IP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.1.</span> <span class="nav-text">分类的IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E6%8C%87%E6%B4%BE%E7%9A%84IP"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">不指派的IP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="nav-number">2.1.2.</span> <span class="nav-text">无分类编址CIDR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">IP地址与MAC地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">地址解析协议ARP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">IP数据报格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">IP分组转发</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E9%99%85%E5%8D%8F%E8%AE%AEIP"><span class="nav-number">2.</span> <span class="nav-text">网际协议IP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%9A%84IP%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.1.</span> <span class="nav-text">分类的IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E6%8C%87%E6%B4%BE%E7%9A%84IP"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">不指派的IP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="nav-number">2.1.2.</span> <span class="nav-text">无分类编址CIDR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">划分子网</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">IP地址与MAC地址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="nav-number">3.</span> <span class="nav-text">地址解析协议ARP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">IP数据报格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP%E5%88%86%E7%BB%84%E8%BD%AC%E5%8F%91"><span class="nav-number">5.</span> <span class="nav-text">IP分组转发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="nav-number">6.</span> <span class="nav-text">网际控制报文协议ICMP</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -571,7 +565,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">14 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
