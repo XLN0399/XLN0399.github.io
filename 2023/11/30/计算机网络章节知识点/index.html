@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/title.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/title.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/title.png">
+  <link rel="mask-icon" href="/images/title.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xln0399.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机网络期末总复习知识点总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络章节总复习">
+<meta property="og:url" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="落叶枫林">
+<meta property="og:description" content="计算机网络期末总复习知识点总结。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914095817696.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100004924.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100047099.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926210550132.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926212309993.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927093105687.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927095008113.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230928092329319.png">
+<meta property="article:published_time" content="2023-11-30T07:14:00.000Z">
+<meta property="article:modified_time" content="2023-11-30T07:19:51.503Z">
+<meta property="article:author" content="柠">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="期末考试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914095817696.png">
+
+<link rel="canonical" href="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络章节总复习 | 落叶枫林</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">落叶枫林</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录每一天</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/XLN0399" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="柠">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="落叶枫林">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络章节总复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-30 15:14:00 / 修改时间：15:19:51" itemprop="dateCreated datePublished" datetime="2023-11-30T15:14:00+08:00">2023-11-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>计算机网络期末总复习知识点总结。</p>
+<span id="more"></span>
+<h1>第 1 章 概述</h1>
+<h2 id="1-边缘部分与核心部分">1. 边缘部分与核心部分</h2>
+<p>互联网按工作方式可划分为<strong>边缘部分</strong>和<strong>核心部分</strong>。<strong>主机</strong>在网络的边缘，作用是<strong>进行信息处理</strong>。<strong>路由器</strong>在网络的核心部分，其作用是<strong>按存储转发方式进行分组交换</strong>。</p>
+<p>边缘部分工作方式：<strong>C/S方式（客户请求服务，服务器提供服务）和P2P方式（对等进行通信）</strong>。</p>
+<p>核心部分工作方式：<strong>路由器连接网络，利用存储转发技术转发分组</strong>。</p>
+<h2 id="2-分组交换">2. 分组交换</h2>
+<p>分组交换采用存储转发技术，把一个报文划分为几个分组（数据段）再进行传送。每个数据段加上必要的控制信息组成首部后，构成已给分组。</p>
+<h2 id="3-计算机网络性能指标">3. 计算机网络性能指标</h2>
+<ol>
+<li>
+<p>速率</p>
+<p>网络技术中速率指的是数据的传送速率，单位bit/s，即每秒传输多少位。当提到网络的速率，往往指的是额定速率，而并非网络实际运行的速率。</p>
+</li>
+<li>
+<p>带宽</p>
+<p>网络带宽是指单位时间内网络的某信道所能通过的“<strong>最高数据率</strong>”，即<strong>数据发送速率上限</strong>。带宽的单位就是数据率的单位bit/s。</p>
+</li>
+<li>
+<p>吞吐量</p>
+<p>表示单位时间内通过某个网络的<strong>实际数据量</strong>。</p>
+</li>
+<li>
+<p>时延<br>
+$$<br>
+总时延=发送时延+传播时延+处理时延+排队时延<br>
+$$<br>
+发送时延是主机或路由器发送数据帧所需时间：<br>
+$$<br>
+发送时延=\frac{数据帧长度(bit)}{发送速率(bit/s)}<br>
+$$<br>
+传播时延是电磁波在信道中传播一定的距离需要花费的时间：<br>
+$$<br>
+传播时延=\frac{信道长度(m)}{电磁波在信道上传播速率(m/s)}<br>
+$$</p>
+</li>
+<li>
+<p>时延带宽积<br>
+$$<br>
+时延带宽积=传播时延\times 带宽<br>
+$$</p>
+</li>
+</ol>
+<h2 id="4-网络协议">4. 网络协议</h2>
+<p>网络协议即协议，是<strong>为了进行网络中数据交换而建立的规则</strong>。<strong>计算机网络的各层及其协议的集合称为网络的体系结构</strong>。</p>
+<p>网络协议主要由三部分组成：</p>
+<ul>
+<li><strong>语法</strong>：数据与控制信息的结构或格式。</li>
+<li><strong>语义</strong>：需要发出何种控制信息，完成何种动作以及做出何种响应。</li>
+<li><strong>同步</strong>：事件实现顺序的详细说明。</li>
+</ul>
+<h2 id="5-五层协议的体系结构">5. 五层协议的体系结构</h2>
+<ol>
+<li>
+<p>应用层</p>
+<p>应用层的任务是通过进程之间的交互来完成特定网络应用。应用程协议定义的是<strong>应用进程之间通信和交互的规则</strong>。</p>
+<p>应用程协议：DNS、HTTP、SMTP等。应用层交互的数据单元称为<strong>报文</strong>。</p>
+</li>
+<li>
+<p>运输层</p>
+<p>运输层任务负责向<strong>两台主机中进程之间</strong>的通信提供<strong>通用的数据传输服务</strong>。</p>
+<p>运输层协议：<strong>传输控制协议TCP</strong>，传输单元是<strong>报文段</strong>；用户数据报协议UDP，传输单元是<strong>用户数据报</strong>。</p>
+</li>
+<li>
+<p>网络层</p>
+<p>网络层负责为分组交换网上的<strong>不同主机</strong>提供服务。将运输层的数据单元封装成<strong>分组</strong>，也叫<strong>IP数据报</strong>。通过一定算法，生成转发分组的转发表，依据转发表中指明的路径将分组转发到一个路由器中。</p>
+</li>
+<li>
+<p>数据链路层</p>
+<p>将<strong>IP数据报</strong>组装成<strong>帧</strong>，每一帧包括数据和必要的控制信息，控制信息使得接收端正确接收帧，对帧尽心差错检测，改正数据。</p>
+</li>
+<li>
+<p>物理层</p>
+<p>物理层所传数据的单位是<strong>比特</strong>。</p>
+</li>
+</ol>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914095817696.png" alt="image-20230914095817696" style="zoom:80%;">
+<h2 id="6-TCP-IP体系结构">6. TCP/IP体系结构</h2>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100004924.png" alt="image-20230914100004924" style="zoom:80%;">
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100047099.png" alt="image-20230914100047099" style="zoom:80%;">
+<h2 id="7-实体、协议、服务和服务访问点">7. 实体、协议、服务和服务访问点</h2>
+<ol>
+<li>实体：任何可以发送或接收信息的硬件或软件进程。</li>
+<li>协议：控制两个对等实体（或多个实体）进行通信的规则的集合。（水平的）</li>
+<li>服务：下层向上层通过层间接口提供服务。（垂直的）</li>
+<li>服务访问点：同一系统中相邻两层的实体进行交互的地方。</li>
+</ol>
+<p>协议必须把所有不利的条件事先都要估计到，不能假定一切都是正常的和非常理想的，必须非常仔细地检测协议能否应付任何一种出现概率极小的异常情况。<strong>提高协议面对异常情况的能力</strong>。</p>
+<p><strong>协议控制本层向上层提供服务，本层协议的实现要使用下层提供的服务</strong>。</p>
+<h1>第 2 章 物理层</h1>
+<h2 id="1-物理层任务和特点">1. 物理层任务和特点</h2>
+<p>物理层的主要任务是<strong>描述确定与传输媒介的接口有关的特性</strong>：</p>
+<ol>
+<li><strong>机械特性</strong>：指明接口所用的接线器的形状和尺寸、引脚数目和排列、固定和锁定装置等。</li>
+<li><strong>电气特性</strong>：指明在接口电缆的各条线上出现的<strong>电压的范围</strong>。</li>
+<li><strong>功能特性</strong>：指明某条线上出现的某一电平的<strong>电压的意义</strong>。</li>
+<li><strong>过程特性</strong>：指明对于不同功能的<strong>各种可能事件的出现顺序</strong>。</li>
+</ol>
+<h2 id="2-通信三种方式">2. 通信三种方式</h2>
+<ol>
+<li><strong>单工通信</strong>：只能有一个方向的通信而没有反方向的交互。</li>
+<li><strong>半双工通信</strong>：通信双方都可以发送消息，当不能双方同时发送或接收。</li>
+<li><strong>全双工通信</strong>：通信双方可以同时发送和接收消息。</li>
+</ol>
+<h2 id="3-规程和协议的区别">3. 规程和协议的区别</h2>
+<p>物理层的协议常称为规程，但协议泛指所有层上的协议。</p>
+<h2 id="4-数据通信系统模型">4. 数据通信系统模型</h2>
+<ol>
+<li>
+<p><strong>源系统</strong>：包括源点和发送器。</p>
+<p>源点：源点设备产生要传输的数据。</p>
+<p>发送器：源点生成的数字比特流通过发送器编码后在传输系统中进行传输。</p>
+</li>
+<li>
+<p><strong>传输系统</strong></p>
+</li>
+<li>
+<p><strong>目的系统</strong>：包括接收器和终点。</p>
+<p>接收器：接收传输系统传送过来的信号，并转换为能够被目的设备处理的信息。</p>
+<p>终点：终点设备从接收器获取传送来的数字比特流，然后把信息输出。</p>
+</li>
+</ol>
+<h2 id="5-基本名称概念">5. 基本名称概念</h2>
+<ol>
+<li>数据：运送消息的实体。</li>
+<li>信号：数据的电气或电磁的表现。</li>
+<li>模拟信号：连续信号。</li>
+<li>数字信号：离散信号。</li>
+<li>码元：代表数字信号不同离散值的基本波形。</li>
+<li>基带信号：来自信源的信号。像计算机输出的代表各种文字或图像文件的数据信号都属于基带信号。</li>
+<li>带通信号：把基带信号经过载波调制后，把信号的频率范围搬移到较高的频段以便在信道中传输（即仅在一段频率范围内能够通过信道）。（<strong>调频，调相，调幅</strong>）</li>
+</ol>
+<h2 id="6-信道复用技术">6. 信道复用技术</h2>
+<ol>
+<li>
+<p><strong>频分复用</strong></p>
+<p>把各路信号分别搬移到适当的频率位置，各路信号在同样时间占用不同的带宽资源。</p>
+</li>
+<li>
+<p><strong>时分复用</strong></p>
+<p>每一路信号占用固定序号的时隙，在不同时间占用同样的频带宽度。</p>
+<p><strong>统计时分复用（STDM）</strong>：不固定分配时序，而是按需动态分配时隙。</p>
+</li>
+<li>
+<p><strong>波分复用</strong></p>
+<p>光的频分复用。</p>
+</li>
+<li>
+<p><strong>码分复用</strong></p>
+<p><strong>码分多址（CDMA）</strong>：用户同样的时间使用同样的频带进行通信，各用户使用不同码型，各用户之间不会造成干扰。</p>
+<p><strong>码片</strong></p>
+<ol>
+<li>
+<p>每一站有自己的唯一的一个码片序列，发送比特1，则发送它的 m bit码片序列，发送比特0，则发送该码片序列的反码。这个码片序列和其他任何一个站的码片序列向量积为 0。</p>
+</li>
+<li>
+<p>每一个站有其他站的码片向量（码片序列），每个站点接收的信息是其他所有站发送的码片序列之和。</p>
+</li>
+<li>
+<p>码片序列之和和站点拥有的其他站点码片序列依次进行规格化内积运算。如果规格化内积为1或-1，表示是对应站点发送了信息；如果是0，则对应站点没有发送信息。</p>
+</li>
+<li>
+<p>规格化内积为1表示数据信息为比特1，如果是-1，表示为比特0。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="7-常用编码方式">7. 常用编码方式</h2>
+<ol>
+<li>不归零制：正<strong>电平</strong>代表 1，负电平代表 0。（有弱电流影响）</li>
+<li>归零制：正<strong>脉冲</strong>代表 1，负脉冲代表0。</li>
+<li>曼彻斯特编码：位周期中心的向上跳变代表0，位周期中心的向下跳变代表1。可以反过来定义。</li>
+<li>差分曼彻斯特编码：在每一位的中心始终有跳变，位开始边界有跳变代表0，而位开始边界没有跳变代表1。</li>
+</ol>
+<h2 id="8-传输媒介">8. 传输媒介</h2>
+<ol>
+<li>
+<p>导引型传输媒介</p>
+<p>双绞线：无屏蔽双绞线、有屏蔽双绞线；3类线、5类线。</p>
+<p>同轴电缆：粗轴和细轴。</p>
+<p>光纤：多模和单模（衰耗小）</p>
+</li>
+<li>
+<p>非导引型传输媒介</p>
+<p>无线、红外或大气激光。</p>
+</li>
+</ol>
+<h1>第 3 章 数据链路层</h1>
+<h2 id="1-数据链路和链路的区别">1. 数据链路和链路的区别</h2>
+<ol>
+<li>链路是从一个节点到相邻节点的一段<strong>物理线路</strong>，中间没有其他交换节点。</li>
+<li>数据链路需要有一条物理线路，还必须有一些必要的通信协议控制数据传输。</li>
+</ol>
+<h2 id="2-数据链路层三个基本问题">2. 数据链路层三个基本问题</h2>
+<h3 id="封装成帧">封装成帧</h3>
+<p>把一段数据的前后分别添加首部和尾部，构成一个帧。首部和尾部的一个重要作用就是<strong>帧定界</strong>。区分分组的<strong>控制域和数据域</strong>，同时方便对数据进行差错检测。</p>
+<h3 id="透明传输">透明传输</h3>
+<p>帧开始和结束的标记使用专门的控制字符，为了避免传输数据部分出现的这些特殊字符干扰帧定界，通过某些处理方法避免错误识别发生。</p>
+<p>一般有<strong>字节填充、字符填充</strong>（类似于转义字符）和<strong>零比特填充法</strong>（连续5个1出现则后面填充一个0）。</p>
+<h3 id="差错检测">差错检测</h3>
+<p>帧在传输过程中可能出现<strong>比特差错</strong>的问题。通过校验码或纠正码来对数据进行检测判断，保证数据争取传输。</p>
+<p>采用<strong>循环冗余检测码CRC</strong>的检错技术。</p>
+<p>循环冗余检测码的原理：给定一个<code>n+1</code>位除数，传输的原始数据后面补充<code>n</code>位0，然后开始做除法（二进制的除法是异或运算），最后计算出的<code>n</code>位余数（<strong>帧检验序列FCS</strong>）填充到之前<code>n</code>位0比特的位置，构成最后传给接受方的数据。接收方接收到发送的数据，用规定好的除数对数据进行验证，如果最终余数验证为0，则说明数据包没有出错。</p>
+<h2 id="3-PPP协议">3. PPP协议</h2>
+<p>点对点协议PPP是数据链路层使用最多的协议，特点是：简单，只检验差错，不纠正错误，不使用序号，也不进行流量控制，可同时支持多种网络层协议。</p>
+<p>PPP协议不支持多点线路（一个主站轮流和链路上的多个站点进行通信），只支持点对点的链路通信。PPP协议只支持全双工通信。</p>
+<p><strong>PPP协议组成</strong>：</p>
+<ol>
+<li>一个将IP数据报封装到串行链路的方法。</li>
+<li>一个用来建立、配置和测试数据链路连接的<strong>链路控制协议LCP</strong>。</li>
+<li>一套<strong>网络控制协议NCP</strong>，其中每一个协议支持不同的网络层协议。</li>
+</ol>
+<h3 id="PPP帧格式">PPP帧格式</h3>
+<p><strong>PPP帧的首部和尾部分别为四个字段（6个字节）和两个字段（3个字节）</strong>。</p>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926210550132.png" alt="image-20230926210550132" style="zoom:80%;">
+<ol>
+<li><code>F</code>：字段<code>7E</code>标志一个帧的开始和结束，帧的定界符。</li>
+<li><code>A</code>和<code>C</code>：暂时没有进行定义来使用。</li>
+</ol>
+<p><strong>字节填充</strong></p>
+<p>信息段的<code>7E</code>转变为<code>7D 5E</code>，信息字段的<code>7D</code>转化为<code>7D 5D</code>。</p>
+<p><strong>零比特填充</strong></p>
+<p>信息段每遇到5个连续的1就在后面插入1个0。</p>
+<h3 id="PPP协议工作状态">PPP协议工作状态</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926212309993.png" alt="image-20230926212309993" style="zoom:80%;">
+<p>PPP协议共有6中工作状态：①链路静止，②链路建立，③鉴别，④网络层协议，⑤链路打开，⑥链路终止。</p>
+<ol>
+<li>
+<p>用户个人电脑通过解调器呼叫路由器，双方建立物理连接，进入<strong>链路建立</strong>状态。</p>
+</li>
+<li>
+<p>向链路另一端发送LCP的配置请求帧，经过双方协商后，建立LCP链路，进入<strong>鉴别</strong>状态。</p>
+</li>
+<li>
+<p>向链路另一端发送鉴别的信息，若鉴别成功则进入<strong>网络协议状态</strong>，鉴别失败则进入<strong>链路终止</strong>状态。</p>
+</li>
+<li>
+<p>网络协议状态，配置网络层协议，<strong>PPP链路两端的网络控制协议NCP根据网络层的不同协议互相交换网络层特定的网络控制分组</strong>，配置完毕进入<strong>链路打开</strong>状态。</p>
+</li>
+<li>
+<p>链路打开状态，PPP链路两端可以彼此发送分组。</p>
+</li>
+<li>
+<p>数据传输结束后，链路一段发出终止请求，另一端收到终止确认，转到<strong>链路终止状态</strong>。</p>
+</li>
+<li>
+<p>链路过程出现故障，也会从链路打开转到<strong>链路终止状态</strong>。</p>
+</li>
+<li>
+<p>调制解调器的载波停止后，回到<strong>链路静止状态</strong>。</p>
+</li>
+</ol>
+<h2 id="4-局域网">4. 局域网</h2>
+<p>局域网的主要特点：<strong>网络为一个单位所拥有，且地理范围和站点数据均有限</strong>。</p>
+<p>局域网的优点：</p>
+<ol>
+<li>具有广播功能，一个站点可以访问全网，局域网上主机之间共享各种硬件和软件资源。</li>
+<li>便于系统的扩展和逐渐演变，各设备位置可灵活调制和改变。</li>
+<li>提高系统的可靠性、可用性和生存性。</li>
+</ol>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927093105687.png" alt="image-20230927093105687" style="zoom:80%;">
+<h2 id="5-共享媒体资源">5. 共享媒体资源</h2>
+<ol>
+<li>
+<p>静态划分信道</p>
+<p>频分复用，时分复用、码分复用等，划分信道代价高，不适用于局域网。</p>
+</li>
+<li>
+<p>动态媒体接入控制</p>
+<ul>
+<li>随机接入：所有用户可随机地发送信息，但如果多用户同时发送消息，发送碰撞导致发送失败。</li>
+<li>受控接入：必须服从一定地控制。分散控制地令牌局域网和集中控制地多点线路探寻。</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-以太网">6. 以太网</h2>
+<p>传统以太网：DIX Ethernet V2 标准的局域网。</p>
+<p>以太网两个主要标准：DIX Ethernet V2标准和 IEEE 的 802.3 标准。</p>
+<p>以太网通信采取两种措施：</p>
+<ol>
+<li><strong>无连接</strong>工作方式，不建立连接直接发送数据，对数据帧<strong>不进行编号</strong>，<strong>不要求对方发回确认</strong>。目的站接收到有差错的帧<strong>直接丢弃</strong>，其他什么都不做。</li>
+<li>使用<strong>CSMA/CD协议</strong>，<strong>载波监听多点接入/碰撞检测</strong>。</li>
+</ol>
+<h2 id="7-适配器">7. 适配器</h2>
+<p>计算机与外界局域网通信要通过适配器，又称为网络接口卡或网卡，<strong>计算机的硬件地址就是在适配器的ROM中</strong>。</p>
+<p>适配器要进行数据串行传输和并行传输的转换，装有数据缓存的存储芯片，对数据帧进行差错检验后交给网络层。</p>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927095008113.png" alt="image-20230927095008113" style="zoom:80%;">
+<p>适配器有<strong>过滤</strong>功能：只接<strong>收单播帧、广播帧或多播帧</strong>。</p>
+<p>适配器的<strong>混杂方式</strong>接收所有以太网上的帧。</p>
+<h2 id="8-CSMA-CD协议">8. CSMA/CD协议</h2>
+<ol>
+<li><strong>多点接入</strong>：许多计算机以多点接入的方式连接在一根总线上。</li>
+<li><strong>载波监听</strong>：边发送边监听。</li>
+<li><strong>碰撞检测</strong>：适配器边发送数据边检测信道上的信号电压的变化情况，发送碰撞，总线上的信号电压变化幅度会增大（相互叠加）。</li>
+</ol>
+<p>一旦发送碰撞，就立即停止发送，按照退避算法等待一段随机时间后再次发送。</p>
+<p>使用CSMA/CD协议，一个站<strong>不能同时发送消息和接收消息</strong>，<strong>只支持半双工通信</strong>。</p>
+<p>假定端到端的传播时延即为$\tau$，最长经过$2\tau$的时间（<strong>争用期 $51.2\mu s$ 512比特时间</strong>）检测出发送碰撞。发送的数据帧不少于64个字节。</p>
+<h2 id="9-集线器">9. 集线器</h2>
+<p>使用集线器的以太网在逻辑上仍是一个总线网，各站共享逻辑上的总线，使用CSMA/CD协议，同一时刻至多只允许一个站发送数据。</p>
+<p><strong>在物理上是星形网，在逻辑上则是总线型。集线器工作在物理层上，每个端口只负责转发比特，不进行碰撞检测</strong>。</p>
+<h2 id="10-MAC地址">10. MAC地址</h2>
+<p><strong>硬件地址</strong>又称<strong>物理地址</strong>或<strong>MAC地址</strong>，固化在适配器的ROM中的地址。每个适配器的地址都不相同，48位长。</p>
+<h3 id="MAC帧格式">MAC帧格式</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230928092329319.png" alt="image-20230928092329319" style="zoom:80%;">
+<ul>
+<li>类型字段：用来标识上一层使用的是什么协议。</li>
+<li>FCS帧检验序列：检查范围是整个的MAC帧，从目的地址开始到FCS为止的五个阶段，不包括物理层插入的8字节的前同步码和帧开始定界符。</li>
+<li>多插入的8个字节：前7个字节是接收端的适配器接收MAC帧时能够迅速调整其时间频率，使得时钟同步，最后1个字节是帧开始定界符。</li>
+</ul>
+<h2 id="11-以太网集线器和交换机带宽计算">11. 以太网集线器和交换机带宽计算</h2>
+<ul>
+<li>集线器：连接在集线器的站点之间共享集线器的带宽，<strong>集线器带宽平均分配给每个站点</strong>。</li>
+<li>交换机：连接交换机每个站点可以同时进行发送和接口操作，（多端口网桥，全双工方式），每个站点的带宽就是交换机上的最大带宽。</li>
+</ul>
+<h2 id="12-以太网交换机自学习">12. 以太网交换机自学习</h2>
+<ol>
+<li>主机发送请求，会经过若干个路由器，路由器中有CAM表，记录每个主机的转发接口和MAC地址。如果发送一个请求，CAM表中没有该主机的转发接口和MAC地址等信息，则会记录学习。</li>
+<li>在通过路由器进行转发时，会从CAM表中找目的主机的转发接口来进行数据包的转发。</li>
+<li>如果目标主机地址找不到，路由器会指向广播操作，向所有转发接口进行数据转发（除了传输了该数据的转发接口）。</li>
+<li>通过广播操作，期待接收目标主机发回响应，返回确认给源主机。</li>
+</ol>
+<h1>第 4 章 网络层</h1>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>柠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xln0399.github.io/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/" title="计算机网络章节总复习">http://xln0399.github.io/2023/11/30/计算机网络章节知识点/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95/" rel="tag"># 期末考试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/" rel="prev" title="计算机网络-运输层">
+      <i class="fa fa-chevron-left"></i> 计算机网络-运输层
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">第 1 章 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%BE%B9%E7%BC%98%E9%83%A8%E5%88%86%E4%B8%8E%E6%A0%B8%E5%BF%83%E9%83%A8%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">1. 边缘部分与核心部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">2. 分组交换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">1.3.</span> <span class="nav-text">3. 计算机网络性能指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.4.</span> <span class="nav-text">4. 网络协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BA%94%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">1.5.</span> <span class="nav-text">5. 五层协议的体系结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-TCP-IP%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">1.6.</span> <span class="nav-text">6. TCP&#x2F;IP体系结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%AE%9E%E4%BD%93%E3%80%81%E5%8D%8F%E8%AE%AE%E3%80%81%E6%9C%8D%E5%8A%A1%E5%92%8C%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E7%82%B9"><span class="nav-number">1.7.</span> <span class="nav-text">7. 实体、协议、服务和服务访问点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">第 2 章 物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%89%A9%E7%90%86%E5%B1%82%E4%BB%BB%E5%8A%A1%E5%92%8C%E7%89%B9%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text">1. 物理层任务和特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%80%9A%E4%BF%A1%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">2. 通信三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A7%84%E7%A8%8B%E5%92%8C%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.3.</span> <span class="nav-text">3. 规程和协议的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.4.</span> <span class="nav-text">4. 数据通信系统模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%9F%BA%E6%9C%AC%E5%90%8D%E7%A7%B0%E6%A6%82%E5%BF%B5"><span class="nav-number">2.5.</span> <span class="nav-text">5. 基本名称概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="nav-number">2.6.</span> <span class="nav-text">6. 信道复用技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%B8%B8%E7%94%A8%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F"><span class="nav-number">2.7.</span> <span class="nav-text">7. 常用编码方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BB%8B"><span class="nav-number">2.8.</span> <span class="nav-text">8. 传输媒介</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">第 3 章 数据链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%92%8C%E9%93%BE%E8%B7%AF%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.1.</span> <span class="nav-text">1. 数据链路和链路的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">2. 数据链路层三个基本问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="nav-number">3.2.1.</span> <span class="nav-text">封装成帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93"><span class="nav-number">3.2.2.</span> <span class="nav-text">透明传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-number">3.2.3.</span> <span class="nav-text">差错检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-PPP%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.3.</span> <span class="nav-text">3. PPP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PPP%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.3.1.</span> <span class="nav-text">PPP帧格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PPP%E5%8D%8F%E8%AE%AE%E5%B7%A5%E4%BD%9C%E7%8A%B6%E6%80%81"><span class="nav-number">3.3.2.</span> <span class="nav-text">PPP协议工作状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">3.4.</span> <span class="nav-text">4. 局域网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%85%B1%E4%BA%AB%E5%AA%92%E4%BD%93%E8%B5%84%E6%BA%90"><span class="nav-number">3.5.</span> <span class="nav-text">5. 共享媒体资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-number">3.6.</span> <span class="nav-text">6. 以太网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%80%82%E9%85%8D%E5%99%A8"><span class="nav-number">3.7.</span> <span class="nav-text">7. 适配器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-CSMA-CD%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.8.</span> <span class="nav-text">8. CSMA&#x2F;CD协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="nav-number">3.9.</span> <span class="nav-text">9. 集线器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-MAC%E5%9C%B0%E5%9D%80"><span class="nav-number">3.10.</span> <span class="nav-text">10. MAC地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.10.1.</span> <span class="nav-text">MAC帧格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E4%BB%A5%E5%A4%AA%E7%BD%91%E9%9B%86%E7%BA%BF%E5%99%A8%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%B8%A6%E5%AE%BD%E8%AE%A1%E7%AE%97"><span class="nav-number">3.11.</span> <span class="nav-text">11. 以太网集线器和交换机带宽计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.12.</span> <span class="nav-text">12. 以太网交换机自学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">第 4 章 网络层</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="柠"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">柠</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/XLN0399" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;XLN0399" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xuluoing@qq.com" title="E-Mail → mailto:xuluoing@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">柠</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">24k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">22 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+  
+  
+	<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  
+</body>
+</html>

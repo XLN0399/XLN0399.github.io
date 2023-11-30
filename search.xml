@@ -74,154 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>个人博客搭建</title>
-    <url>/2023/11/25/create_blog/</url>
-    <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题，采用git + github + hexo + hexo next主题实现的一个个人博客网站。</p>
-<span id="more"></span>
-<h2 id="工具准备">工具准备</h2>
-<p>下载git，参考网址：<a href="https://juejin.cn/post/7086817870172782623">图文详解 Git 安装【当前最新，最详细版】 - 掘金 (juejin.cn)</a></p>
-<p>下载node.js，参考网址：<a href="https://juejin.cn/post/7090056744549744676">node.js安装及环境配置 - 掘金 (juejin.cn)</a></p>
-<p>然后打开git bash命令窗口输入：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<h3 id="github创建仓库">github创建仓库</h3>
-<ol>
-<li>
-<p>自己注册一个账号，开始创建仓库，可以参考<a href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
-<p>需要注意的是仓库名称<code>xxx.github.io</code>。</p>
-</li>
-<li>
-<p>在git上配置远程连接SSH</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -global user.name &quot;用户名&quot;</span><br><span class="line">git config -global user.email &quot;邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成SSH密钥</span></span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
-<p>生成结果：</p>
-<p>路径<code>C:\Users\电脑用户名\.ssh\id_rsa.pub</code></p>
-<p><img src="/2023/11/25/create_blog/image-20231125201927788.png" alt="image-20231125201927788"></p>
-<p><img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
-</li>
-<li>
-<p>将密钥全部复制粘贴到GitHub上</p>
-<p><img src="/2023/11/25/create_blog/image-20231125202323393.png" alt="image-20231125202323393"></p>
-</li>
-</ol>
-<h2 id="初始hexo项目">初始hexo项目</h2>
-<h3 id="初始创建">初始创建</h3>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
-<p>下载next主题</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:theme-next/hexo-theme-next.git  ./themes/next</span><br></pre></td></tr></table></figure>
-<p>更改根目录下的<code>_config.yml</code>文件</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">themes:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
-<p>然后执行以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取仓库内容</span></span><br><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行 本地测试</span></span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载hexo-devloper</span></span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p>将根目录下<code>.config.yml</code>配置文件修改：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">url:</span> <span class="comment"># https://xxx.github.io</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="comment"># https://gitee.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
-<p>配置修改后执行：（一定要先修改配置文件后在进行提交）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>执行上述所有步骤后，就可以通过github看到一个初始状态的个人博客了。</p>
-<h2 id="Next主题配置">Next主题配置</h2>
-<h3 id="选择主题">选择主题</h3>
-<p>主题配置文件下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
-<p>可以自行选择四种样式。</p>
-<h3 id="修改博客头像">修改博客头像</h3>
-<p>在<code>themes/next/source/images</code>放入设置的图片。</p>
-<img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977">
-<p>在主题配置文件中设置路径即可：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="comment"># Replace the default image and set the url here.</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be dispalyed in circle.</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be rotated with the cursor.</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="侧边栏社交添加">侧边栏社交添加</h3>
-<p>主题配置文件夹下配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment">#GitHub: https://github.com || fab fa-github</span></span><br><span class="line">  <span class="comment">#E-Mail: mailto:yourname@gmail.com || fa fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#FB Page: https://www.facebook.com/yourname || fab fa-facebook</span></span><br><span class="line">  <span class="comment">#StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="comment">#Instagram: https://instagram.com/yourname || fab fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加菜单结构">添加菜单结构</h3>
-<p>输入命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-<p>这样就可以创建一个tags目录，效果如图所示：</p>
-<p><img src="/2023/11/25/create_blog/image-20231125135239747.png" alt="image-20231125135239747"></p>
-<p>同理还可以创建<code>about、categories、archives</code>等菜单文件。</p>
-<p>我们需要进入到每个文件目录下面去修改它<code>index.md</code>文件，修改它的类型，如图所示：</p>
-<p><img src="/2023/11/25/create_blog/image-20231125135911341.png" alt="image-20231125135911341"></p>
-<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">tags: tags</span><br><span class="line">categories: categories</span><br><span class="line">留言板: 将comments一栏改为true type改为guestbook</span><br></pre></td></tr></table></figure>
-<p>在主题的配置文件<code>_config.yml</code>开启对应菜单：</p>
-<p><img src="/2023/11/25/create_blog/image-20231125140353312.png" alt="image-20231125140353312"></p>
-<p>可以设置显示数量：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加搜索功能">添加搜索功能</h3>
-<p>下载搜索插件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
-<p>主题目录下配置文件<code>_config.yml</code>开启本地搜索：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>根目录下<code>_config.yml</code>配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># hexo-generator-searchdb</span></span><br><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加动态背景">添加动态背景</h3>
-<p>打开生成的hexo目录<code>\themes\next\layout\_layout.swig</code>文件，将代码放在<code>&lt;/body&gt;</code>上面。</p>
-<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">&#123;<span class="comment">% if theme.canvas_nest %&#125;</span></span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;<span class="comment">% endif %&#125;</span></span><br></pre></td></tr></table></figure>
-<p>主题配置文件添加配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># background settings</span></span><br><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># add canvas-nest effect</span></span><br><span class="line"><span class="comment"># see detail from https://github.com/hustcc/canvas-nest.js</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="增加阅读时间和文章数字统计">增加阅读时间和文章数字统计</h3>
-<p>下载插件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
-<p>根目录下配置文件添加：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">2</span>    </span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">&quot;mins.&quot;</span></span><br></pre></td></tr></table></figure>
-<p>主题配置文件下打开开关：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="部件配置">部件配置</h3>
-<p>都在主题配置文件下</p>
-<p>阅读进度条：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Available values: top | bottom</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
-<p>左上角Github图标：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">github_banner:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">permalink:</span> <span class="string">https://github.com/xxx</span></span><br><span class="line">  <span class="attr">title:</span> <span class="string">Follow</span> <span class="string">me</span> <span class="string">on</span> <span class="string">GitHub</span></span><br></pre></td></tr></table></figure>
-<p>开启代码复制：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="comment"># Code Highlight theme</span></span><br><span class="line">  <span class="comment"># Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic</span></span><br><span class="line">  <span class="comment"># See: https://github.com/chriskempson/tomorrow-theme</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="comment"># Add copy button on codeblock</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Show text copy result.</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># Available values: default | flat | mac</span></span><br><span class="line">    <span class="attr">style:</span></span><br></pre></td></tr></table></figure>
-<p>文末尾版权说明</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
-<p>设置回到顶部</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">back2top:</span></span><br><span class="line"> <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"> <span class="comment"># Back to top in sidebar.</span></span><br><span class="line"> <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line"> <span class="comment"># Scroll percent label in b2t button.</span></span><br><span class="line"> <span class="attr">scrollpercent:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="问题">问题</h2>
-<h3 id="图片不显示">图片不显示</h3>
-<p>hexo生成后图片路劲发生改变，导致了生成后文章找不到图片。</p>
-<p>下载插件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-<p>修改根目录下配置文件：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>生成的时候可能要等一会，多刷新几次。</p>
-<p>只有md文档同级下有对应文件夹来放图片就可以了。</p>
-<p>如果还是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
-<p><img src="/2023/11/25/create_blog/image-20231125182910235.png" alt="image-20231125182910235"></p>
-<p>去调整<code>index.js</code>的中路径字符串拼接的部分，视自己当前问题来合理调整。</p>
-<p><strong>这里还需要注意的是根目录下的配置文件中<code>url</code>的配置：一定要是自己的仓库名，不然所有组件都会加载失败。</strong></p>
-<h3 id="hexo的不支持Latex语法">hexo的不支持Latex语法</h3>
-<p>我们需要进行重新选择插件进行渲染。</p>
-<p>需要重新更新插件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-<p>修改主题配置文件：</p>
-<img src="/2023/11/25/create_blog/image-20231127152223788.png" alt="image-20231127152223788" style="zoom:80%;">
-<p>修改插件文件，路径<code>\blog\node_modules\kramed\lib\rules\inline.js</code>：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> inline = &#123;</span><br><span class="line">  <span class="comment">// escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line">  <span class="attr">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br><span class="line">  <span class="attr">autolink</span>: <span class="regexp">/^&lt;([^ &gt;]+(@|:\/)[^ &gt;]+)&gt;/</span>,</span><br><span class="line">  <span class="attr">url</span>: noop,</span><br><span class="line">  <span class="attr">html</span>: <span class="regexp">/^&lt;!--[\s\S]*?--&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)*?(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;([\s\S]*?)?&lt;\/\1&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;/</span>,</span><br><span class="line">  <span class="attr">link</span>: <span class="regexp">/^!?\[(inside)\]\(href\)/</span>,</span><br><span class="line">  <span class="attr">reflink</span>: <span class="regexp">/^!?\[(inside)\]\s*\[([^\]]*)\]/</span>,</span><br><span class="line">  <span class="attr">nolink</span>: <span class="regexp">/^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/</span>,</span><br><span class="line">  <span class="attr">reffn</span>: <span class="regexp">/^!?\[\^(inside)\]/</span>,</span><br><span class="line">  <span class="attr">strong</span>: <span class="regexp">/^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/</span>,</span><br><span class="line">  <span class="comment">// em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">  <span class="attr">em</span>: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br><span class="line">  <span class="attr">code</span>: <span class="regexp">/^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/</span>,</span><br><span class="line">  <span class="attr">br</span>: <span class="regexp">/^ &#123;2,&#125;\n(?!\s*$)/</span>,</span><br><span class="line">  <span class="attr">del</span>: noop,</span><br><span class="line">  <span class="attr">text</span>: <span class="regexp">/^[\s\S]+?(?=[\\&lt;!\[_*`$]| &#123;2,&#125;\n|$)/</span>,</span><br><span class="line">  <span class="attr">math</span>: <span class="regexp">/^\$\$\s*([\s\S]*?[^\$])\s*\$\$(?!\$)/</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>然后重新生成运行就可以了。</p>
-<h3 id="markdown不支持上标和下标的语法">markdown不支持上标和下标的语法</h3>
-<p>使用html来实现上下标，不使用<code>~~和^^</code>。</p>
-]]></content>
-      <categories>
-        <category>技术栈</category>
-      </categories>
-      <tags>
-        <tag>BLOG</tag>
-        <tag>IT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络模拟实验配置</title>
-    <url>/2023/11/28/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</url>
-    <content><![CDATA[<p>主要是记录使用Cisco模拟软件来连接配置局域网，主要包括的是交换机配置虚拟局域网，交换机之间配置协议，路由器与交换机交换配置，路由器与路由器之间的配置等模拟实验。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>Cisco模拟实验</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C语言多线程编程 (二)</title>
     <url>/2023/11/28/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/</url>
     <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过临界区、互斥量、事件、信号量实现线程的同步互斥，同时讲解一下进程之间的同步互斥。</p>
@@ -374,6 +226,154 @@
         <tag>C++</tag>
         <tag>多线程</tag>
         <tag>同步互斥</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络模拟实验配置</title>
+    <url>/2023/11/28/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</url>
+    <content><![CDATA[<p>主要是记录使用Cisco模拟软件来连接配置局域网，主要包括的是交换机配置虚拟局域网，交换机之间配置协议，路由器与交换机交换配置，路由器与路由器之间的配置等模拟实验。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>Cisco模拟实验</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人博客搭建</title>
+    <url>/2023/11/25/create_blog/</url>
+    <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题，采用git + github + hexo + hexo next主题实现的一个个人博客网站。</p>
+<span id="more"></span>
+<h2 id="工具准备">工具准备</h2>
+<p>下载git，参考网址：<a href="https://juejin.cn/post/7086817870172782623">图文详解 Git 安装【当前最新，最详细版】 - 掘金 (juejin.cn)</a></p>
+<p>下载node.js，参考网址：<a href="https://juejin.cn/post/7090056744549744676">node.js安装及环境配置 - 掘金 (juejin.cn)</a></p>
+<p>然后打开git bash命令窗口输入：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<h3 id="github创建仓库">github创建仓库</h3>
+<ol>
+<li>
+<p>自己注册一个账号，开始创建仓库，可以参考<a href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
+<p>需要注意的是仓库名称<code>xxx.github.io</code>。</p>
+</li>
+<li>
+<p>在git上配置远程连接SSH</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config -global user.name &quot;用户名&quot;</span><br><span class="line">git config -global user.email &quot;邮箱&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成SSH密钥</span></span><br><span class="line">ssh-keygen -t rsa -C &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
+<p>生成结果：</p>
+<p>路径<code>C:\Users\电脑用户名\.ssh\id_rsa.pub</code></p>
+<p><img src="/2023/11/25/create_blog/image-20231125201927788.png" alt="image-20231125201927788"></p>
+<p><img src="/2023/11/25/create_blog/image-20231125202103556.png" alt="image-20231125202103556"></p>
+</li>
+<li>
+<p>将密钥全部复制粘贴到GitHub上</p>
+<p><img src="/2023/11/25/create_blog/image-20231125202323393.png" alt="image-20231125202323393"></p>
+</li>
+</ol>
+<h2 id="初始hexo项目">初始hexo项目</h2>
+<h3 id="初始创建">初始创建</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
+<p>下载next主题</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone git@github.com:theme-next/hexo-theme-next.git  ./themes/next</span><br></pre></td></tr></table></figure>
+<p>更改根目录下的<code>_config.yml</code>文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">themes:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+<p>然后执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取仓库内容</span></span><br><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编译运行 本地测试</span></span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载hexo-devloper</span></span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>将根目录下<code>.config.yml</code>配置文件修改：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">url:</span> <span class="comment"># https://xxx.github.io</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="comment"># https://gitee.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+<p>配置修改后执行：（一定要先修改配置文件后在进行提交）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提交</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>执行上述所有步骤后，就可以通过github看到一个初始状态的个人博客了。</p>
+<h2 id="Next主题配置">Next主题配置</h2>
+<h3 id="选择主题">选择主题</h3>
+<p>主题配置文件下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
+<p>可以自行选择四种样式。</p>
+<h3 id="修改博客头像">修改博客头像</h3>
+<p>在<code>themes/next/source/images</code>放入设置的图片。</p>
+<img src="/2023/11/25/create_blog/image-20231125150218977.png" alt="image-20231125150218977">
+<p>在主题配置文件中设置路径即可：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="comment"># Replace the default image and set the url here.</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/avatar.png</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be dispalyed in circle.</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If true, the avatar will be rotated with the cursor.</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="侧边栏社交添加">侧边栏社交添加</h3>
+<p>主题配置文件夹下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment">#GitHub: https://github.com || fab fa-github</span></span><br><span class="line">  <span class="comment">#E-Mail: mailto:yourname@gmail.com || fa fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#FB Page: https://www.facebook.com/yourname || fab fa-facebook</span></span><br><span class="line">  <span class="comment">#StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="comment">#Instagram: https://instagram.com/yourname || fab fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加菜单结构">添加菜单结构</h3>
+<p>输入命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+<p>这样就可以创建一个tags目录，效果如图所示：</p>
+<p><img src="/2023/11/25/create_blog/image-20231125135239747.png" alt="image-20231125135239747"></p>
+<p>同理还可以创建<code>about、categories、archives</code>等菜单文件。</p>
+<p>我们需要进入到每个文件目录下面去修改它<code>index.md</code>文件，修改它的类型，如图所示：</p>
+<p><img src="/2023/11/25/create_blog/image-20231125135911341.png" alt="image-20231125135911341"></p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">tags: tags</span><br><span class="line">categories: categories</span><br><span class="line">留言板: 将comments一栏改为true type改为guestbook</span><br></pre></td></tr></table></figure>
+<p>在主题的配置文件<code>_config.yml</code>开启对应菜单：</p>
+<p><img src="/2023/11/25/create_blog/image-20231125140353312.png" alt="image-20231125140353312"></p>
+<p>可以设置显示数量：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加搜索功能">添加搜索功能</h3>
+<p>下载搜索插件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
+<p>主题目录下配置文件<code>_config.yml</code>开启本地搜索：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>根目录下<code>_config.yml</code>配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># hexo-generator-searchdb</span></span><br><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加动态背景">添加动态背景</h3>
+<p>打开生成的hexo目录<code>\themes\next\layout\_layout.swig</code>文件，将代码放在<code>&lt;/body&gt;</code>上面。</p>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line">&#123;<span class="comment">% if theme.canvas_nest %&#125;</span></span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;<span class="comment">% endif %&#125;</span></span><br></pre></td></tr></table></figure>
+<p>主题配置文件添加配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># background settings</span></span><br><span class="line"><span class="comment"># --------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># add canvas-nest effect</span></span><br><span class="line"><span class="comment"># see detail from https://github.com/hustcc/canvas-nest.js</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="增加阅读时间和文章数字统计">增加阅读时间和文章数字统计</h3>
+<p>下载插件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
+<p>根目录下配置文件添加：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">2</span>    </span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">&quot;mins.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>主题配置文件下打开开关：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="部件配置">部件配置</h3>
+<p>都在主题配置文件下</p>
+<p>阅读进度条：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Available values: top | bottom</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
+<p>左上角Github图标：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">github_banner:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">permalink:</span> <span class="string">https://github.com/xxx</span></span><br><span class="line">  <span class="attr">title:</span> <span class="string">Follow</span> <span class="string">me</span> <span class="string">on</span> <span class="string">GitHub</span></span><br></pre></td></tr></table></figure>
+<p>开启代码复制：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="comment"># Code Highlight theme</span></span><br><span class="line">  <span class="comment"># Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic</span></span><br><span class="line">  <span class="comment"># See: https://github.com/chriskempson/tomorrow-theme</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="comment"># Add copy button on codeblock</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Show text copy result.</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># Available values: default | flat | mac</span></span><br><span class="line">    <span class="attr">style:</span></span><br></pre></td></tr></table></figure>
+<p>文末尾版权说明</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
+<p>设置回到顶部</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">back2top:</span></span><br><span class="line"> <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"> <span class="comment"># Back to top in sidebar.</span></span><br><span class="line"> <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line"> <span class="comment"># Scroll percent label in b2t button.</span></span><br><span class="line"> <span class="attr">scrollpercent:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="问题">问题</h2>
+<h3 id="图片不显示">图片不显示</h3>
+<p>hexo生成后图片路劲发生改变，导致了生成后文章找不到图片。</p>
+<p>下载插件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<p>修改根目录下配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>生成的时候可能要等一会，多刷新几次。</p>
+<p>只有md文档同级下有对应文件夹来放图片就可以了。</p>
+<p>如果还是不行，直接去修改<code>hexo-asset-image</code>包下的<code>index.js</code>文件：</p>
+<p><img src="/2023/11/25/create_blog/image-20231125182910235.png" alt="image-20231125182910235"></p>
+<p>去调整<code>index.js</code>的中路径字符串拼接的部分，视自己当前问题来合理调整。</p>
+<p><strong>这里还需要注意的是根目录下的配置文件中<code>url</code>的配置：一定要是自己的仓库名，不然所有组件都会加载失败。</strong></p>
+<h3 id="hexo的不支持Latex语法">hexo的不支持Latex语法</h3>
+<p>我们需要进行重新选择插件进行渲染。</p>
+<p>需要重新更新插件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<p>修改主题配置文件：</p>
+<img src="/2023/11/25/create_blog/image-20231127152223788.png" alt="image-20231127152223788" style="zoom:80%;">
+<p>修改插件文件，路径<code>\blog\node_modules\kramed\lib\rules\inline.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> inline = &#123;</span><br><span class="line">  <span class="comment">// escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line">  <span class="attr">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br><span class="line">  <span class="attr">autolink</span>: <span class="regexp">/^&lt;([^ &gt;]+(@|:\/)[^ &gt;]+)&gt;/</span>,</span><br><span class="line">  <span class="attr">url</span>: noop,</span><br><span class="line">  <span class="attr">html</span>: <span class="regexp">/^&lt;!--[\s\S]*?--&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)*?(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;([\s\S]*?)?&lt;\/\1&gt;|^&lt;(\w+(?!:\/|[^\w\s@]*@)\b)(?:&quot;[^&quot;]*&quot;|&#x27;[^&#x27;]*&#x27;|[^&#x27;&quot;&gt;])*?&gt;/</span>,</span><br><span class="line">  <span class="attr">link</span>: <span class="regexp">/^!?\[(inside)\]\(href\)/</span>,</span><br><span class="line">  <span class="attr">reflink</span>: <span class="regexp">/^!?\[(inside)\]\s*\[([^\]]*)\]/</span>,</span><br><span class="line">  <span class="attr">nolink</span>: <span class="regexp">/^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/</span>,</span><br><span class="line">  <span class="attr">reffn</span>: <span class="regexp">/^!?\[\^(inside)\]/</span>,</span><br><span class="line">  <span class="attr">strong</span>: <span class="regexp">/^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/</span>,</span><br><span class="line">  <span class="comment">// em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">  <span class="attr">em</span>: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br><span class="line">  <span class="attr">code</span>: <span class="regexp">/^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/</span>,</span><br><span class="line">  <span class="attr">br</span>: <span class="regexp">/^ &#123;2,&#125;\n(?!\s*$)/</span>,</span><br><span class="line">  <span class="attr">del</span>: noop,</span><br><span class="line">  <span class="attr">text</span>: <span class="regexp">/^[\s\S]+?(?=[\\&lt;!\[_*`$]| &#123;2,&#125;\n|$)/</span>,</span><br><span class="line">  <span class="attr">math</span>: <span class="regexp">/^\$\$\s*([\s\S]*?[^\$])\s*\$\$(?!\$)/</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后重新生成运行就可以了。</p>
+<h3 id="markdown不支持上标和下标的语法">markdown不支持上标和下标的语法</h3>
+<p>使用html来实现上下标，不使用<code>~~和^^</code>。</p>
+]]></content>
+      <categories>
+        <category>技术栈</category>
+      </categories>
+      <tags>
+        <tag>BLOG</tag>
+        <tag>IT</tag>
       </tags>
   </entry>
   <entry>
@@ -598,6 +598,402 @@
       </categories>
       <tags>
         <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络-运输层</title>
+    <url>/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/</url>
+    <content><![CDATA[<p>总结计算机网络运输层知识，主要是TCP和UDP协议特点。</p>
+<span id="more"></span>
+<h1>运输层协议概述</h1>
+<ol>
+<li>运输层向上面的应用层提供通信服务。</li>
+<li>两台主机进行通信是主机中的应用进程相互通信。</li>
+<li>网络层为主机之间的通信提供服务，而运输层在网络层基础上，为应用进程之间的通信提供服务。</li>
+<li>TCP协议提供可靠协议，通过差错检测等方式在逻辑上实现，而底层网络层通信时不可靠的。</li>
+<li>TCP是逻辑上的一条全双工的可靠通信，UDP协议是不可靠通道。</li>
+<li>运输层两个主要协议用户数据报协议UDP和传输控制协议TCP。<strong>UDP传输数据前不需要建立连接，而TCP是提供面向连接的服务</strong>。</li>
+</ol>
+<p>主机上通过端口号来区分进程，常用协议的默认端口号如下：</p>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231130142525205.png" alt="image-20231130142525205" style="zoom:80%;">
+<h1>用户数据报协议UDP</h1>
+<p>特点：</p>
+<ol>
+<li>无连接，发送数据前不需要建立连接。</li>
+<li>使用尽最大努力交付，不保证可靠交付。</li>
+<li>面向报文。UDP一次传送和交付一个完整的报文。</li>
+<li>没有拥塞控制。网络出现拥塞不会是源主机的发送速率降低。</li>
+<li>支持一对一、一对多、多对一、多对多等交互通信。</li>
+<li>首部开销小，只有8个字节。</li>
+</ol>
+<p>复用：将UDP用户数据报组装成不同的IP数据报，发送到互联网。</p>
+<p>分用：根据UDP用户数据报首部中的目的端口号，将数据报分别传送到相应端口，以便应用进到端口读取数据。</p>
+<p>分用时，找不到对应的目的端口号，丢弃报文，并给发送方发送ICMP“端口不可达”错误报告报文。</p>
+<h2 id="UDP首部格式">UDP首部格式</h2>
+<p>UDP数据报两个字段，数据字段和首部字段，首部字段只有8个字节，由4个字段组成，每个字段的长度都是2个字节。</p>
+<ul>
+<li>源端口：源端口号。</li>
+<li>目的端口：目的端口号。</li>
+<li>长度：UDP数据报的长度，最小为8（首部）。</li>
+<li>检验和：检测UDP用户数据报在传输过程中是否有错，有错就丢弃。</li>
+</ul>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231130145409968.png" alt="image-20231130145409968" style="zoom:50%;">
+<p>校验和生成：</p>
+<ol>
+<li>填上伪首部。</li>
+<li>全零填充校验和字段。</li>
+<li>如果UDP数据报加上伪首部总长度不是2字节的倍数，则全0填充数据部分，补充为2字节的倍数。</li>
+<li>伪首部+首部+数据部分采用二进制反码求和。</li>
+<li>将和进行求反码填入校验和字段。</li>
+</ol>
+<p>检验和检验：</p>
+<ol>
+<li>填上伪首部。</li>
+<li>伪首部+首部+数据部分采用二进制反码求和。</li>
+<li>结果全为1则无差错，否则对其数据报/交给应用层附上差错警告。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络章节总复习</title>
+    <url>/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<p>计算机网络期末总复习知识点总结。</p>
+<span id="more"></span>
+<h1>第 1 章 概述</h1>
+<h2 id="1-边缘部分与核心部分">1. 边缘部分与核心部分</h2>
+<p>互联网按工作方式可划分为<strong>边缘部分</strong>和<strong>核心部分</strong>。<strong>主机</strong>在网络的边缘，作用是<strong>进行信息处理</strong>。<strong>路由器</strong>在网络的核心部分，其作用是<strong>按存储转发方式进行分组交换</strong>。</p>
+<p>边缘部分工作方式：<strong>C/S方式（客户请求服务，服务器提供服务）和P2P方式（对等进行通信）</strong>。</p>
+<p>核心部分工作方式：<strong>路由器连接网络，利用存储转发技术转发分组</strong>。</p>
+<h2 id="2-分组交换">2. 分组交换</h2>
+<p>分组交换采用存储转发技术，把一个报文划分为几个分组（数据段）再进行传送。每个数据段加上必要的控制信息组成首部后，构成已给分组。</p>
+<h2 id="3-计算机网络性能指标">3. 计算机网络性能指标</h2>
+<ol>
+<li>
+<p>速率</p>
+<p>网络技术中速率指的是数据的传送速率，单位bit/s，即每秒传输多少位。当提到网络的速率，往往指的是额定速率，而并非网络实际运行的速率。</p>
+</li>
+<li>
+<p>带宽</p>
+<p>网络带宽是指单位时间内网络的某信道所能通过的“<strong>最高数据率</strong>”，即<strong>数据发送速率上限</strong>。带宽的单位就是数据率的单位bit/s。</p>
+</li>
+<li>
+<p>吞吐量</p>
+<p>表示单位时间内通过某个网络的<strong>实际数据量</strong>。</p>
+</li>
+<li>
+<p>时延<br>
+$$<br>
+总时延=发送时延+传播时延+处理时延+排队时延<br>
+$$<br>
+发送时延是主机或路由器发送数据帧所需时间：<br>
+$$<br>
+发送时延=\frac{数据帧长度(bit)}{发送速率(bit/s)}<br>
+$$<br>
+传播时延是电磁波在信道中传播一定的距离需要花费的时间：<br>
+$$<br>
+传播时延=\frac{信道长度(m)}{电磁波在信道上传播速率(m/s)}<br>
+$$</p>
+</li>
+<li>
+<p>时延带宽积<br>
+$$<br>
+时延带宽积=传播时延\times 带宽<br>
+$$</p>
+</li>
+</ol>
+<h2 id="4-网络协议">4. 网络协议</h2>
+<p>网络协议即协议，是<strong>为了进行网络中数据交换而建立的规则</strong>。<strong>计算机网络的各层及其协议的集合称为网络的体系结构</strong>。</p>
+<p>网络协议主要由三部分组成：</p>
+<ul>
+<li><strong>语法</strong>：数据与控制信息的结构或格式。</li>
+<li><strong>语义</strong>：需要发出何种控制信息，完成何种动作以及做出何种响应。</li>
+<li><strong>同步</strong>：事件实现顺序的详细说明。</li>
+</ul>
+<h2 id="5-五层协议的体系结构">5. 五层协议的体系结构</h2>
+<ol>
+<li>
+<p>应用层</p>
+<p>应用层的任务是通过进程之间的交互来完成特定网络应用。应用程协议定义的是<strong>应用进程之间通信和交互的规则</strong>。</p>
+<p>应用程协议：DNS、HTTP、SMTP等。应用层交互的数据单元称为<strong>报文</strong>。</p>
+</li>
+<li>
+<p>运输层</p>
+<p>运输层任务负责向<strong>两台主机中进程之间</strong>的通信提供<strong>通用的数据传输服务</strong>。</p>
+<p>运输层协议：<strong>传输控制协议TCP</strong>，传输单元是<strong>报文段</strong>；用户数据报协议UDP，传输单元是<strong>用户数据报</strong>。</p>
+</li>
+<li>
+<p>网络层</p>
+<p>网络层负责为分组交换网上的<strong>不同主机</strong>提供服务。将运输层的数据单元封装成<strong>分组</strong>，也叫<strong>IP数据报</strong>。通过一定算法，生成转发分组的转发表，依据转发表中指明的路径将分组转发到一个路由器中。</p>
+</li>
+<li>
+<p>数据链路层</p>
+<p>将<strong>IP数据报</strong>组装成<strong>帧</strong>，每一帧包括数据和必要的控制信息，控制信息使得接收端正确接收帧，对帧尽心差错检测，改正数据。</p>
+</li>
+<li>
+<p>物理层</p>
+<p>物理层所传数据的单位是<strong>比特</strong>。</p>
+</li>
+</ol>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914095817696.png" alt="image-20230914095817696" style="zoom:80%;">
+<h2 id="6-TCP-IP体系结构">6. TCP/IP体系结构</h2>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100004924.png" alt="image-20230914100004924" style="zoom:80%;">
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230914100047099.png" alt="image-20230914100047099" style="zoom:80%;">
+<h2 id="7-实体、协议、服务和服务访问点">7. 实体、协议、服务和服务访问点</h2>
+<ol>
+<li>实体：任何可以发送或接收信息的硬件或软件进程。</li>
+<li>协议：控制两个对等实体（或多个实体）进行通信的规则的集合。（水平的）</li>
+<li>服务：下层向上层通过层间接口提供服务。（垂直的）</li>
+<li>服务访问点：同一系统中相邻两层的实体进行交互的地方。</li>
+</ol>
+<p>协议必须把所有不利的条件事先都要估计到，不能假定一切都是正常的和非常理想的，必须非常仔细地检测协议能否应付任何一种出现概率极小的异常情况。<strong>提高协议面对异常情况的能力</strong>。</p>
+<p><strong>协议控制本层向上层提供服务，本层协议的实现要使用下层提供的服务</strong>。</p>
+<h1>第 2 章 物理层</h1>
+<h2 id="1-物理层任务和特点">1. 物理层任务和特点</h2>
+<p>物理层的主要任务是<strong>描述确定与传输媒介的接口有关的特性</strong>：</p>
+<ol>
+<li><strong>机械特性</strong>：指明接口所用的接线器的形状和尺寸、引脚数目和排列、固定和锁定装置等。</li>
+<li><strong>电气特性</strong>：指明在接口电缆的各条线上出现的<strong>电压的范围</strong>。</li>
+<li><strong>功能特性</strong>：指明某条线上出现的某一电平的<strong>电压的意义</strong>。</li>
+<li><strong>过程特性</strong>：指明对于不同功能的<strong>各种可能事件的出现顺序</strong>。</li>
+</ol>
+<h2 id="2-通信三种方式">2. 通信三种方式</h2>
+<ol>
+<li><strong>单工通信</strong>：只能有一个方向的通信而没有反方向的交互。</li>
+<li><strong>半双工通信</strong>：通信双方都可以发送消息，当不能双方同时发送或接收。</li>
+<li><strong>全双工通信</strong>：通信双方可以同时发送和接收消息。</li>
+</ol>
+<h2 id="3-规程和协议的区别">3. 规程和协议的区别</h2>
+<p>物理层的协议常称为规程，但协议泛指所有层上的协议。</p>
+<h2 id="4-数据通信系统模型">4. 数据通信系统模型</h2>
+<ol>
+<li>
+<p><strong>源系统</strong>：包括源点和发送器。</p>
+<p>源点：源点设备产生要传输的数据。</p>
+<p>发送器：源点生成的数字比特流通过发送器编码后在传输系统中进行传输。</p>
+</li>
+<li>
+<p><strong>传输系统</strong></p>
+</li>
+<li>
+<p><strong>目的系统</strong>：包括接收器和终点。</p>
+<p>接收器：接收传输系统传送过来的信号，并转换为能够被目的设备处理的信息。</p>
+<p>终点：终点设备从接收器获取传送来的数字比特流，然后把信息输出。</p>
+</li>
+</ol>
+<h2 id="5-基本名称概念">5. 基本名称概念</h2>
+<ol>
+<li>数据：运送消息的实体。</li>
+<li>信号：数据的电气或电磁的表现。</li>
+<li>模拟信号：连续信号。</li>
+<li>数字信号：离散信号。</li>
+<li>码元：代表数字信号不同离散值的基本波形。</li>
+<li>基带信号：来自信源的信号。像计算机输出的代表各种文字或图像文件的数据信号都属于基带信号。</li>
+<li>带通信号：把基带信号经过载波调制后，把信号的频率范围搬移到较高的频段以便在信道中传输（即仅在一段频率范围内能够通过信道）。（<strong>调频，调相，调幅</strong>）</li>
+</ol>
+<h2 id="6-信道复用技术">6. 信道复用技术</h2>
+<ol>
+<li>
+<p><strong>频分复用</strong></p>
+<p>把各路信号分别搬移到适当的频率位置，各路信号在同样时间占用不同的带宽资源。</p>
+</li>
+<li>
+<p><strong>时分复用</strong></p>
+<p>每一路信号占用固定序号的时隙，在不同时间占用同样的频带宽度。</p>
+<p><strong>统计时分复用（STDM）</strong>：不固定分配时序，而是按需动态分配时隙。</p>
+</li>
+<li>
+<p><strong>波分复用</strong></p>
+<p>光的频分复用。</p>
+</li>
+<li>
+<p><strong>码分复用</strong></p>
+<p><strong>码分多址（CDMA）</strong>：用户同样的时间使用同样的频带进行通信，各用户使用不同码型，各用户之间不会造成干扰。</p>
+<p><strong>码片</strong></p>
+<ol>
+<li>
+<p>每一站有自己的唯一的一个码片序列，发送比特1，则发送它的 m bit码片序列，发送比特0，则发送该码片序列的反码。这个码片序列和其他任何一个站的码片序列向量积为 0。</p>
+</li>
+<li>
+<p>每一个站有其他站的码片向量（码片序列），每个站点接收的信息是其他所有站发送的码片序列之和。</p>
+</li>
+<li>
+<p>码片序列之和和站点拥有的其他站点码片序列依次进行规格化内积运算。如果规格化内积为1或-1，表示是对应站点发送了信息；如果是0，则对应站点没有发送信息。</p>
+</li>
+<li>
+<p>规格化内积为1表示数据信息为比特1，如果是-1，表示为比特0。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="7-常用编码方式">7. 常用编码方式</h2>
+<ol>
+<li>不归零制：正<strong>电平</strong>代表 1，负电平代表 0。（有弱电流影响）</li>
+<li>归零制：正<strong>脉冲</strong>代表 1，负脉冲代表0。</li>
+<li>曼彻斯特编码：位周期中心的向上跳变代表0，位周期中心的向下跳变代表1。可以反过来定义。</li>
+<li>差分曼彻斯特编码：在每一位的中心始终有跳变，位开始边界有跳变代表0，而位开始边界没有跳变代表1。</li>
+</ol>
+<h2 id="8-传输媒介">8. 传输媒介</h2>
+<ol>
+<li>
+<p>导引型传输媒介</p>
+<p>双绞线：无屏蔽双绞线、有屏蔽双绞线；3类线、5类线。</p>
+<p>同轴电缆：粗轴和细轴。</p>
+<p>光纤：多模和单模（衰耗小）</p>
+</li>
+<li>
+<p>非导引型传输媒介</p>
+<p>无线、红外或大气激光。</p>
+</li>
+</ol>
+<h1>第 3 章 数据链路层</h1>
+<h2 id="1-数据链路和链路的区别">1. 数据链路和链路的区别</h2>
+<ol>
+<li>链路是从一个节点到相邻节点的一段<strong>物理线路</strong>，中间没有其他交换节点。</li>
+<li>数据链路需要有一条物理线路，还必须有一些必要的通信协议控制数据传输。</li>
+</ol>
+<h2 id="2-数据链路层三个基本问题">2. 数据链路层三个基本问题</h2>
+<h3 id="封装成帧">封装成帧</h3>
+<p>把一段数据的前后分别添加首部和尾部，构成一个帧。首部和尾部的一个重要作用就是<strong>帧定界</strong>。区分分组的<strong>控制域和数据域</strong>，同时方便对数据进行差错检测。</p>
+<h3 id="透明传输">透明传输</h3>
+<p>帧开始和结束的标记使用专门的控制字符，为了避免传输数据部分出现的这些特殊字符干扰帧定界，通过某些处理方法避免错误识别发生。</p>
+<p>一般有<strong>字节填充、字符填充</strong>（类似于转义字符）和<strong>零比特填充法</strong>（连续5个1出现则后面填充一个0）。</p>
+<h3 id="差错检测">差错检测</h3>
+<p>帧在传输过程中可能出现<strong>比特差错</strong>的问题。通过校验码或纠正码来对数据进行检测判断，保证数据争取传输。</p>
+<p>采用<strong>循环冗余检测码CRC</strong>的检错技术。</p>
+<p>循环冗余检测码的原理：给定一个<code>n+1</code>位除数，传输的原始数据后面补充<code>n</code>位0，然后开始做除法（二进制的除法是异或运算），最后计算出的<code>n</code>位余数（<strong>帧检验序列FCS</strong>）填充到之前<code>n</code>位0比特的位置，构成最后传给接受方的数据。接收方接收到发送的数据，用规定好的除数对数据进行验证，如果最终余数验证为0，则说明数据包没有出错。</p>
+<h2 id="3-PPP协议">3. PPP协议</h2>
+<p>点对点协议PPP是数据链路层使用最多的协议，特点是：简单，只检验差错，不纠正错误，不使用序号，也不进行流量控制，可同时支持多种网络层协议。</p>
+<p>PPP协议不支持多点线路（一个主站轮流和链路上的多个站点进行通信），只支持点对点的链路通信。PPP协议只支持全双工通信。</p>
+<p><strong>PPP协议组成</strong>：</p>
+<ol>
+<li>一个将IP数据报封装到串行链路的方法。</li>
+<li>一个用来建立、配置和测试数据链路连接的<strong>链路控制协议LCP</strong>。</li>
+<li>一套<strong>网络控制协议NCP</strong>，其中每一个协议支持不同的网络层协议。</li>
+</ol>
+<h3 id="PPP帧格式">PPP帧格式</h3>
+<p><strong>PPP帧的首部和尾部分别为四个字段（6个字节）和两个字段（3个字节）</strong>。</p>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926210550132.png" alt="image-20230926210550132" style="zoom:80%;">
+<ol>
+<li><code>F</code>：字段<code>7E</code>标志一个帧的开始和结束，帧的定界符。</li>
+<li><code>A</code>和<code>C</code>：暂时没有进行定义来使用。</li>
+</ol>
+<p><strong>字节填充</strong></p>
+<p>信息段的<code>7E</code>转变为<code>7D 5E</code>，信息字段的<code>7D</code>转化为<code>7D 5D</code>。</p>
+<p><strong>零比特填充</strong></p>
+<p>信息段每遇到5个连续的1就在后面插入1个0。</p>
+<h3 id="PPP协议工作状态">PPP协议工作状态</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230926212309993.png" alt="image-20230926212309993" style="zoom:80%;">
+<p>PPP协议共有6中工作状态：①链路静止，②链路建立，③鉴别，④网络层协议，⑤链路打开，⑥链路终止。</p>
+<ol>
+<li>
+<p>用户个人电脑通过解调器呼叫路由器，双方建立物理连接，进入<strong>链路建立</strong>状态。</p>
+</li>
+<li>
+<p>向链路另一端发送LCP的配置请求帧，经过双方协商后，建立LCP链路，进入<strong>鉴别</strong>状态。</p>
+</li>
+<li>
+<p>向链路另一端发送鉴别的信息，若鉴别成功则进入<strong>网络协议状态</strong>，鉴别失败则进入<strong>链路终止</strong>状态。</p>
+</li>
+<li>
+<p>网络协议状态，配置网络层协议，<strong>PPP链路两端的网络控制协议NCP根据网络层的不同协议互相交换网络层特定的网络控制分组</strong>，配置完毕进入<strong>链路打开</strong>状态。</p>
+</li>
+<li>
+<p>链路打开状态，PPP链路两端可以彼此发送分组。</p>
+</li>
+<li>
+<p>数据传输结束后，链路一段发出终止请求，另一端收到终止确认，转到<strong>链路终止状态</strong>。</p>
+</li>
+<li>
+<p>链路过程出现故障，也会从链路打开转到<strong>链路终止状态</strong>。</p>
+</li>
+<li>
+<p>调制解调器的载波停止后，回到<strong>链路静止状态</strong>。</p>
+</li>
+</ol>
+<h2 id="4-局域网">4. 局域网</h2>
+<p>局域网的主要特点：<strong>网络为一个单位所拥有，且地理范围和站点数据均有限</strong>。</p>
+<p>局域网的优点：</p>
+<ol>
+<li>具有广播功能，一个站点可以访问全网，局域网上主机之间共享各种硬件和软件资源。</li>
+<li>便于系统的扩展和逐渐演变，各设备位置可灵活调制和改变。</li>
+<li>提高系统的可靠性、可用性和生存性。</li>
+</ol>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927093105687.png" alt="image-20230927093105687" style="zoom:80%;">
+<h2 id="5-共享媒体资源">5. 共享媒体资源</h2>
+<ol>
+<li>
+<p>静态划分信道</p>
+<p>频分复用，时分复用、码分复用等，划分信道代价高，不适用于局域网。</p>
+</li>
+<li>
+<p>动态媒体接入控制</p>
+<ul>
+<li>随机接入：所有用户可随机地发送信息，但如果多用户同时发送消息，发送碰撞导致发送失败。</li>
+<li>受控接入：必须服从一定地控制。分散控制地令牌局域网和集中控制地多点线路探寻。</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-以太网">6. 以太网</h2>
+<p>传统以太网：DIX Ethernet V2 标准的局域网。</p>
+<p>以太网两个主要标准：DIX Ethernet V2标准和 IEEE 的 802.3 标准。</p>
+<p>以太网通信采取两种措施：</p>
+<ol>
+<li><strong>无连接</strong>工作方式，不建立连接直接发送数据，对数据帧<strong>不进行编号</strong>，<strong>不要求对方发回确认</strong>。目的站接收到有差错的帧<strong>直接丢弃</strong>，其他什么都不做。</li>
+<li>使用<strong>CSMA/CD协议</strong>，<strong>载波监听多点接入/碰撞检测</strong>。</li>
+</ol>
+<h2 id="7-适配器">7. 适配器</h2>
+<p>计算机与外界局域网通信要通过适配器，又称为网络接口卡或网卡，<strong>计算机的硬件地址就是在适配器的ROM中</strong>。</p>
+<p>适配器要进行数据串行传输和并行传输的转换，装有数据缓存的存储芯片，对数据帧进行差错检验后交给网络层。</p>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230927095008113.png" alt="image-20230927095008113" style="zoom:80%;">
+<p>适配器有<strong>过滤</strong>功能：只接<strong>收单播帧、广播帧或多播帧</strong>。</p>
+<p>适配器的<strong>混杂方式</strong>接收所有以太网上的帧。</p>
+<h2 id="8-CSMA-CD协议">8. CSMA/CD协议</h2>
+<ol>
+<li><strong>多点接入</strong>：许多计算机以多点接入的方式连接在一根总线上。</li>
+<li><strong>载波监听</strong>：边发送边监听。</li>
+<li><strong>碰撞检测</strong>：适配器边发送数据边检测信道上的信号电压的变化情况，发送碰撞，总线上的信号电压变化幅度会增大（相互叠加）。</li>
+</ol>
+<p>一旦发送碰撞，就立即停止发送，按照退避算法等待一段随机时间后再次发送。</p>
+<p>使用CSMA/CD协议，一个站<strong>不能同时发送消息和接收消息</strong>，<strong>只支持半双工通信</strong>。</p>
+<p>假定端到端的传播时延即为$\tau$，最长经过$2\tau$的时间（<strong>争用期 $51.2\mu s$ 512比特时间</strong>）检测出发送碰撞。发送的数据帧不少于64个字节。</p>
+<h2 id="9-集线器">9. 集线器</h2>
+<p>使用集线器的以太网在逻辑上仍是一个总线网，各站共享逻辑上的总线，使用CSMA/CD协议，同一时刻至多只允许一个站发送数据。</p>
+<p><strong>在物理上是星形网，在逻辑上则是总线型。集线器工作在物理层上，每个端口只负责转发比特，不进行碰撞检测</strong>。</p>
+<h2 id="10-MAC地址">10. MAC地址</h2>
+<p><strong>硬件地址</strong>又称<strong>物理地址</strong>或<strong>MAC地址</strong>，固化在适配器的ROM中的地址。每个适配器的地址都不相同，48位长。</p>
+<h3 id="MAC帧格式">MAC帧格式</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/image-20230928092329319.png" alt="image-20230928092329319" style="zoom:80%;">
+<ul>
+<li>类型字段：用来标识上一层使用的是什么协议。</li>
+<li>FCS帧检验序列：检查范围是整个的MAC帧，从目的地址开始到FCS为止的五个阶段，不包括物理层插入的8字节的前同步码和帧开始定界符。</li>
+<li>多插入的8个字节：前7个字节是接收端的适配器接收MAC帧时能够迅速调整其时间频率，使得时钟同步，最后1个字节是帧开始定界符。</li>
+</ul>
+<h2 id="11-以太网集线器和交换机带宽计算">11. 以太网集线器和交换机带宽计算</h2>
+<ul>
+<li>集线器：连接在集线器的站点之间共享集线器的带宽，<strong>集线器带宽平均分配给每个站点</strong>。</li>
+<li>交换机：连接交换机每个站点可以同时进行发送和接口操作，（多端口网桥，全双工方式），每个站点的带宽就是交换机上的最大带宽。</li>
+</ul>
+<h2 id="12-以太网交换机自学习">12. 以太网交换机自学习</h2>
+<ol>
+<li>主机发送请求，会经过若干个路由器，路由器中有CAM表，记录每个主机的转发接口和MAC地址。如果发送一个请求，CAM表中没有该主机的转发接口和MAC地址等信息，则会记录学习。</li>
+<li>在通过路由器进行转发时，会从CAM表中找目的主机的转发接口来进行数据包的转发。</li>
+<li>如果目标主机地址找不到，路由器会指向广播操作，向所有转发接口进行数据转发（除了传输了该数据的转发接口）。</li>
+<li>通过广播操作，期待接收目标主机发回响应，返回确认给源主机。</li>
+</ol>
+<h1>第 4 章 网络层</h1>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+        <tag>期末考试</tag>
       </tags>
   </entry>
   <entry>
