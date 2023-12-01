@@ -229,19 +229,6 @@
       </tags>
   </entry>
   <entry>
-    <title>网络模拟实验配置</title>
-    <url>/2023/11/28/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</url>
-    <content><![CDATA[<p>主要是记录使用Cisco模拟软件来连接配置局域网，主要包括的是交换机配置虚拟局域网，交换机之间配置协议，路由器与交换机交换配置，路由器与路由器之间的配置等模拟实验。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>Cisco模拟实验</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>个人博客搭建</title>
     <url>/2023/11/25/create_blog/</url>
     <content><![CDATA[<p>主要介绍一个初始博客的搭建和简单next主题的配置和遇到的问题，采用git + github + hexo + hexo next主题实现的一个个人博客网站。</p>
@@ -374,20 +361,6 @@
       <tags>
         <tag>BLOG</tag>
         <tag>IT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机网络-物理层</title>
-    <url>/2023/11/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%89%A9%E7%90%86%E5%B1%82/</url>
-    <content><![CDATA[<p>大致对计算机网络物理层的概念进行一个总结复习。</p>
-<span id="more"></span>
-<h1>物理特性</h1>
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -614,10 +587,74 @@
 <li>TCP是逻辑上的一条全双工的可靠通信，UDP协议是不可靠通道。</li>
 <li>运输层两个主要协议用户数据报协议UDP和传输控制协议TCP。<strong>UDP传输数据前不需要建立连接，而TCP是提供面向连接的服务</strong>。</li>
 </ol>
-<p>主机上通过端口号来区分进程，常用协议的默认端口号如下：</p>
-<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231130142525205.png" alt="image-20231130142525205" style="zoom:80%;">
+<table>
+<thead>
+<tr>
+<th>运输层协议</th>
+<th>应用层协议</th>
+<th style="text-align:center">协议全称</th>
+<th>默认端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP</td>
+<td>HTTP</td>
+<td style="text-align:center">HyperText Transfer Protocol（超文本传输协议）</td>
+<td>80</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>FTP</td>
+<td style="text-align:center">File Transfer Protocol (文件传输协议)</td>
+<td>20用于传输数据<br>21用于传输控制信息</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>SMTP</td>
+<td style="text-align:center">Simple Mail Transfer Protocol (简单邮件传输协议)</td>
+<td>25</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>TELNET</td>
+<td style="text-align:center">Teletype over the Network (网络电传)</td>
+<td>23</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>SSH</td>
+<td style="text-align:center">Secure Shell</td>
+<td>22</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>DNS</td>
+<td style="text-align:center">Domain Name Service (域名服务)</td>
+<td>53</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>TFTP</td>
+<td style="text-align:center">Trivial File Transfer Protocol (简单文件传输协议)</td>
+<td>69</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>SNMP</td>
+<td style="text-align:center">Simple Network Management Protocol (简单网络管理协议)</td>
+<td>通过UDP端口161接收<br>只有Trap信息采用UDP端口162</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>NTP</td>
+<td style="text-align:center">Network Time Protocol (网络时间协议)</td>
+<td>123</td>
+</tr>
+</tbody>
+</table>
 <h1>用户数据报协议UDP</h1>
-<p>特点：</p>
+<h2 id="特点">特点</h2>
 <ol>
 <li>无连接，发送数据前不需要建立连接。</li>
 <li>使用尽最大努力交付，不保证可靠交付。</li>
@@ -652,6 +689,128 @@
 <li>伪首部+首部+数据部分采用二进制反码求和。</li>
 <li>结果全为1则无差错，否则对其数据报/交给应用层附上差错警告。</li>
 </ol>
+<h1>传输控制协议TCP</h1>
+<h2 id="特点-2">特点</h2>
+<ol>
+<li>TCP是<strong>面向连接的运输层协议</strong>，在使用TCP协议之前，必须要建立TCP连接，传输完毕后，释放连接。</li>
+<li>TCP是端到端通信（点对点）。</li>
+<li>TCP提供<strong>可靠交付</strong>的服务，无差错、不丢失、不重复，并且按序到达。</li>
+<li>TCP提供<strong>全双工通信</strong>，TCP连接的两端都设有发送缓存和接收缓存。</li>
+<li>TCP是<strong>面向字节流</strong>。把应用程序交下来的数据仅仅看成是一连串的无结构的字节流。</li>
+</ol>
+<h2 id="TCP首部格式">TCP首部格式</h2>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231201105345130.png" alt="image-20231201105345130" style="zoom:50%;">
+<ul>
+<li>
+<p>源端口和目的端口：各占两个字节。</p>
+</li>
+<li>
+<p>序号：4个字节，TCP是面向字节流的，序号记录的数据部分第一个字节在原数据的字节序号。</p>
+</li>
+<li>
+<p>确认号：期望收到对方下一个报文段的第一个数据字节的序号。<br>
+$$<br>
+若确认号=N,则表明:到序号N-1为止的所有数据都已正确收到。<br>
+$$</p>
+</li>
+<li>
+<p>数据偏移：指出TCP的首部长度，单位是32位（4字节），数据偏移的最大值是60字节（TCP首部的最大长度），占4位。</p>
+</li>
+<li>
+<p>紧急URG：URG=1，表示紧急指针字段有效，该报文段有紧急数据，具有高优先级，不必再原来排队顺序等待传送。</p>
+</li>
+<li>
+<p>确认ACK：ACK=1时确认号字段才有效，TCP建立建立后所有报文段都必须把ACK置为1。</p>
+</li>
+<li>
+<p>复位RST：TCP连接中出现严重差错，必须释放连接，重新建立运输连接。</p>
+</li>
+<li>
+<p>同步SYN：连接建立用来同步序号，SYN=1而ACK=0，表明这是一个连接请求报文段。</p>
+</li>
+<li>
+<p>终止FIN：释放连接。</p>
+</li>
+<li>
+<p>窗口：窗口值作为接收方让发送方设置其发送窗口的依据。</p>
+</li>
+<li>
+<p>校验和：加上伪首部进行计算校验和，检验范围包括首部和数据两部分，占两个字节。</p>
+</li>
+</ul>
+<h1>停止等待协议</h1>
+<ul>
+<li>
+<p>发送完一个分组就停止发送、等待对方的确认，收到确认后再发送下一个分组。</p>
+</li>
+<li>
+<p>设置超时重传机制。当发送方在超过一定时间未收到接受方发来的确认，则再发送一次该分组。</p>
+<p>发送方发送完一个分组后必须要保留已发送分组的副本，超时重传需要再次发送，只有收到相应的确认后才能清除分组副本。</p>
+<p>超时重传设置时间比分组传输的平局往返时间更长些，超时重传的时间通过动态计算来更新：<br>
+$$<br>
+新的RTT_S=(1-\alpha)\times(旧的RTT_S)+\alpha\times(新的RTT样本)<br>
+$$</p>
+<blockquote>
+<p>计算会给出多个RTT样本，每一个都要带入公式计算，而不是样本取平均再带入计算。</p>
+<p>如果报文段重传了，就不采用其往返时间样本，不参与计算。</p>
+</blockquote>
+</li>
+</ul>
+<p>确认和重传禁止，可以在不可靠的传输网络上实现可靠通信，该协议常称为自动重传请求ARQ。</p>
+<p>信道利用率计算：<br>
+$$<br>
+U=\frac{T_D}{T_D+RTT+T_A}<br>
+$$</p>
+<ul>
+<li>T<sub>D</sub>：发送方发送分组消耗时间。</li>
+<li>RTT：数据在信道传输的时间。</li>
+<li>T<sub>A</sub>：接收方发送确认分组的时间。</li>
+</ul>
+<p>连续ARQ协议：</p>
+<p>发送方维持一个发送窗口，可一次性发送窗口内的所有分组（流水线），不用一个一个等待确认。接收方采用累计确认的方式，对按序到达的最后一个分组发送确认，通过确认，发送方来移动发送窗口。</p>
+<h1>TCP流量控制</h1>
+<p>流量控制就是让发送方的发送速率不要太快，让接收方来得及接收。</p>
+<p>发送方的发送窗口不能超过接收方给出的接收窗口。</p>
+<p>通过TCP首部中窗口值限制发送方的发送窗口大小，来实现流量控制。</p>
+<p>TCP为每一个连接设有一个持续计时器，只要TCP连接的乙方收到对方的零窗口通知，就启动持续计时器。若持续计时器设置的时间到期，就发送一个零窗口探测报文段，接受方收到探测报文段给出现在的窗口值。</p>
+<h1>TCP拥塞控制</h1>
+<p>拥塞控制时防止过多的数据注入到网络中，时网络中路由器或链路不至于过载，是一个全局性的过程。而流量控制往往是指点对点通行量的控制，是端到端的问题。</p>
+<h3 id="慢开始与拥塞避免">慢开始与拥塞避免</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231201123429370.png" alt="image-20231201123429370" style="zoom:50%;">
+<p>发送方维持一个拥塞窗口，让自己的发送窗口等于拥塞窗口，拥塞窗口的大小取决于网络的拥塞程度，动态变换。</p>
+<p>慢开始是发送窗口由小到大逐渐增大拥塞窗口数值，每次两倍增加。同时还要设置慢开始的门限，防止拥塞窗口增长过大引起网络拥塞。</p>
+<p>当增大慢开始的门限值，使用拥塞避免算法，成线性缓慢增长。</p>
+<blockquote>
+<p>当出现网络阻塞，门限值减半，同时拥塞窗口设置为1，执行慢开始算法。</p>
+</blockquote>
+<h3 id="快重传和快恢复">快重传和快恢复</h3>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231201124000551.png" alt="image-20231201124000551" style="zoom:50%;">
+<blockquote>
+<p>当出线网络阻塞，门限值减半，同时拥塞窗口设置为新的门限值，执行快恢复算法（拥塞串口值线性增长）。</p>
+</blockquote>
+<p>快重传算法要求接收方不要等待在自己发送数据时才进行捎带确认，而是立即发送确认，即使<strong>收到了失序的报文段也要立即发送对已收到的报文段的重复确认</strong>。</p>
+<p>对收到三个连续对分组的确认，则立即重传该分组。</p>
+<p>网络阻塞：采用慢开始算法。</p>
+<p>三个超时重传确认：采用快重传算法。</p>
+<h1>TCP连接管理</h1>
+<h2 id="TCP连接">TCP连接</h2>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231201130152427.png" alt="image-20231201130152427" style="zoom:50%;">
+<p>TCP连接建立采用三次握手机制。</p>
+<ul>
+<li>第一次：客户端发送连接请求报文，无应用层数据。$SYM=1,seq=x(随机)$。</li>
+<li>第二次：服务器为该TCP连接分配缓存和变量，并向客户端返回确认报文段，允许连接，无应用层数据。$SYN=1,ACK=1,seq=y(随机),ack=x+1$。</li>
+<li>第三次：客户端为该TCP连接分配缓存和变量，并向服务器返回确认的确认，可以携带数据。$ACK=1,seq=x+1,ack=y+1$。</li>
+</ul>
+<p>ack是确认号，seq是报文段的序号。</p>
+<h2 id="TCP释放">TCP释放</h2>
+<img src="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/image-20231201130948457.png" alt="image-20231201130948457" style="zoom:50%;">
+<p>TCP的连接释放需要4次握手。</p>
+<ul>
+<li>第一次：客户端发送连接释放报文段，停止发送数据，主动关闭TCP连接。$FIN=1,seq=u$。</li>
+<li>第二次：服务器返回一个确认报文段，客户到服务器这个方向的连接就释放了，处于半关闭状态。$ACK=1,seq=v,ack=u+1$。</li>
+<li>第三次：服务器发送完数据，就发出连接释放报文段，<strong>主动关闭</strong>TCP连接。$FIN=1,ACK=1,seq=w,ack=u+1$。</li>
+<li>第四次：客户端回送一个确认报文段，再等到时间等待计时器设置的2MSL（最长报文段寿命）后，连接彻底关闭。$ACK=1,seq=u+1,ack=w+1$</li>
+</ul>
 ]]></content>
       <categories>
         <category>计算机网络</category>
