@@ -20,15 +20,23 @@
     var CONFIG = {"hostname":"xln0399.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="落叶枫林">
-<meta property="og:url" content="http://xln0399.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
+  <meta name="description" content="对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系数据理论">
+<meta property="og:url" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/index.html">
 <meta property="og:site_name" content="落叶枫林">
+<meta property="og:description" content="对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png">
+<meta property="article:published_time" content="2023-12-02T02:33:00.000Z">
+<meta property="article:modified_time" content="2023-12-02T07:44:46.837Z">
 <meta property="article:author" content="柠">
+<meta property="article:tag" content="数据库理论">
+<meta property="article:tag" content="关系范式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png">
 
-<link rel="canonical" href="http://xln0399.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+<link rel="canonical" href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/">
 
 
 <script id="page-configurations">
@@ -36,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: 计算机网络 | 落叶枫林</title>
+  <title>关系数据理论 | 落叶枫林</title>
   
 
 
@@ -182,91 +190,216 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">计算机网络
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="柠">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="落叶枫林">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关系数据理论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-02 10:33:00 / 修改时间：15:44:46" itemprop="dateCreated datePublished" datetime="2023-12-02T10:33:00+08:00">2023-12-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>804</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <p>对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。</p>
+<span id="more"></span>
+<p>​                                                                                                                                                                                                                         ‘’</p>
+<h1>基本概念</h1>
+<p>函数依赖</p>
+<p>一组属性的值可以决定另一组属性的值。$x \rightarrow f(x)$。</p>
+<p>非平凡函数依赖：$X\rightarrow Y ;且 Y \nsubseteq X$</p>
+<p>平凡函数依赖：$X\rightarrow Y ;且 Y \subseteq X$</p>
+<p>完全函数依赖：非主属性完全依赖于主属性，少一个都不能推出。</p>
+<p>部分函数依赖：非主属性可以又主属性部分推出得到。</p>
+<h1>范式</h1>
+<h2 id="第一范式">第一范式</h2>
+<p>一个关系模式R的所有属性都是不可分的基本数据项。</p>
+<p>反例：</p>
+<img src="/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png" alt="image-20231202151257178" style="zoom:70%;">
+<p>成绩这一列还能再分，不满足第一范式。</p>
+<h2 id="第二范式">第二范式</h2>
+<p>满足第一范式基础上，<strong>每个非主属性都完全依赖于码。</strong></p>
+<table>
+<thead>
+<tr>
+<th>员工编号</th>
+<th>销售日期</th>
+<th>销售金额</th>
+<th>小组编号</th>
+<th>组长名称</th>
+</tr>
+</thead>
+</table>
+<p>这里员工编号和销售日期可以确定一条销售金额，主属性是员工编号和销售日期，但是由员工编号可以推出小组编号和组长名称。小组编号和组长名称是部分函数依赖于码。所以不满足第二范式。</p>
+<p>可拆分表：</p>
+<table>
+<thead>
+<tr>
+<th>员工编号</th>
+<th>销售日期</th>
+<th>销售金额</th>
+</tr>
+</thead>
+</table>
+<table>
+<thead>
+<tr>
+<th>员工编号</th>
+<th>小组编号</th>
+<th>组长名称</th>
+</tr>
+</thead>
+</table>
+<p>从第一范式到第二范式就是<strong>消除非主属性对码的部分函数依赖</strong>。</p>
+<h2 id="第三范式">第三范式</h2>
+<p>满足第二范式的基础上，每个非主属性对码都不传递依赖于R的候选码。</p>
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th>员工编号</th>
+<th>小组编号</th>
+<th>组长名称</th>
+</tr>
+</thead>
+</table>
+<p>存在着$员工编号\rightarrow 小组编号$，$员工编号\rightarrow 组长名称$，就有$员工编号\rightarrow 小组编号\rightarrow 组长名称$。存在传递依赖，不满足第三范式。</p>
+<p>可拆分表：</p>
+<table>
+<thead>
+<tr>
+<th>员工编号</th>
+<th>小组编号</th>
+</tr>
+</thead>
+</table>
+<table>
+<thead>
+<tr>
+<th>小组编号</th>
+<th>组长名称</th>
+</tr>
+</thead>
+</table>
+<p>从第二范式到第三范式就是<strong>消除非主属性对码的传递依赖</strong>。</p>
+<h2 id="BC范式">BC范式</h2>
+<p>在第三范式基础上，消除主属性对主键的部分和传递依赖。</p>
+<p>示例：</p>
+<table>
+<thead>
+<tr>
+<th>歌曲编号</th>
+<th>歌曲名称</th>
+<th>歌手</th>
+<th>……</th>
+</tr>
+</thead>
+</table>
+<p>这里的歌曲编号、歌曲名称、歌手是候选码（主键），但存在$歌曲名称\rightarrow歌手$的部分依赖，不符合BC范式。</p>
+<p>这里第二范式、第三范式都是对非主属性消除部分依赖和传递依赖，BC范式是对主属性消除部分依赖和传递依赖。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-30T15:14:00+08:00"
-              content="2023-11-30">
-          11-30
-        </time>
-      </div>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>柠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/" title="关系数据理论">http://xln0399.github.io/2023/12/02/关系数据理论/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/" itemprop="url">
-            <span itemprop="name">计算机网络章节总复习</span>
-          </a>
-      </div>
 
-    </header>
-  </article>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" rel="tag"># 数据库理论</a>
+              <a href="/tags/%E5%85%B3%E7%B3%BB%E8%8C%83%E5%BC%8F/" rel="tag"># 关系范式</a>
+          </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-30T14:10:00+08:00"
-              content="2023-11-30">
-          11-30
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E8%BF%90%E8%BE%93%E5%B1%82/" itemprop="url">
-            <span itemprop="name">计算机网络-运输层</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-29T10:34:00+08:00"
-              content="2023-11-29">
-          11-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/" itemprop="url">
-            <span itemprop="name">计算机网络-网络层</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="计算机网络章节总复习">
+      <i class="fa fa-chevron-left"></i> 计算机网络章节总复习
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-  </div>
+      </footer>
+    
+  </article>
   
   
-  
-
   
 
 
@@ -319,6 +452,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">范式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8C%83%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">第一范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8C%83%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">第二范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">第三范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BC%E8%8C%83%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">BC范式</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -468,6 +602,61 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
