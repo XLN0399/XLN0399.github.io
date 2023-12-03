@@ -471,6 +471,259 @@
       </tags>
   </entry>
   <entry>
+    <title>数据库系统概述</title>
+    <url>/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<p>简单记录数据库系统的基本理论概念和关系数据库中关系、关系代数等。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库理论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库设计</title>
+    <url>/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<p>简单记录数据课设计的三个阶段模式，数据字典，ER图。</p>
+<span id="more"></span>
+<h1>数据库设计概述</h1>
+<p>数据库设计步骤</p>
+<ul>
+<li>需求分析阶段</li>
+<li>概念结构设计阶段</li>
+<li>逻辑结构设计阶段</li>
+<li>物理结构设计阶段</li>
+<li>数据库的实施阶段</li>
+<li>数据库运行和维护阶段</li>
+</ul>
+<h1>需求分析</h1>
+<p>通过详细调查现实世界要处理的对象(组织、部门、企业等)，充分了解原系统(手工系统或计算机系统)工作概况，明确用户的各种需求，然后在此基础上确定新系统的功能。</p>
+<ul>
+<li>调查重点：<strong>数据</strong>和<strong>业务处理</strong>。</li>
+<li>确定业务规则。</li>
+<li>业务规则：业务处理数据以及产生数据的方法和步骤。</li>
+</ul>
+<p>业务及数据分析</p>
+<ol>
+<li>确定业务</li>
+<li>业务流程分析</li>
+<li>业务规则分析</li>
+<li>数据流程分析</li>
+</ol>
+<h2 id="数据字典">数据字典</h2>
+<ul>
+<li>
+<p><strong>数据项</strong>是不可再分的数据单元。</p>
+<p>数据项描述：数据项编号、数据项名，数据项含义说明、别名、数据类型、长度、取值访问、取值含义、与其他数据项的逻辑关系。</p>
+</li>
+<li>
+<p><strong>数据结构</strong>反映数据之间的组合关系，由若干个数据项组成，或者是若干个数据结构组成。</p>
+<p>数据结构描述：数据结构编号、数据结构名称、含义说明，组成。</p>
+</li>
+<li>
+<p><strong>数据流</strong>是数据结构在系统内传输途径，表示某一个过程的输入或输出。</p>
+<p>数据流描述：数据流名、说明、数据流来源、数据流去向、组成、平均流量、高峰期流量。</p>
+</li>
+<li>
+<p><strong>数据存储</strong>是数据结构停留或保存的地方，也是数据流的来源和去向。</p>
+<p>数据存储描述：数据存储编号、说明、编号、流入的数据流、流出的数据流、组成、数据量、存取方式。</p>
+</li>
+<li>
+<p><strong>处理过程</strong>描述业务处理的处理逻辑和输入、输出。</p>
+<p>处理过程描述：处理过程编号，处理过程名，说明，输入数据流，输出数据流，处理简要说明。</p>
+</li>
+</ul>
+<h1>概念模型</h1>
+<p>概念模型是现实世界和机器世界的中介，既独立于数据库的逻辑结构，也独立于某一数据库管理系统，概念模型必须能够真实充分的反映现实世界。</p>
+<h2 id="E-R模型">E-R模型</h2>
+<p>实体之间的联系：</p>
+<ol>
+<li>1对1</li>
+<li>1对多</li>
+<li>多对多</li>
+</ol>
+<p>实体用矩形表示。</p>
+<p>属性用椭圆形表示。</p>
+<p>联系用菱形表示。</p>
+<p>示例：</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141224150.png" alt="image-20231203141224150"></p>
+<h2 id="概念结构设计方法步骤">概念结构设计方法步骤</h2>
+<ul>
+<li>
+<p>自顶向下方法</p>
+<p>从全局出发，先设计出全局概念模型框架，然后逐步细化。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141724418.png" alt="image-20231203141724418"></p>
+</li>
+<li>
+<p>自底向上方法</p>
+<p>从局部应用出发，先设计出各局部应用的概念模型，然后再对局部应用的概念模型进行综合，形成全局概念模型。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141731681.png" alt="image-20231203141731681"></p>
+</li>
+<li>
+<p>逐步扩张方法</p>
+<p>首先定义最基本、最核心的概念模型，逐步扩大至其相关的概念模型，以滚雪球的方式进行概念模型的扩张，最终形成全局的概念模型。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141738620.png" alt="image-20231203141738620"></p>
+</li>
+<li>
+<p>混合策略方法</p>
+<p>采用自顶向下和自底向上相结合的方法。用自顶向下策略设计一个全局概念结构的框架，以它为骨架集成自底向上策略中设计的各局部概念接结构。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141747092.png" alt="image-20231203141747092"></p>
+</li>
+</ul>
+<h2 id="数据抽象">数据抽象</h2>
+<p><strong>抽象方法-分类</strong></p>
+<p>分类定义某一概念作为现实世界中一组对象的类型，这些对象具有某些共同的特性和行为。</p>
+<p>它抽象了对象值和型之间的“is member of”的语义。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203142030070.png" alt="image-20231203142030070"></p>
+<p><strong>抽象方法-聚集</strong></p>
+<p>聚集是将若干对象和它们之间的联系组合成一个新的对象。</p>
+<p>它抽象了对象内部类型和成分之间“is part of”的语义。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203142117077.png" alt="image-20231203142117077"></p>
+<p><strong>抽象方法-概括</strong></p>
+<p>概括将一组具有共同特性的对象合并成更高一层意义上的对象。</p>
+<p>它抽象了类型之间的“is subset of”的语义。</p>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203142154509.png" alt="image-20231203142154509"></p>
+<h1>关系模型</h1>
+<p>关系模式示例：</p>
+<p>商品（<u>商品编码</u>，商品名，条形码，进价，售价，单位，备注，数量，仓库号）</p>
+<p>仓库（<u>仓库号</u>，仓库电话，仓库面积）</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库理论</tag>
+        <tag>数据字典</tag>
+        <tag>关系模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库的管理和维护</title>
+    <url>/2023/12/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86%E5%92%8C%E7%BB%B4%E6%8A%A4/</url>
+    <content><![CDATA[<p>简单记录数据库的安全管理、并发控制中的事务，备份和恢复管理。</p>
+<span id="more"></span>
+<h1>安全性管理</h1>
+<h2 id="权限管理">权限管理</h2>
+<ul>
+<li>对象权限：用户是否具有权限执行某一语句，主要用于控制创建数据库或数据库中对象而涉及的权限。（CRUD）。</li>
+<li>语句权限：用户对数据库执行操作的权限。(创建数据库、视图、表、存储函数等)。</li>
+<li>隐私权限：系统预定义而不需要授权就有的权限，包括固定服务器角色、固定数据库角色和数据库对象所有者所拥有的权限。</li>
+</ul>
+<p>权限操作</p>
+<p>授权</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grant [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
+<p>撤销权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">revoke [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
+<p>禁止权限</p>
+<p>MySQL中没有禁止权限，通过撤销权限来实现禁止。</p>
+<p>SQL server：<code>deny [权限名] on [数据库名.表名] to [用户名@IP地址]</code>。</p>
+<p>权限查看</p>
+<p>MySQL：<code>show grants</code>，<code>show grants for 'username'@'localhost'</code>。</p>
+<p>SQL server：<code>execute sp_helprotect [@name='对象名或授权语句名', @username='用户名', @grantorname='授权的用户账号名']</code>。</p>
+<h1>并发控制</h1>
+<h2 id="事务">事务</h2>
+<p>事务是由用户定义的一系列数据操作语句构成，这些操作语句要么全部执行要么全部不执行，是数据库运行的最小的、不可分割的工作单位。</p>
+<p><strong>ACID</strong></p>
+<ul>
+<li>原子性：一个事务对于数据的所有操作都是不可分割的整体，要么全部执行，要么全部不执行。</li>
+<li>一致性：事务执行完成后，数据库中的内容必须全部更新，确保数据一致性。</li>
+<li>隔离性：一个事务执行不能被其他事务干扰，一个事务内部操作及其使用的数据对其他并发事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
+<li>持续性：一个事务一旦提交，它对数据库中数据的改变就是永久的。</li>
+</ul>
+<p>显示事务：事务有显示的开始和结束标记。</p>
+<p>MySQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启事务</span><br><span class="line">begin;</span><br><span class="line"># 回滚事务</span><br><span class="line">rollback;</span><br><span class="line"># 提交事务</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+<p>SQL server：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span> transact;</span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+<p>隐式事务：每一条数据操作语句都自动成为一个事务。</p>
+<h2 id="并发控制概述">并发控制概述</h2>
+<p>并发执行能提高系统资源的利用率，改善短事务的响应时间，但并发执行可能破坏事务的ACID特性。</p>
+<h3 id="并发操作导致的问题">并发操作导致的问题</h3>
+<ul>
+<li><strong>丢失更新</strong>：两个或两个以上的事务在更新同一数据值时，会发生某些修改被覆盖（丢失）的问题。（都在更新，但后面的更新数值覆盖前面更新结果，最后数值不对）。</li>
+<li><strong>读“脏”数据</strong>：一个事务读取了另一个事务失败运行过程中的数据。事务T1更新数值，事务T2读取了这个数值，但事务T1失败了，回滚事务，事务T2读的数值和数据库中不一致。<strong>一个事务读到另一个事务还没有提交的数据</strong>。</li>
+<li><strong>不可重复读</strong>：不可重复读是指事务T1读取数据后，事务T2对该数据进行读取并执行更新操作，修改了T1读取的数据，T1操作完数据后，又重新读取这个数据，会发现读到的结果与前一次不一样。<strong>一个事务先后读取同一条记录，但两次读取的数据不同</strong>。</li>
+<li><strong>幻读</strong>：<strong>一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在</strong>。</li>
+</ul>
+<h3 id="并发控制方法">并发控制方法</h3>
+<p><strong>排他锁</strong></p>
+<p>写锁，只允许一个事务对数据进行修改，其他事务无法同时对该行数据进行读取或修改操作。</p>
+<p><strong>共享锁</strong></p>
+<p>读锁，允许多个事务同时读取同一行数据，但不允许任何事务对该行数据进行修改。</p>
+<h2 id="封锁技术">封锁技术</h2>
+<ul>
+<li>一级封锁协议：事务在修改数据对象之前必须对其加X锁，直到事务结束时才释放锁。可以防止丢失更新的问题，当不能保证可重复读和脏读。</li>
+<li>二级封锁协议：是指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后立即释放S锁</strong>。可以防止数据丢失更新、读“脏”数据。</li>
+<li>三级封锁协议：指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后并不释放S锁，直到事务T结束才释放</strong>。可以防止丢失更新、不读“脏”数据，不可重复读。</li>
+</ul>
+<h3 id="活锁">活锁</h3>
+<p>某一个事务一直等待锁，进程“饿死”状态。</p>
+<p>通过先来先服务解决。</p>
+<h3 id="死锁">死锁</h3>
+<p>每个事务相互等待其他事务释放封锁，都不能进行。</p>
+<p>死锁预防：</p>
+<ul>
+<li>一次性封锁：要求每个事务必须一次性将所有要使用的诗句全部加锁后执行。扩大了封锁的范围，降低了系统的并发度。</li>
+<li>顺序封锁：要求所有事务必须按照一个预先约定的封锁顺序对所要用到的数据对象进行封锁。很难预先确定所有数据对象的加锁顺序。</li>
+</ul>
+<p>死锁诊断和解除：</p>
+<ul>
+<li>超时法：对每个锁设定一个时限，如果某个事务的等待时间超过了该时限，就认为发生了死锁，此时调用解锁程序，以解除死锁。时限难于设置，若设置太长，则会导致死锁发生后不能及时发现；也有可能误判死锁。</li>
+<li>事务等待图法：特殊的有向图G=(T,U)。T为结点的集合，每个结点表示正在运行的事务；U 为边的集合，每条边表示事务等待的情况。若T1等待T2，那么T1、T2之间划一条有向边，从T1指向T2。建立事务等待图之后，诊断死锁的问题就变成了判断有向图G中是否存在回路的问题。</li>
+</ul>
+<h3 id="并发调度可串行性">并发调度可串行性</h3>
+<p>可串行性是并发事务正确调度的准则。目前数据库管理系统普遍采用<strong>两段锁协议</strong>来实现并发调度的可串行化，从而保证调度的正确性。</p>
+<p>事务必须分为两个阶段对数据对象进行加锁和解锁：</p>
+<ul>
+<li>
+<p>在对任何数据进行读写操作之前，要先申请并获得对该数据的封锁。</p>
+<p>事务可以申请获得任何数据对象上的任何类型的锁，但是不允许释放任何锁。</p>
+</li>
+<li>
+<p>在释放一个封锁之后，事务不再申请和获得对该数据的封锁。</p>
+<p>事务可以释放任何数据对象上的任何类型的锁，但不允许申请任何锁。</p>
+</li>
+</ul>
+<p>事务遵守两段封锁协议是可串行化调度的<strong>充分条件，而不是必要条件</strong>。</p>
+<h1>备份及恢复管理</h1>
+<h2 id="数据备份">数据备份</h2>
+<ul>
+<li>
+<p><strong>完全备份</strong></p>
+<p>将备份整个数据库，不仅包括用户表、系统表、索引、视图、存储过程等所有数据库对象，还包括事务日志部分。</p>
+<p>MySQL在cmd命令行实现完全备份和恢复：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">完全备份</span></span><br><span class="line">mysqldump -u username -p mydatabase &gt; backup.sql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原备份</span></span><br><span class="line">mysql -u username -p mydatabase &lt; backup.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>差分备份</strong></p>
+<p>仅备份自上次完全备份以来数据改变部分的内容。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份名为mydatabase的数据库中表mytable中<span class="built_in">id</span>大于100的行</span></span><br><span class="line">mysqldump -u username -p mydatabase mytable --where=&quot;id &gt; 100&quot; &gt; diff_backup.sql</span><br></pre></td></tr></table></figure>
+<p>恢复和完全备份相同。</p>
+</li>
+<li>
+<p><strong>事务日志备份</strong></p>
+<p>对事务日志进行备份，备份时复制自上次备份以来对数据库所做的改变。</p>
+<p>事务日志备份和差分备份有所不同。差分备份无法将数据库恢复到出现故障前某一个指定的时刻，它只能将数据库恢复到上一次差分备份结束的时刻。</p>
+</li>
+<li>
+<p><strong>文件或文件组备份</strong></p>
+<p>数据库由磁盘上的许多文件构成。如果数据库非常大，执行完全备份是不可行的，可以使用文件备份或文件组备份来备份数据库的一部分。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库理论</tag>
+        <tag>并发控制</tag>
+        <tag>事务管理</tag>
+        <tag>备份</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机网络-网络层</title>
     <url>/2023/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/</url>
     <content><![CDATA[<p>​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              主要说明网络层IP层的基本概念和相关协议，以及协议的工作流程等基本理论知识。</p>
@@ -678,130 +931,6 @@
       </categories>
       <tags>
         <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据库的管理和维护</title>
-    <url>/2023/12/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86%E5%92%8C%E7%BB%B4%E6%8A%A4/</url>
-    <content><![CDATA[<p>简单记录数据库的安全管理、并发控制中的事务，备份和恢复管理。</p>
-<span id="more"></span>
-<h1>安全性管理</h1>
-<h2 id="权限管理">权限管理</h2>
-<ul>
-<li>对象权限：用户是否具有权限执行某一语句，主要用于控制创建数据库或数据库中对象而涉及的权限。（CRUD）。</li>
-<li>语句权限：用户对数据库执行操作的权限。(创建数据库、视图、表、存储函数等)。</li>
-<li>隐私权限：系统预定义而不需要授权就有的权限，包括固定服务器角色、固定数据库角色和数据库对象所有者所拥有的权限。</li>
-</ul>
-<p>权限操作</p>
-<p>授权</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grant [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
-<p>撤销权限</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">revoke [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
-<p>禁止权限</p>
-<p>MySQL中没有禁止权限，通过撤销权限来实现禁止。</p>
-<p>SQL server：<code>deny [权限名] on [数据库名.表名] to [用户名@IP地址]</code>。</p>
-<p>权限查看</p>
-<p>MySQL：<code>show grants</code>，<code>show grants for 'username'@'localhost'</code>。</p>
-<p>SQL server：<code>execute sp_helprotect [@name='对象名或授权语句名', @username='用户名', @grantorname='授权的用户账号名']</code>。</p>
-<h1>并发控制</h1>
-<h2 id="事务">事务</h2>
-<p>事务是由用户定义的一系列数据操作语句构成，这些操作语句要么全部执行要么全部不执行，是数据库运行的最小的、不可分割的工作单位。</p>
-<p><strong>ACID</strong></p>
-<ul>
-<li>原子性：一个事务对于数据的所有操作都是不可分割的整体，要么全部执行，要么全部不执行。</li>
-<li>一致性：事务执行完成后，数据库中的内容必须全部更新，确保数据一致性。</li>
-<li>隔离性：一个事务执行不能被其他事务干扰，一个事务内部操作及其使用的数据对其他并发事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
-<li>持续性：一个事务一旦提交，它对数据库中数据的改变就是永久的。</li>
-</ul>
-<p>显示事务：事务有显示的开始和结束标记。</p>
-<p>MySQL：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启事务</span><br><span class="line">begin;</span><br><span class="line"># 回滚事务</span><br><span class="line">rollback;</span><br><span class="line"># 提交事务</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-<p>SQL server：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span> transact;</span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-<p>隐式事务：每一条数据操作语句都自动成为一个事务。</p>
-<h2 id="并发控制概述">并发控制概述</h2>
-<p>并发执行能提高系统资源的利用率，改善短事务的响应时间，但并发执行可能破坏事务的ACID特性。</p>
-<h3 id="并发操作导致的问题">并发操作导致的问题</h3>
-<ul>
-<li><strong>丢失更新</strong>：两个或两个以上的事务在更新同一数据值时，会发生某些修改被覆盖（丢失）的问题。（都在更新，但后面的更新数值覆盖前面更新结果，最后数值不对）。</li>
-<li><strong>读“脏”数据</strong>：一个事务读取了另一个事务失败运行过程中的数据。事务T1更新数值，事务T2读取了这个数值，但事务T1失败了，回滚事务，事务T2读的数值和数据库中不一致。<strong>一个事务读到另一个事务还没有提交的数据</strong>。</li>
-<li><strong>不可重复读</strong>：不可重复读是指事务T1读取数据后，事务T2对该数据进行读取并执行更新操作，修改了T1读取的数据，T1操作完数据后，又重新读取这个数据，会发现读到的结果与前一次不一样。<strong>一个事务先后读取同一条记录，但两次读取的数据不同</strong>。</li>
-<li><strong>幻读</strong>：<strong>一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在</strong>。</li>
-</ul>
-<h3 id="并发控制方法">并发控制方法</h3>
-<p><strong>排他锁</strong></p>
-<p>写锁，只允许一个事务对数据进行修改，其他事务无法同时对该行数据进行读取或修改操作。</p>
-<p><strong>共享锁</strong></p>
-<p>读锁，允许多个事务同时读取同一行数据，但不允许任何事务对该行数据进行修改。</p>
-<h2 id="封锁技术">封锁技术</h2>
-<ul>
-<li>一级封锁协议：事务在修改数据对象之前必须对其加X锁，直到事务结束时才释放锁。可以防止丢失更新的问题，当不能保证可重复读和脏读。</li>
-<li>二级封锁协议：是指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后立即释放S锁</strong>。可以防止数据丢失更新、读“脏”数据。</li>
-<li>三级封锁协议：指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后并不释放S锁，直到事务T结束才释放</strong>。可以防止丢失更新、不读“脏”数据，不可重复读。</li>
-</ul>
-<h3 id="活锁">活锁</h3>
-<p>某一个事务一直等待锁，进程“饿死”状态。</p>
-<p>通过先来先服务解决。</p>
-<h3 id="死锁">死锁</h3>
-<p>每个事务相互等待其他事务释放封锁，都不能进行。</p>
-<p>死锁预防：</p>
-<ul>
-<li>一次性封锁：要求每个事务必须一次性将所有要使用的诗句全部加锁后执行。扩大了封锁的范围，降低了系统的并发度。</li>
-<li>顺序封锁：要求所有事务必须按照一个预先约定的封锁顺序对所要用到的数据对象进行封锁。很难预先确定所有数据对象的加锁顺序。</li>
-</ul>
-<p>死锁诊断和解除：</p>
-<ul>
-<li>超时法：对每个锁设定一个时限，如果某个事务的等待时间超过了该时限，就认为发生了死锁，此时调用解锁程序，以解除死锁。时限难于设置，若设置太长，则会导致死锁发生后不能及时发现；也有可能误判死锁。</li>
-<li>事务等待图法：特殊的有向图G=(T,U)。T为结点的集合，每个结点表示正在运行的事务；U 为边的集合，每条边表示事务等待的情况。若T1等待T2，那么T1、T2之间划一条有向边，从T1指向T2。建立事务等待图之后，诊断死锁的问题就变成了判断有向图G中是否存在回路的问题。</li>
-</ul>
-<h3 id="并发调度可串行性">并发调度可串行性</h3>
-<p>可串行性是并发事务正确调度的准则。目前数据库管理系统普遍采用<strong>两段锁协议</strong>来实现并发调度的可串行化，从而保证调度的正确性。</p>
-<p>事务必须分为两个阶段对数据对象进行加锁和解锁：</p>
-<ul>
-<li>
-<p>在对任何数据进行读写操作之前，要先申请并获得对该数据的封锁。</p>
-<p>事务可以申请获得任何数据对象上的任何类型的锁，但是不允许释放任何锁。</p>
-</li>
-<li>
-<p>在释放一个封锁之后，事务不再申请和获得对该数据的封锁。</p>
-<p>事务可以释放任何数据对象上的任何类型的锁，但不允许申请任何锁。</p>
-</li>
-</ul>
-<p>事务遵守两段封锁协议是可串行化调度的<strong>充分条件，而不是必要条件</strong>。</p>
-<h1>备份及恢复管理</h1>
-<h2 id="数据备份">数据备份</h2>
-<ul>
-<li>
-<p><strong>完全备份</strong></p>
-<p>将备份整个数据库，不仅包括用户表、系统表、索引、视图、存储过程等所有数据库对象，还包括事务日志部分。</p>
-<p>MySQL在cmd命令行实现完全备份和恢复：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">完全备份</span></span><br><span class="line">mysqldump -u username -p mydatabase &gt; backup.sql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原备份</span></span><br><span class="line">mysql -u username -p mydatabase &lt; backup.sql</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><strong>差分备份</strong></p>
-<p>仅备份自上次完全备份以来数据改变部分的内容。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份名为mydatabase的数据库中表mytable中<span class="built_in">id</span>大于100的行</span></span><br><span class="line">mysqldump -u username -p mydatabase mytable --where=&quot;id &gt; 100&quot; &gt; diff_backup.sql</span><br></pre></td></tr></table></figure>
-<p>恢复和完全备份相同。</p>
-</li>
-<li>
-<p><strong>事务日志备份</strong></p>
-<p>对事务日志进行备份，备份时复制自上次备份以来对数据库所做的改变。</p>
-<p>事务日志备份和差分备份有所不同。差分备份无法将数据库恢复到出现故障前某一个指定的时刻，它只能将数据库恢复到上一次差分备份结束的时刻。</p>
-</li>
-<li>
-<p><strong>文件或文件组备份</strong></p>
-<p>数据库由磁盘上的许多文件构成。如果数据库非常大，执行完全备份是不可行的，可以使用文件备份或文件组备份来备份数据库的一部分。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-        <tag>并发控制</tag>
-        <tag>事务管理</tag>
-        <tag>备份</tag>
       </tags>
   </entry>
   <entry>
