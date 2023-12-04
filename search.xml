@@ -475,80 +475,102 @@
     <url>/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>简单记录数据库系统的基本理论概念和关系数据库中关系、关系代数等。</p>
 <span id="more"></span>
-<h1 id="数据库基本概念"><a href="#数据库基本概念" class="headerlink" title="数据库基本概念"></a>数据库基本概念</h1><ul>
+<h1>数据库基本概念</h1>
+<ul>
 <li>数据：数据库中存储的基本对象。</li>
 <li>数据库：是指长期储存在计算机内的、有组织的、可共享的大量数据集合。</li>
 <li><strong>数据库管理系统（DBMS）</strong>：建立、管理和维护数据库的软件系统，是一种位于应用软件和操作系统之间，实现数据库管理功能的系统软件。</li>
 </ul>
-<h2 id="数据模型组成要素"><a href="#数据模型组成要素" class="headerlink" title="数据模型组成要素"></a>数据模型组成要素</h2><ul>
+<h2 id="数据模型组成要素">数据模型组成要素</h2>
+<ul>
 <li><strong>数据结构</strong>：主要描述数据类型、内容、性质的有关情况以及数据间的联系，是对系统静态特征的描述。</li>
 <li><strong>数据操作</strong>：主要描述在相应数据结构上的操作类型和操作方式，是对系统动态行为的描述。（CRUD）。</li>
 <li><strong>完整性约束条件</strong>：主要描述数据结构内数据间的语法、语义联系，它们之间的制约与依存关系，以及数据动态变化的规则，以此保证数据的正确、有效与相容。</li>
 </ul>
-<h2 id="常用模型"><a href="#常用模型" class="headerlink" title="常用模型"></a>常用模型</h2><ul>
-<li><p><strong>层次模型</strong></p>
+<h2 id="常用模型">常用模型</h2>
+<ul>
+<li>
+<p><strong>层次模型</strong></p>
 <p>用树形结构表示记录类型和及其联系。</p>
 <p>优点：简单、分明、查询效率高、提供良好数据完整性支持。</p>
 <p>缺点：不能表示多对多联系，插入和删除限制多、查询子女必须通过双亲结点。</p>
 </li>
-<li><p><strong>网状模型</strong></p>
+<li>
+<p><strong>网状模型</strong></p>
 <p>网络结构表示实体类型及其实体之间联系的模型。有向图结构表示实体类型及实体间联系的数据模型。</p>
 <p>优点：能够更为直接地描述现实客观世界。可表示实体间的多种复杂联系。具有良好的性能，存取效率较高。</p>
 <p>缺点：结构比较复杂，数据独立性差。</p>
 </li>
-<li><p><strong>关系模型</strong></p>
+<li>
+<p><strong>关系模型</strong></p>
 <p>以二维表的形式表示实体数据和实体之间关系的数据模型，它由行和列组成。</p>
 <p>优点：具有数学基础、概念单一、存储路径透明。</p>
 <p>缺点：查询效率受限。</p>
 </li>
-<li><p>面向对象模型</p>
+<li>
+<p>面向对象模型</p>
 <p>基本结构是对象而不是记录，一切事物、概念都可以看做对象。一个对象不仅包括描述它的数据，而且还包括对其进行操作的方法的定义。</p>
 </li>
 </ul>
-<h1 id="数据库内部体系结构"><a href="#数据库内部体系结构" class="headerlink" title="数据库内部体系结构"></a>数据库内部体系结构</h1><p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203154911181.png" alt="image-20231203154911181"></p>
-<h2 id="三级模式"><a href="#三级模式" class="headerlink" title="三级模式"></a>三级模式</h2><ul>
-<li><p>外模式又称为子模式或用户模式，是模式的子集，是数据的局部逻辑结构，也是数据库用户看到的视图模式。（视图）</p>
+<h1>数据库内部体系结构</h1>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203154911181.png" alt="image-20231203154911181"></p>
+<h2 id="三级模式">三级模式</h2>
+<ul>
+<li>
+<p>外模式又称为子模式或用户模式，是模式的子集，是数据的局部逻辑结构，也是数据库用户看到的视图模式。（视图）</p>
 </li>
-<li><p>模式又称逻辑模式或概念模式，它是数据库中全体数据的全局逻辑结构和特征的描述，也是所有用户的公共视图。</p>
+<li>
+<p>模式又称逻辑模式或概念模式，它是数据库中全体数据的全局逻辑结构和特征的描述，也是所有用户的公共视图。</p>
 <p>模式实际上是数据库数据在逻辑结构上的视图，一个数据库只有一个模式。</p>
 <p>定义模式时不仅要定义数据的逻辑结构，而且要定义数据之间的联系，定义与数据有关的安全性、完整性要求。（表）</p>
 </li>
-<li><p>内模式又称存储模式，它是数据在数据库中的内部表示，即数据的物理结构和存储方式的描述，一个数据库只有一个内模式。（物理存储/文件）</p>
+<li>
+<p>内模式又称存储模式，它是数据在数据库中的内部表示，即数据的物理结构和存储方式的描述，一个数据库只有一个内模式。（物理存储/文件）</p>
 </li>
 </ul>
-<h2 id="二级映像功能"><a href="#二级映像功能" class="headerlink" title="二级映像功能"></a>二级映像功能</h2><ol>
-<li><p>外模式/模式映像：每一个外模式都有一个外模式/模式映像，该映像是外模式与模式之间的对应关系。</p>
+<h2 id="二级映像功能">二级映像功能</h2>
+<ol>
+<li>
+<p>外模式/模式映像：每一个外模式都有一个外模式/模式映像，该映像是外模式与模式之间的对应关系。</p>
 <p>当模式改变时，有数据管理员对各个外模式/模式映像做相应的改变，以保持外模式不变。</p>
 <p>外模式不变，应用程序不必修改，保证数据与程序的逻辑独立性。</p>
 </li>
-<li><p>模式/内模式映像：定义数据库的全局逻辑结构与存储结构之间的对应关系。该映像是唯一的。</p>
+<li>
+<p>模式/内模式映像：定义数据库的全局逻辑结构与存储结构之间的对应关系。该映像是唯一的。</p>
 <p>当数据库的存储结构改变时，由管理员对模式/内模式映像做出改变，使得模式保持不变。</p>
 <p>模式保持不变、外模式保持不变、应用程序不变，保证数据与程序的物理独立性。</p>
 </li>
 </ol>
 <p><strong>逻辑独立性</strong>是指<strong>应用程序与数据的逻辑结构</strong>之间的独立性，即应用程序的<strong>逻辑结构</strong>不受数据库<strong>内部逻辑结构</strong>的影响。</p>
 <p><strong>物理独立性</strong>是指<strong>应用程序与数据的物理结构</strong>之间的独立性，即应用程序的<strong>物理结构</strong>不受数据库<strong>内部物理结构</strong>的影响。</p>
-<h1 id="数据库外部体系结构"><a href="#数据库外部体系结构" class="headerlink" title="数据库外部体系结构"></a>数据库外部体系结构</h1><ul>
+<h1>数据库外部体系结构</h1>
+<ul>
 <li>单用户结构</li>
 <li>主从式结构</li>
 <li>分布式结构</li>
 <li>客户机/服务器结构</li>
 <li>浏览器/服务器结构</li>
 </ul>
-<h1 id="数据库发展阶段"><a href="#数据库发展阶段" class="headerlink" title="数据库发展阶段"></a>数据库发展阶段</h1><h2 id="数据管理初级阶段"><a href="#数据管理初级阶段" class="headerlink" title="数据管理初级阶段"></a>数据管理初级阶段</h2><ul>
-<li><p>人工管理阶段</p>
+<h1>数据库发展阶段</h1>
+<h2 id="数据管理初级阶段">数据管理初级阶段</h2>
+<ul>
+<li>
+<p>人工管理阶段</p>
 <p>计算机系统不提供对用户数据的管理功能。</p>
 <p>数据是面向具体应用的。</p>
 <p>不单独保存数据。</p>
 </li>
-<li><p>文件系统阶段</p>
+<li>
+<p>文件系统阶段</p>
 <p>数据可以长期保存。</p>
 <p>数据具有一定的独立性，但独立性差。</p>
 <p>数据共享性差，冗余度大——文件是面向应用的。</p>
 </li>
 </ul>
-<h2 id="数据库系统阶段"><a href="#数据库系统阶段" class="headerlink" title="数据库系统阶段"></a>数据库系统阶段</h2><p>特点：<strong>数据结构化；数据冗余度低、实现数据共享；数据独立性高；数据由DBMS统一管理和控制</strong>。</p>
-<h1 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h1><ul>
+<h2 id="数据库系统阶段">数据库系统阶段</h2>
+<p>特点：<strong>数据结构化；数据冗余度低、实现数据共享；数据独立性高；数据由DBMS统一管理和控制</strong>。</p>
+<h1>关系</h1>
+<ul>
 <li>域是一组具有相同数据类型的值的集合。</li>
 <li>笛卡尔积：D1×D2×…×Dn＝{(d1，d2，…，dn)｜di∈Di，i＝1,2,…,n}</li>
 <li>分量：笛卡尔积元素（d1，d2，…，dn）中的每一个值di 叫作一个分量。</li>
@@ -557,7 +579,8 @@
 </ul>
 <p>外码：</p>
 <p>设F是基本关系R的一个或一组属性，但不是关系R的码，K是基本关系S的主码。如果F与K相对应，则称F是R的外码，并称基本关系R为参照关系，基本关系S为被参照关系或目标关系。</p>
-<h2 id="关系模式三元组"><a href="#关系模式三元组" class="headerlink" title="关系模式三元组"></a>关系模式三元组</h2><p>R(U,D,DOM,F)</p>
+<h2 id="关系模式三元组">关系模式三元组</h2>
+<p>R(U,D,DOM,F)</p>
 <ul>
 <li>R是关系名</li>
 <li>U为组成该关系的属性名集合</li>
@@ -565,37 +588,46 @@
 <li>DOM为属性向域的映像集合</li>
 <li>F为属性间数据的依赖关系集合</li>
 </ul>
-<h2 id="数据库完整性"><a href="#数据库完整性" class="headerlink" title="数据库完整性"></a>数据库完整性</h2><p>数据完整性是指数据库中的<strong>数据保持准确、一致和可靠的状态</strong>，<strong>不受非法操作或意外损坏的影响</strong>。</p>
+<h2 id="数据库完整性">数据库完整性</h2>
+<p>数据完整性是指数据库中的<strong>数据保持准确、一致和可靠的状态</strong>，<strong>不受非法操作或意外损坏的影响</strong>。</p>
 <p>两种数据库完整性的实现方法包括：</p>
 <ol>
 <li>实体完整性：通过<strong>主键和外键约束</strong>来确保每个表中的数据都是<strong>唯一</strong>的，并且在相关表之间建立正确的关联。</li>
 <li>数据完整性：通过<strong>检查约束、默认值和触发器</strong>等手段来确保数据的<strong>准确性和一致性</strong>。</li>
 </ol>
-<h1 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h1><ul>
+<h1>约束</h1>
+<ul>
 <li>唯一值约束。</li>
 <li>非空值约束。</li>
 <li>检查约束。</li>
 <li>缺省值约束。</li>
 </ul>
-<h1 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h1><h2 id="并"><a href="#并" class="headerlink" title="并"></a>并</h2><p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202701159.png" alt="image-20231203202701159"></p>
+<h1>集合运算</h1>
+<h2 id="并">并</h2>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202701159.png" alt="image-20231203202701159"></p>
 <p>如果R和S都是关系，具有相同的目n，且相应地属性取自同一个域，则R与S的并是由属于R或属于S的元组组成，其结果仍为n目关系，用R∪S表示集合并运算。</p>
 <p>记作：R∪S = { t| t Î R∨t Î S }</p>
-<h2 id="交"><a href="#交" class="headerlink" title="交"></a>交</h2><p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202735633.png" alt="image-20231203202735633"></p>
+<h2 id="交">交</h2>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202735633.png" alt="image-20231203202735633"></p>
 <p>如果R和S都是关系，具有相同的目n，且相应地属性取自同一个域，则R与S的交是由既属于R又属于S的元组组成，其结果仍n为目关系，用R∩S表示集合交运算。</p>
 <p>记作：R∩S = { t| t Î R∧t Î S }</p>
-<h2 id="差"><a href="#差" class="headerlink" title="差"></a>差</h2><p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202802922.png" alt="image-20231203202802922"></p>
+<h2 id="差">差</h2>
+<p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/image-20231203202802922.png" alt="image-20231203202802922"></p>
 <p>如果R和S都是关系，具有相同的目n，且相应地属性取自同一个域，则R与S的差表示由属于R但不属于S的元组组成，其结果仍n为目关系，用R-S表示关系R和S的差。</p>
 <p>记作：R -S = { t| t Î R∧t Ï S }</p>
-<h2 id="选择运算"><a href="#选择运算" class="headerlink" title="选择运算"></a>选择运算</h2><p>选择运算又称为限制运算。它是在关系R中选择满足条件的元组，记作： σ<sub>C</sub>(R)= { t | t ∈ R ∧ C(t) =’真’}</p>
+<h2 id="选择运算">选择运算</h2>
+<p>选择运算又称为限制运算。它是在关系R中选择满足条件的元组，记作： σ<sub>C</sub>®= { t | t ∈ R ∧ C(t) = ‘真’}</p>
 <p>C表示选择条件，由逻辑运算符与、或、非连接各算术表达式组成。</p>
-<h2 id="投影运算"><a href="#投影运算" class="headerlink" title="投影运算"></a>投影运算</h2><p>投影是从R中选择出若干属性列组成新的关系。</p>
-<p> 记作：$\Pi_A(R)=\{t[A]\;|\;t\in(R)\}$</p>
+<h2 id="投影运算">投影运算</h2>
+<p>投影是从R中选择出若干属性列组成新的关系。</p>
+<p>记作：$\Pi_A{®}={t[A];|;t\in®}$</p>
 <p>其中A为R中的属性列。</p>
-<h2 id="连接运算"><a href="#连接运算" class="headerlink" title="连接运算"></a>连接运算</h2><p>等值连接</p>
+<h2 id="连接运算">连接运算</h2>
+<p>等值连接</p>
 <p>关系R与S的等值连接是从R和S的广义笛卡尔积R×S中选取A与B等值的那些元组形成的关系。</p>
-<p>$R\bowtie S=\{\mathop{tr\;ts}\limits^{\frown}\;|tr\in(R)\wedge ts \in(S)\wedge tr[A]\theta ts[B]\}$</p>
+<p>$R\bowtie S={\mathop{tr; ts}\limits^{\frown};|tr\in®\wedge ts \in(S)\wedge tr[A]\theta ts[B]}$</p>
 <p>自然连接</p>
-<p>$R\bowtie S=\{\mathop{tr\;ts}\limits^{\frown}\;|tr\in(R)\wedge ts \in(S)\wedge tr[A]=ts[A]\}$</p>
+<p>$R\bowtie S={\mathop{tr;ts}\limits^{\frown};|tr\in®\wedge ts \in(S)\wedge tr[A]=ts[A]}$</p>
 ]]></content>
       <categories>
         <category>数据库</category>
@@ -1738,7 +1770,9 @@ $$<br>
     <url>/2023/12/03/MySQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<p>MySQL增删改查，多表查询，视图，存储过程，存储函数，游标。</p>
 <span id="more"></span>
-<h1 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h1><h2 id="表操作-修改"><a href="#表操作-修改" class="headerlink" title="表操作-修改"></a>表操作-修改</h2><p>添加字段</p>
+<h1>DDL</h1>
+<h2 id="表操作-修改">表操作-修改</h2>
+<p>添加字段</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add 字段名 类型(长度) [约束];</span><br></pre></td></tr></table></figure>
 <p>修改数据类型</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 modify 字段名 新数据类型(长度);</span><br></pre></td></tr></table></figure>
@@ -1748,45 +1782,60 @@ $$<br>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 drop 字段名;</span><br></pre></td></tr></table></figure>
 <p>修改表名</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 rename to 新表名;</span><br></pre></td></tr></table></figure>
-<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint 外键名称 foreign key 外键字段名 references 主表(列名)</span><br></pre></td></tr></table></figure>
+<h2 id="约束">约束</h2>
+<h2 id="外键">外键</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint 外键名称 foreign key 外键字段名 references 主表(列名)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add constraint 外键名称 foreign key (外键字段名) references 主表 (主表列名);</span><br></pre></td></tr></table></figure>
-<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><ol>
-<li><p>创建索引</p>
+<h1>索引</h1>
+<ol>
+<li>
+<p>创建索引</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create index index_name on table_name (index_col_name, ...);</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查看索引</p>
+<li>
+<p>查看索引</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show index from table_name;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>删除索引</p>
+<li>
+<p>删除索引</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop index index_name on table_name;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h1><ol>
-<li><p>创建视图</p>
+<h1>视图</h1>
+<ol>
+<li>
+<p>创建视图</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create view view_name as select语句</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查询</p>
+<li>
+<p>查询</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看视图语句</span><br><span class="line">show create view view_name;</span><br><span class="line"># 查看视图数据</span><br><span class="line">select * from view_name ...;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>修改</p>
+<li>
+<p>修改</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create [or replace] view view_name as select语句;</span><br><span class="line">alter view view_name as select语句;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>删除</p>
+<li>
+<p>删除</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop view [if exists] view_name ...;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><ol>
-<li><p>创建</p>
+<h1>存储过程</h1>
+<ol>
+<li>
+<p>创建</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure 存储过程名称([[in or out]参数列表])</span><br><span class="line">begin</span><br><span class="line"> -- SQL语句</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>调用</p>
+<li>
+<p>调用</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">call 名称 ([参数]);</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>删除</p>
+<li>
+<p>删除</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop procedure [if exists] procedure_name ...;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><div class="table-container">
+<h2 id="参数">参数</h2>
 <table>
 <thead>
 <tr>
@@ -1809,47 +1858,52 @@ $$<br>
 <tr>
 <td>INOUT</td>
 <td>即可作为输入参数也可作为输出参数</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ol>
-<li><p>查看系统变量</p>
+<h2 id="变量">变量</h2>
+<ol>
+<li>
+<p>查看系统变量</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES ; -- 查看所有系统变量</span><br><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES LIKE &#x27;......&#x27;; -- 可以通过LIKE模糊匹配方式查找变量</span><br><span class="line">SELECT @@[SESSION | GLOBAL] 系统变量名; -- 查看指定变量的值</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>设置系统变量</p>
+<li>
+<p>设置系统变量</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET [ SESSION | GLOBAL ] 系统变量名 = 值 ;</span><br><span class="line">SET @@[SESSION | GLOBAL] 系统变量名 = 值 ;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>用户自定义变量赋值</p>
+<li>
+<p>用户自定义变量赋值</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET @var_name = expr [, @var_name = expr] ... ;</span><br><span class="line">SET @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line"></span><br><span class="line">SELECT @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line">SELECT 字段名 INTO @var_name FROM 表名;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>自定义变量使用</p>
+<li>
+<p>自定义变量使用</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT @var_name</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>局部变量</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 声明</span><br><span class="line">declare 变量名 变量类型 [default ...];</span><br><span class="line"></span><br><span class="line"># 赋值</span><br><span class="line">set 变量名 = 值;</span><br><span class="line">set 变量名 := 值;</span><br><span class="line">select 字段名 into 变量名 from 表名 ...;</span><br></pre></td></tr></table></figure>
-<h2 id="条件-循环语句"><a href="#条件-循环语句" class="headerlink" title="条件/循环语句"></a>条件/循环语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if 条件 then</span><br><span class="line">	...</span><br><span class="line">elseif 条件2 then</span><br><span class="line">	...</span><br><span class="line">else</span><br><span class="line">	...</span><br><span class="line">end if;</span><br></pre></td></tr></table></figure>
+<h2 id="条件-循环语句">条件/循环语句</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if 条件 then</span><br><span class="line">	...</span><br><span class="line">elseif 条件2 then</span><br><span class="line">	...</span><br><span class="line">else</span><br><span class="line">	...</span><br><span class="line">end if;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">while 条件 do</span><br><span class="line">	-- SQL逻辑</span><br><span class="line">end while;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 先执行一次逻辑，然后判定UNTIL条件是否满足，如果满足，则退出。如果不满足，则继续下一次循环</span><br><span class="line">REPEAT</span><br><span class="line">    SQL逻辑...;</span><br><span class="line">    UNTIL 条件</span><br><span class="line">END REPEAT;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[begin_label:] LOOP</span><br><span class="line">	SQL逻辑...</span><br><span class="line">END LOOP [end_label];</span><br><span class="line"></span><br><span class="line">LEAVE label; -- 退出指定标记的循环体</span><br><span class="line">ITERATE label; -- 直接进入下一次循环</span><br></pre></td></tr></table></figure>
-<h1 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h1><ol>
-<li><p>声明游标</p>
+<h1>游标</h1>
+<ol>
+<li>
+<p>声明游标</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare 游标名称 cursor for 查询语句;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
-<li><p>打开游标</p>
+<li>
+<p>打开游标</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">open 游标名称;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
-<li><p>获取游标</p>
+<li>
+<p>获取游标</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fetch 游标 into 变量 [, 变量 ...];</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
-<li><p>关闭游标</p>
+<li>
+<p>关闭游标</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">close 游标名称;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
@@ -1857,8 +1911,8 @@ $$<br>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure p8()</span><br><span class="line">begin</span><br><span class="line">    declare t_index char(6);</span><br><span class="line">    declare price float;</span><br><span class="line">    declare flag bool default true;</span><br><span class="line">    declare cur_update cursor for</span><br><span class="line">        (select goods.goodsno, goods.saleprice from goods join category c on c.categoryno = goods.categoryno where c.categoryno = &#x27;cn001&#x27;);</span><br><span class="line">    declare continue handler for not found set flag := false;</span><br><span class="line"></span><br><span class="line">    open cur_update;</span><br><span class="line">    while flag do</span><br><span class="line">        fetch cur_update into t_index, price;</span><br><span class="line">        update goods set saleprice = price * 0.9 where goodsno = t_index;</span><br><span class="line">    end while;</span><br><span class="line">    close cur_update;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
 <p>MySQL游标的关闭是通过处理异常来关闭的。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare continue handler for not found set flag := false;</span><br></pre></td></tr></table></figure>
-<h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是与表相关的数据库对象，指在<code>insert/update/delete</code>之前<code>before</code>或之后<code>after</code>，触发并执行触发器中定义的SQL语句。</p>
-<div class="table-container">
+<h1>触发器</h1>
+<p>触发器是与表相关的数据库对象，指在<code>insert/update/delete</code>之前<code>before</code>或之后<code>after</code>，触发并执行触发器中定义的SQL语句。</p>
 <table>
 <thead>
 <tr>
@@ -1881,19 +1935,17 @@ $$<br>
 </tr>
 </tbody>
 </table>
-</div>
 <ol>
-<li><p>创建</p>
+<li>
+<p>创建</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create trigger trigger_name</span><br><span class="line">before/after insert/update/delete</span><br><span class="line">on tb1_name for each row -- 行级触发器</span><br><span class="line">begin</span><br><span class="line">	-- SQL执行</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
-<li><p>查看</p>
+<li>
+<p>查看</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show triggers;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
-<li><p>删除</p>
+<li>
+<p>删除</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop trigger trigger_name;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
