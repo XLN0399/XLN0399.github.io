@@ -20,15 +20,32 @@
     var CONFIG = {"hostname":"xln0399.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="落叶枫林">
-<meta property="og:url" content="http://xln0399.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
+  <meta name="description" content="OpenCV安装步骤说明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="opencv c++ 安装教程">
+<meta property="og:url" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="落叶枫林">
+<meta property="og:description" content="OpenCV安装步骤说明。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164457007.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164646442.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164902549.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165209790.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165515761.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165603672.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165903232.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170559611.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170854447.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171414102.png">
+<meta property="og:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171537610.png">
+<meta property="article:published_time" content="2023-12-04T08:34:00.000Z">
+<meta property="article:modified_time" content="2023-12-04T09:24:04.264Z">
 <meta property="article:author" content="柠">
+<meta property="article:tag" content="opencv">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164457007.png">
 
-<link rel="canonical" href="http://xln0399.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+<link rel="canonical" href="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -36,12 +53,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: 操作系统 | 落叶枫林</title>
+  <title>opencv c++ 安装教程 | 落叶枫林</title>
   
 
 
@@ -182,51 +199,147 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">操作系统
-          <small>分类</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="柠">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="落叶枫林">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          opencv c++ 安装教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-04 16:34:00 / 修改时间：17:24:04" itemprop="dateCreated datePublished" datetime="2023-12-04T16:34:00+08:00">2023-12-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">技术栈</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>696</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <p>OpenCV安装步骤说明。</p>
+<span id="more"></span>
+<h1>下载安装</h1>
+<p>从官方上下载对应版本的opencv<a target="_blank" rel="noopener" href="https://opencv.org/releases/">Releases - OpenCV</a></p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164457007.png" alt="image-20231204164457007" style="zoom: 50%;">
+<p>解压提取到指定到文件目录下，如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164646442.png" alt="image-20231204164646442" style="zoom:67%;">
+<h1>配置环境变量</h1>
+<p>找到自己的对应路径<code>D:\ProgramFiles\opencv\opencv\build\x64\vc16\bin</code>, 如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164902549.png" alt="image-20231204164902549" style="zoom:67%;">
+<p>配置到电脑的环境变量中，如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165209790.png" alt="image-20231204165209790" style="zoom:50%;">
+<p>同时将软连接复制粘贴到系统目录下，如下：</p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165515761.png" alt="image-20231204165515761"></p>
+<p>将选中的三个文件复制粘贴到<code>C:\Windows\System32\</code>目录下：</p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165603672.png" alt="image-20231204165603672"></p>
+<h1>连接配置VS</h1>
+<p>新建一个空项目，右键该项目目录，点击属性，打开界面：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165903232.png" alt="image-20231204165903232" style="zoom:67%;">
+<p>配置路径，<strong>这里要找到自己对应的路径</strong>。</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170559611.png" alt="image-20231204170559611" style="zoom: 67%;">
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170854447.png" alt="image-20231204170854447" style="zoom:67%;">
+<p>配置链接器，添加附属依赖：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171414102.png" alt="image-20231204171414102" style="zoom:67%;">
+<p>这里添加的附属依赖名称由来：目录<code>D:\ProgramFiles\opencv\opencv\build\x64\vc16\lib</code></p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171537610.png" alt="image-20231204171537610"></p>
+<h1>测试</h1>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ImageThreshold</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">	Mat image = <span class="built_in">imread</span>(str);</span><br><span class="line">	Mat binary;</span><br><span class="line">	<span class="built_in">cvtColor</span>(image, binary, COLOR_BGR2GRAY);</span><br><span class="line">	<span class="built_in">imshow</span>(<span class="string">&quot;test_opencv_srtup&quot;</span>, binary);</span><br><span class="line">	<span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	String str = <span class="string">&quot;图片路径&quot;</span>;</span><br><span class="line">	<span class="built_in">ImageThreshold</span>(str);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-26T15:00:00+08:00"
-              content="2023-11-26">
-          11-26
-        </time>
-      </div>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>柠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xln0399.github.io/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="opencv c++ 安装教程">http://xln0399.github.io/2023/12/04/opencv-c++-安装教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/26/%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" itemprop="url">
-            <span itemprop="name">进程调度算法</span>
-          </a>
-      </div>
 
-    </header>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/opencv/" rel="tag"># opencv</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/03/MySQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" rel="prev" title="MySQL常用语法">
+      <i class="fa fa-chevron-left"></i> MySQL常用语法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -279,6 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">连接配置VS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

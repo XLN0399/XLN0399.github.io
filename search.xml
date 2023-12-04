@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C语言多线程编程 (一)</title>
+    <url>/2023/11/25/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</url>
+    <content><![CDATA[<p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
+<span id="more"></span>
+<h2 id="创建进程">创建进程</h2>
+<p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中主要的是：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>lpApplicationName: 指定要运行的可执行文件的名称。在这种情况下，使用NULL表示使用命令行参数中指定的可执行文件</li>
+<li><strong>lpCommandLine: 指定要传递给可执行文件的命令行参数。在这种情况下，使用字符串变量s作为命令行参数。</strong></li>
+<li>lpProcessAttributes: 指定新进程的安全描述符。在这种情况下，使用NULL表示使用默认的安全描述符。</li>
+<li>lpThreadAttributes: 指定新线程的安全描述符。在这种情况下，使用NULL表示使用默认的安全描述符。</li>
+<li>bInheritHandles: 指定是否继承父进程的句柄。在这种情况下，使用FALSE表示不继承句柄。</li>
+<li>dwCreationFlags: 指定控制新进程创建方式的标志。在这种情况下，使用0表示默认创建方式。</li>
+<li>lpEnvironment: 指定新进程的环境块。在这种情况下，使用NULL表示使用父进程的环境块。</li>
+<li>lpCurrentDirectory: 指定新进程的当前工作目录。在这种情况下，使用NULL表示使用父进程的当前工作目录。</li>
+<li><strong>lpStartupInfo: 指向一个STARTUPINFO结构，该结构包含了新进程的一些属性，例如窗口显示方式、标准输入输出重定向等。在这种情况下，使用si结构体。</strong></li>
+<li><strong>lpProcessInformation: 指向一个PROCESS_INFORMATION结构，该结构接收新进程的标识信息，例如进程句柄和线程句柄。在这种情况下，使用pi结构体。</strong></li>
+</ul>
+<p>这里运行会打开计算机，当时主进程会直接结束，计算器仍保留。</p>
+<blockquote>
+<p>疑问：这里主进程是等待子进程结束才会结束，而这个子进程是计算器本身这个进程，还是只开启计算器的进程？</p>
+<p>个人理解是：IpCommandLine是传递命令参数，可能我们自己开启的进程的任务只是开启进程而不是计算器运行本身这个进程。</p>
+</blockquote>
+<h2 id="创建线程">创建线程</h2>
+<p>定义线程结构体和启动线程两部分最重要。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
+<p>第三个参数是传递线程执行函数的函数指针。</p>
+<p>示例代码：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">create_thread_task1</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;child thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_thread_example_run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 句柄声明定义</span></span><br><span class="line">	<span class="comment">// _beginthreadex()函数创建一个新的线程 指定子线程执行函数指针(函数类型固定) 返回线程的句柄</span></span><br><span class="line">	HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;main thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 句柄可以访问线程中各种系统资源 标识对象 访问对象 资源管理</span></span><br><span class="line">	<span class="comment">// 通过CloseHandle函数关闭线程句柄 释放资源</span></span><br><span class="line">	<span class="built_in">CloseHandle</span>(hTread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里线程执行的函数是固定的定义方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">xxx</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	....</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>LPVOID paramter</code>：可以接收参数，通过创建线程执行语句的第4个参数</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">&gt;参数<span class="number">1</span>：指定线程安全特性 null 表示使用默认的安全特性</span><br><span class="line">&gt;参数<span class="number">2</span>：指定线程的堆栈大小 通常设置为<span class="number">0</span> 表示使用默认堆栈大小</span><br><span class="line">&gt;参数<span class="number">3</span>：指向线程函数的指针</span><br><span class="line">&gt;参数<span class="number">4</span>：传递给线程函数的参数 可以是任意类型的指针 接收是 <span class="type">void</span>* 类型</span><br><span class="line">&gt;参数<span class="number">5</span>：指定线程初始化标志 通常设置为<span class="number">0</span></span><br><span class="line">&gt;参数<span class="number">6</span>：用于接收新线程的标识符</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="线程其他相关命令">线程其他相关命令</h2>
+<ul>
+<li>主线程等待子线程结束语句</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获取当前线程的ID</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">GetCurrentThreadId</span>()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于多个线程的处理，需要依次关闭线程，示例代码如下</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_multi_thread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE handles[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次开启多个线程</span></span><br><span class="line">		handles[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task3, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">10</span>, handles, TRUE, INFINITE);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;main thread ending ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次关闭多个线程</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(handles[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>主线程等待所有子线程结束</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
+<h2 id="补充知识">补充知识</h2>
+<p>函数指针和函数指针数组，示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+        <tag>C++</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C语言多线程编程 (二)</title>
     <url>/2023/11/28/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/</url>
     <content><![CDATA[<p>C语言实现线程的之间的同步和互斥，通过临界区、互斥量、事件、信号量实现线程的同步互斥，同时讲解一下进程之间的同步互斥。</p>
@@ -156,76 +229,198 @@
       </tags>
   </entry>
   <entry>
-    <title>C语言多线程编程 (一)</title>
-    <url>/2023/11/25/C%E8%AF%AD%E8%A8%80%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</url>
-    <content><![CDATA[<p>简单说明和使用C语言在window操作系统下创建多线程实现简单的示例操作。</p>
+    <title>MySQL常用语法</title>
+    <url>/2023/12/03/MySQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<p>MySQL增删改查，多表查询，视图，存储过程，存储函数，游标。</p>
 <span id="more"></span>
-<h2 id="创建进程">创建进程</h2>
-<p>使用的是<code>windows.h</code>提供的创建进程函数，如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">start_caculator</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwExitCode;</span><br><span class="line">	PROCESS_INFORMATION	pi;</span><br><span class="line">	DWORD ret;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="built_in">sizeof</span>(si) &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> s[] = <span class="string">&quot;calc.exe&quot;</span>;</span><br><span class="line">	<span class="comment">// 启动计算机</span></span><br><span class="line">	<span class="comment">// C++不能字符串转换 修改工程属性 项目属性-&gt;高级-&gt;字符集-&gt;使用Unicode字符集改为未设置</span></span><br><span class="line">	ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	<span class="keyword">if</span> (ret) &#123;</span><br><span class="line">		<span class="comment">// 等待子进程的退出</span></span><br><span class="line">		<span class="built_in">WaitForSingleObject</span>(pi.hProcess, INFINITE);</span><br><span class="line">		<span class="comment">// 关闭子进程的主线程语句</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hThread);</span><br><span class="line">		<span class="comment">// 获取子进程的退出码</span></span><br><span class="line">		<span class="built_in">GetExitCodeProcess</span>(pi.hProcess, &amp;dwExitCode);</span><br><span class="line">		<span class="comment">// 关闭子进程句柄</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(pi.hProcess);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;\n进程结束 退出码是&quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中主要的是：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ret = <span class="built_in">CreateProcess</span>(<span class="literal">NULL</span>, s, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br></pre></td></tr></table></figure>
-<p>参数说明：</p>
-<ul>
-<li>lpApplicationName: 指定要运行的可执行文件的名称。在这种情况下，使用NULL表示使用命令行参数中指定的可执行文件</li>
-<li><strong>lpCommandLine: 指定要传递给可执行文件的命令行参数。在这种情况下，使用字符串变量s作为命令行参数。</strong></li>
-<li>lpProcessAttributes: 指定新进程的安全描述符。在这种情况下，使用NULL表示使用默认的安全描述符。</li>
-<li>lpThreadAttributes: 指定新线程的安全描述符。在这种情况下，使用NULL表示使用默认的安全描述符。</li>
-<li>bInheritHandles: 指定是否继承父进程的句柄。在这种情况下，使用FALSE表示不继承句柄。</li>
-<li>dwCreationFlags: 指定控制新进程创建方式的标志。在这种情况下，使用0表示默认创建方式。</li>
-<li>lpEnvironment: 指定新进程的环境块。在这种情况下，使用NULL表示使用父进程的环境块。</li>
-<li>lpCurrentDirectory: 指定新进程的当前工作目录。在这种情况下，使用NULL表示使用父进程的当前工作目录。</li>
-<li><strong>lpStartupInfo: 指向一个STARTUPINFO结构，该结构包含了新进程的一些属性，例如窗口显示方式、标准输入输出重定向等。在这种情况下，使用si结构体。</strong></li>
-<li><strong>lpProcessInformation: 指向一个PROCESS_INFORMATION结构，该结构接收新进程的标识信息，例如进程句柄和线程句柄。在这种情况下，使用pi结构体。</strong></li>
-</ul>
-<p>这里运行会打开计算机，当时主进程会直接结束，计算器仍保留。</p>
-<blockquote>
-<p>疑问：这里主进程是等待子进程结束才会结束，而这个子进程是计算器本身这个进程，还是只开启计算器的进程？</p>
-<p>个人理解是：IpCommandLine是传递命令参数，可能我们自己开启的进程的任务只是开启进程而不是计算器运行本身这个进程。</p>
-</blockquote>
-<h2 id="创建线程">创建线程</h2>
-<p>定义线程结构体和启动线程两部分最重要。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-<p>线程使用的是<code>&lt;process.h&gt;</code>头文件。</p>
-<p>第三个参数是传递线程执行函数的函数指针。</p>
-<p>示例代码：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">create_thread_task1</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;child thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_thread_example_run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 句柄声明定义</span></span><br><span class="line">	<span class="comment">// _beginthreadex()函数创建一个新的线程 指定子线程执行函数指针(函数类型固定) 返回线程的句柄</span></span><br><span class="line">	HANDLE hTread = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, create_thread_task1, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;main thread running ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 句柄可以访问线程中各种系统资源 标识对象 访问对象 资源管理</span></span><br><span class="line">	<span class="comment">// 通过CloseHandle函数关闭线程句柄 释放资源</span></span><br><span class="line">	<span class="built_in">CloseHandle</span>(hTread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里线程执行的函数是固定的定义方式：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> WINAPI <span class="title">xxx</span><span class="params">(LPVOID paramter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	....</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>LPVOID paramter</code>：可以接收参数，通过创建线程执行语句的第4个参数</li>
-</ul>
-<blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">&gt;参数<span class="number">1</span>：指定线程安全特性 null 表示使用默认的安全特性</span><br><span class="line">&gt;参数<span class="number">2</span>：指定线程的堆栈大小 通常设置为<span class="number">0</span> 表示使用默认堆栈大小</span><br><span class="line">&gt;参数<span class="number">3</span>：指向线程函数的指针</span><br><span class="line">&gt;参数<span class="number">4</span>：传递给线程函数的参数 可以是任意类型的指针 接收是 <span class="type">void</span>* 类型</span><br><span class="line">&gt;参数<span class="number">5</span>：指定线程初始化标志 通常设置为<span class="number">0</span></span><br><span class="line">&gt;参数<span class="number">6</span>：用于接收新线程的标识符</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h2 id="线程其他相关命令">线程其他相关命令</h2>
-<ul>
-<li>主线程等待子线程结束语句</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>获取当前线程的ID</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">GetCurrentThreadId</span>()</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对于多个线程的处理，需要依次关闭线程，示例代码如下</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">create_multi_thread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE handles[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次开启多个线程</span></span><br><span class="line">		handles[i] = (HANDLE)_beginthreadex(<span class="literal">NULL</span>, <span class="number">0</span>, thread_task3, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">WaitForMultipleObjects</span>(<span class="number">10</span>, handles, TRUE, INFINITE);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;main thread ending ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 依次关闭多个线程</span></span><br><span class="line">		<span class="built_in">CloseHandle</span>(handles[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>主线程等待所有子线程结束</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">WaitForMultipleObjects</span>(<span class="number">3</span>, handles, TRUE, INFINITE);</span><br></pre></td></tr></table></figure>
-<h2 id="补充知识">补充知识</h2>
-<p>函数指针和函数指针数组，示例如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">thread_task21</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"># 函数指针数组</span><br><span class="line"><span class="built_in">void</span> (*tasks[<span class="number">3</span>])() = &#123; thread_task1, thread_task2, thread_task3 &#125;;</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">tasks[i]();</span><br></pre></td></tr></table></figure>
+<h1>DDL</h1>
+<h2 id="表操作-修改">表操作-修改</h2>
+<p>添加字段</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add 字段名 类型(长度) [约束];</span><br></pre></td></tr></table></figure>
+<p>修改数据类型</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 modify 字段名 新数据类型(长度);</span><br></pre></td></tr></table></figure>
+<p>修改字段名和字段类型</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 change 旧字段名 新字段名 类型(长度) [约束];</span><br></pre></td></tr></table></figure>
+<p>删除字段</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 drop 字段名;</span><br></pre></td></tr></table></figure>
+<p>修改表名</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 rename to 新表名;</span><br></pre></td></tr></table></figure>
+<h2 id="约束">约束</h2>
+<h2 id="外键">外键</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint 外键名称 foreign key 外键字段名 references 主表(列名)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add constraint 外键名称 foreign key (外键字段名) references 主表 (主表列名);</span><br></pre></td></tr></table></figure>
+<h1>索引</h1>
+<ol>
+<li>
+<p>创建索引</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create index index_name on table_name (index_col_name, ...);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看索引</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show index from table_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>删除索引</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop index index_name on table_name;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1>视图</h1>
+<ol>
+<li>
+<p>创建视图</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create view view_name as select语句</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看视图语句</span><br><span class="line">show create view view_name;</span><br><span class="line"># 查看视图数据</span><br><span class="line">select * from view_name ...;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create [or replace] view view_name as select语句;</span><br><span class="line">alter view view_name as select语句;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>删除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop view [if exists] view_name ...;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1>存储过程</h1>
+<ol>
+<li>
+<p>创建</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure 存储过程名称([[in or out]参数列表])</span><br><span class="line">begin</span><br><span class="line"> -- SQL语句</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>调用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">call 名称 ([参数]);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>删除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop procedure [if exists] procedure_name ...;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="参数">参数</h2>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IN</td>
+<td>作为输入</td>
+<td>默认</td>
+</tr>
+<tr>
+<td>OUT</td>
+<td>作为输出，返回值</td>
+<td></td>
+</tr>
+<tr>
+<td>INOUT</td>
+<td>即可作为输入参数也可作为输出参数</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="变量">变量</h2>
+<ol>
+<li>
+<p>查看系统变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES ; -- 查看所有系统变量</span><br><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES LIKE &#x27;......&#x27;; -- 可以通过LIKE模糊匹配方式查找变量</span><br><span class="line">SELECT @@[SESSION | GLOBAL] 系统变量名; -- 查看指定变量的值</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>设置系统变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET [ SESSION | GLOBAL ] 系统变量名 = 值 ;</span><br><span class="line">SET @@[SESSION | GLOBAL] 系统变量名 = 值 ;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>用户自定义变量赋值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET @var_name = expr [, @var_name = expr] ... ;</span><br><span class="line">SET @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line"></span><br><span class="line">SELECT @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line">SELECT 字段名 INTO @var_name FROM 表名;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>自定义变量使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT @var_name</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>局部变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 声明</span><br><span class="line">declare 变量名 变量类型 [default ...];</span><br><span class="line"></span><br><span class="line"># 赋值</span><br><span class="line">set 变量名 = 值;</span><br><span class="line">set 变量名 := 值;</span><br><span class="line">select 字段名 into 变量名 from 表名 ...;</span><br></pre></td></tr></table></figure>
+<h2 id="条件-循环语句">条件/循环语句</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if 条件 then</span><br><span class="line">	...</span><br><span class="line">elseif 条件2 then</span><br><span class="line">	...</span><br><span class="line">else</span><br><span class="line">	...</span><br><span class="line">end if;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">while 条件 do</span><br><span class="line">	-- SQL逻辑</span><br><span class="line">end while;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 先执行一次逻辑，然后判定UNTIL条件是否满足，如果满足，则退出。如果不满足，则继续下一次循环</span><br><span class="line">REPEAT</span><br><span class="line">    SQL逻辑...;</span><br><span class="line">    UNTIL 条件</span><br><span class="line">END REPEAT;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[begin_label:] LOOP</span><br><span class="line">	SQL逻辑...</span><br><span class="line">END LOOP [end_label];</span><br><span class="line"></span><br><span class="line">LEAVE label; -- 退出指定标记的循环体</span><br><span class="line">ITERATE label; -- 直接进入下一次循环</span><br></pre></td></tr></table></figure>
+<h1>游标</h1>
+<ol>
+<li>
+<p>声明游标</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare 游标名称 cursor for 查询语句;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>打开游标</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">open 游标名称;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>获取游标</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fetch 游标 into 变量 [, 变量 ...];</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>关闭游标</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">close 游标名称;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure p8()</span><br><span class="line">begin</span><br><span class="line">    declare t_index char(6);</span><br><span class="line">    declare price float;</span><br><span class="line">    declare flag bool default true;</span><br><span class="line">    declare cur_update cursor for</span><br><span class="line">        (select goods.goodsno, goods.saleprice from goods join category c on c.categoryno = goods.categoryno where c.categoryno = &#x27;cn001&#x27;);</span><br><span class="line">    declare continue handler for not found set flag := false;</span><br><span class="line"></span><br><span class="line">    open cur_update;</span><br><span class="line">    while flag do</span><br><span class="line">        fetch cur_update into t_index, price;</span><br><span class="line">        update goods set saleprice = price * 0.9 where goodsno = t_index;</span><br><span class="line">    end while;</span><br><span class="line">    close cur_update;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>MySQL游标的关闭是通过处理异常来关闭的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare continue handler for not found set flag := false;</span><br></pre></td></tr></table></figure>
+<h1>触发器</h1>
+<p>触发器是与表相关的数据库对象，指在<code>insert/update/delete</code>之前<code>before</code>或之后<code>after</code>，触发并执行触发器中定义的SQL语句。</p>
+<table>
+<thead>
+<tr>
+<th>触发器类型</th>
+<th>NEW 和 OLD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INSERT</td>
+<td>NEW 表示将要或者已经新增的数据</td>
+</tr>
+<tr>
+<td>UPDATE</td>
+<td>OLD 表示修改之前的数据，NEW表示将要或已经修改后的数据</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>OLD 表示将要或者已经删除的数据</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>创建</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create trigger trigger_name</span><br><span class="line">before/after insert/update/delete</span><br><span class="line">on tb1_name for each row -- 行级触发器</span><br><span class="line">begin</span><br><span class="line">	-- SQL执行</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show triggers;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>删除</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop trigger trigger_name;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create trigger supplier_delete_trigger</span><br><span class="line">    before delete on supplier for each row</span><br><span class="line">begin</span><br><span class="line">    delete from salebill where salebill.goodsno in</span><br><span class="line">           (select g.goodsno from goods g join supplier s on g.supplierno = s.supplierno where s.supplierno = OLD.supplierno);</span><br><span class="line">    delete from goods where goods.supplierno = OLD.supplierno;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>C/C++</category>
+        <category>数据库</category>
       </categories>
       <tags>
-        <tag>C</tag>
-        <tag>C++</tag>
-        <tag>多线程</tag>
+        <tag>MySQL</tag>
+        <tag>MySQL常用命令</tag>
       </tags>
   </entry>
   <entry>
@@ -364,6 +559,45 @@
       </tags>
   </entry>
   <entry>
+    <title>opencv c++ 安装教程</title>
+    <url>/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>OpenCV安装步骤说明。</p>
+<span id="more"></span>
+<h1>下载安装</h1>
+<p>从官方上下载对应版本的opencv<a href="https://opencv.org/releases/">Releases - OpenCV</a></p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164457007.png" alt="image-20231204164457007" style="zoom: 50%;">
+<p>解压提取到指定到文件目录下，如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164646442.png" alt="image-20231204164646442" style="zoom:67%;">
+<h1>配置环境变量</h1>
+<p>找到自己的对应路径<code>D:\ProgramFiles\opencv\opencv\build\x64\vc16\bin</code>, 如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204164902549.png" alt="image-20231204164902549" style="zoom:67%;">
+<p>配置到电脑的环境变量中，如图：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165209790.png" alt="image-20231204165209790" style="zoom:50%;">
+<p>同时将软连接复制粘贴到系统目录下，如下：</p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165515761.png" alt="image-20231204165515761"></p>
+<p>将选中的三个文件复制粘贴到<code>C:\Windows\System32\</code>目录下：</p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165603672.png" alt="image-20231204165603672"></p>
+<h1>连接配置VS</h1>
+<p>新建一个空项目，右键该项目目录，点击属性，打开界面：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204165903232.png" alt="image-20231204165903232" style="zoom:67%;">
+<p>配置路径，<strong>这里要找到自己对应的路径</strong>。</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170559611.png" alt="image-20231204170559611" style="zoom: 67%;">
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204170854447.png" alt="image-20231204170854447" style="zoom:67%;">
+<p>配置链接器，添加附属依赖：</p>
+<img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171414102.png" alt="image-20231204171414102" style="zoom:67%;">
+<p>这里添加的附属依赖名称由来：目录<code>D:\ProgramFiles\opencv\opencv\build\x64\vc16\lib</code></p>
+<p><img src="/2023/12/04/opencv-c++-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20231204171537610.png" alt="image-20231204171537610"></p>
+<h1>测试</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ImageThreshold</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">	Mat image = <span class="built_in">imread</span>(str);</span><br><span class="line">	Mat binary;</span><br><span class="line">	<span class="built_in">cvtColor</span>(image, binary, COLOR_BGR2GRAY);</span><br><span class="line">	<span class="built_in">imshow</span>(<span class="string">&quot;test_opencv_srtup&quot;</span>, binary);</span><br><span class="line">	<span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	String str = <span class="string">&quot;图片路径&quot;</span>;</span><br><span class="line">	<span class="built_in">ImageThreshold</span>(str);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>技术栈</category>
+      </categories>
+      <tags>
+        <tag>opencv</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关系数据理论</title>
     <url>/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/</url>
     <content><![CDATA[<p>对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。</p>
@@ -468,6 +702,137 @@
       <tags>
         <tag>数据库理论</tag>
         <tag>关系范式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库的管理和维护</title>
+    <url>/2023/12/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86%E5%92%8C%E7%BB%B4%E6%8A%A4/</url>
+    <content><![CDATA[<p>简单记录数据库的安全管理、并发控制中的事务，备份和恢复管理。</p>
+<span id="more"></span>
+<h1>安全性管理</h1>
+<h2 id="SQL-server三级认证作用以及认证和授权内容">SQL server三级认证作用以及认证和授权内容</h2>
+<ul>
+<li>服务器级别认证：身份验证，通过操作系统级别的安全验证来访问数据库系统。</li>
+<li>数据库级别认证：通过数据库用户账户进行控制，要访问一个数据库，必须拥有一个数据库的一个用户账号身份，该用户对应的权限访问数据库中的数据。</li>
+<li>数据库对象级别认证：常见的数据库对象级别认证包括对表、视图、存储过程、函数等数据库对象的访问权限控制。</li>
+</ul>
+<h2 id="权限管理">权限管理</h2>
+<ul>
+<li>对象权限：用户是否具有权限执行某一语句，主要用于控制创建数据库或数据库中对象而涉及的权限。（CRUD）。</li>
+<li>语句权限：用户对数据库执行操作的权限。(创建数据库、视图、表、存储函数等)。</li>
+<li>隐私权限：系统预定义而不需要授权就有的权限，包括固定服务器角色、固定数据库角色和数据库对象所有者所拥有的权限。</li>
+</ul>
+<p>权限操作</p>
+<p>授权</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grant [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
+<p>撤销权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">revoke [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
+<p>禁止权限</p>
+<p>MySQL中没有禁止权限，通过撤销权限来实现禁止。</p>
+<p>SQL server：<code>deny [权限名] on [数据库名.表名] to [用户名@IP地址]</code>。</p>
+<p>权限查看</p>
+<p>MySQL：<code>show grants</code>，<code>show grants for 'username'@'localhost'</code>。</p>
+<p>SQL server：<code>execute sp_helprotect [@name='对象名或授权语句名', @username='用户名', @grantorname='授权的用户账号名']</code>。</p>
+<h1>并发控制</h1>
+<h2 id="事务">事务</h2>
+<p>事务是由用户定义的一系列数据操作语句构成，这些操作语句要么全部执行要么全部不执行，是数据库运行的最小的、不可分割的工作单位。</p>
+<p><strong>ACID</strong></p>
+<ul>
+<li>原子性：一个事务对于数据的所有操作都是不可分割的整体，要么全部执行，要么全部不执行。</li>
+<li>一致性：事务执行完成后，数据库中的内容必须全部更新，确保数据一致性。</li>
+<li>隔离性：一个事务执行不能被其他事务干扰，一个事务内部操作及其使用的数据对其他并发事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
+<li>持续性：一个事务一旦提交，它对数据库中数据的改变就是永久的。</li>
+</ul>
+<p>显示事务：事务有显示的开始和结束标记。</p>
+<p>MySQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启事务</span><br><span class="line">begin;</span><br><span class="line"># 回滚事务</span><br><span class="line">rollback;</span><br><span class="line"># 提交事务</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+<p>SQL server：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span> transact;</span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+<p>隐式事务：每一条数据操作语句都自动成为一个事务。</p>
+<h2 id="并发控制概述">并发控制概述</h2>
+<p>并发执行能提高系统资源的利用率，改善短事务的响应时间，但并发执行可能破坏事务的ACID特性。</p>
+<h3 id="并发操作导致的问题">并发操作导致的问题</h3>
+<ul>
+<li><strong>丢失更新</strong>：两个或两个以上的事务在更新同一数据值时，会发生某些修改被覆盖（丢失）的问题。（都在更新，但后面的更新数值覆盖前面更新结果，最后数值不对）。</li>
+<li><strong>读“脏”数据</strong>：一个事务读取了另一个事务失败运行过程中的数据。事务T1更新数值，事务T2读取了这个数值，但事务T1失败了，回滚事务，事务T2读的数值和数据库中不一致。<strong>一个事务读到另一个事务还没有提交的数据</strong>。</li>
+<li><strong>不可重复读</strong>：不可重复读是指事务T1读取数据后，事务T2对该数据进行读取并执行更新操作，修改了T1读取的数据，T1操作完数据后，又重新读取这个数据，会发现读到的结果与前一次不一样。<strong>一个事务先后读取同一条记录，但两次读取的数据不同</strong>。</li>
+<li><strong>幻读</strong>：<strong>一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在</strong>。</li>
+</ul>
+<h3 id="并发控制方法">并发控制方法</h3>
+<p><strong>排他锁</strong></p>
+<p>写锁，只允许一个事务对数据进行修改，其他事务无法同时对该行数据进行读取或修改操作。</p>
+<p><strong>共享锁</strong></p>
+<p>读锁，允许多个事务同时读取同一行数据，但不允许任何事务对该行数据进行修改。</p>
+<h2 id="封锁技术">封锁技术</h2>
+<ul>
+<li>一级封锁协议：事务在修改数据对象之前必须对其加X锁，直到事务结束时才释放锁。可以防止丢失更新的问题，当不能保证可重复读和脏读。</li>
+<li>二级封锁协议：是指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后立即释放S锁</strong>。可以防止数据丢失更新、读“脏”数据。</li>
+<li>三级封锁协议：指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后并不释放S锁，直到事务T结束才释放</strong>。可以防止丢失更新、不读“脏”数据，不可重复读。</li>
+</ul>
+<h3 id="活锁">活锁</h3>
+<p>某一个事务一直等待锁，进程“饿死”状态。</p>
+<p>通过先来先服务解决。</p>
+<h3 id="死锁">死锁</h3>
+<p>每个事务相互等待其他事务释放封锁，都不能进行。</p>
+<p>死锁预防：</p>
+<ul>
+<li>一次性封锁：要求每个事务必须一次性将所有要使用的诗句全部加锁后执行。扩大了封锁的范围，降低了系统的并发度。</li>
+<li>顺序封锁：要求所有事务必须按照一个预先约定的封锁顺序对所要用到的数据对象进行封锁。很难预先确定所有数据对象的加锁顺序。</li>
+</ul>
+<p>死锁诊断和解除：</p>
+<ul>
+<li>超时法：对每个锁设定一个时限，如果某个事务的等待时间超过了该时限，就认为发生了死锁，此时调用解锁程序，以解除死锁。时限难于设置，若设置太长，则会导致死锁发生后不能及时发现；也有可能误判死锁。</li>
+<li>事务等待图法：特殊的有向图G=(T,U)。T为结点的集合，每个结点表示正在运行的事务；U 为边的集合，每条边表示事务等待的情况。若T1等待T2，那么T1、T2之间划一条有向边，从T1指向T2。建立事务等待图之后，诊断死锁的问题就变成了判断有向图G中是否存在回路的问题。</li>
+</ul>
+<h3 id="并发调度可串行性">并发调度可串行性</h3>
+<p>多个并发执行是正确的，当且仅当结果与按某一顺序串行的执行这些事务时的结果相同，则称这种调度策略为可串行化的调度。</p>
+<p>可串行性是并发事务正确调度的准则。目前数据库管理系统普遍采用<strong>两段锁协议</strong>来实现并发调度的可串行化，从而保证调度的正确性。</p>
+<p>事务必须分为两个阶段对数据对象进行加锁和解锁：</p>
+<ul>
+<li>
+<p>在对任何数据进行读写操作之前，要先申请并获得对该数据的封锁。</p>
+<p>事务可以申请获得任何数据对象上的任何类型的锁，但是不允许释放任何锁。</p>
+</li>
+<li>
+<p>在释放一个封锁之后，事务不再申请和获得对该数据的封锁。</p>
+<p>事务可以释放任何数据对象上的任何类型的锁，但不允许申请任何锁。</p>
+</li>
+</ul>
+<p>事务遵守两段封锁协议是可串行化调度的<strong>充分条件，而不是必要条件</strong>。</p>
+<h1>备份及恢复管理</h1>
+<h2 id="数据备份">数据备份</h2>
+<ul>
+<li>
+<p><strong>完全备份</strong></p>
+<p>将备份整个数据库，不仅包括用户表、系统表、索引、视图、存储过程等所有数据库对象，还包括事务日志部分。</p>
+<p>MySQL在cmd命令行实现完全备份和恢复：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">完全备份</span></span><br><span class="line">mysqldump -u username -p mydatabase &gt; backup.sql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原备份</span></span><br><span class="line">mysql -u username -p mydatabase &lt; backup.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>差分备份</strong></p>
+<p>仅备份自上次完全备份以来数据改变部分的内容。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份名为mydatabase的数据库中表mytable中<span class="built_in">id</span>大于100的行</span></span><br><span class="line">mysqldump -u username -p mydatabase mytable --where=&quot;id &gt; 100&quot; &gt; diff_backup.sql</span><br></pre></td></tr></table></figure>
+<p>恢复和完全备份相同。</p>
+</li>
+<li>
+<p><strong>事务日志备份</strong></p>
+<p>对事务日志进行备份，备份时复制自上次备份以来对数据库所做的改变。</p>
+<p>事务日志备份和差分备份有所不同。差分备份无法将数据库恢复到出现故障前某一个指定的时刻，它只能将数据库恢复到上一次差分备份结束的时刻。</p>
+</li>
+<li>
+<p><strong>文件或文件组备份</strong></p>
+<p>数据库由磁盘上的许多文件构成。如果数据库非常大，执行完全备份是不可行的，可以使用文件备份或文件组备份来备份数据库的一部分。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库理论</tag>
+        <tag>并发控制</tag>
+        <tag>事务管理</tag>
+        <tag>备份</tag>
       </tags>
   </entry>
   <entry>
@@ -641,7 +1006,8 @@
     <url>/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/</url>
     <content><![CDATA[<p>简单记录数据课设计的三个阶段模式，数据字典，ER图。</p>
 <span id="more"></span>
-<h1 id="数据库设计概述"><a href="#数据库设计概述" class="headerlink" title="数据库设计概述"></a>数据库设计概述</h1><p>数据库设计步骤</p>
+<h1>数据库设计概述</h1>
+<p>数据库设计步骤</p>
 <ul>
 <li>需求分析阶段</li>
 <li>概念结构设计阶段</li>
@@ -650,7 +1016,8 @@
 <li>数据库的实施阶段</li>
 <li>数据库运行和维护阶段</li>
 </ul>
-<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>通过详细调查现实世界要处理的对象(组织、部门、企业等)，充分了解原系统(手工系统或计算机系统)工作概况，明确用户的各种需求，然后在此基础上确定新系统的功能。</p>
+<h1>需求分析</h1>
+<p>通过详细调查现实世界要处理的对象(组织、部门、企业等)，充分了解原系统(手工系统或计算机系统)工作概况，明确用户的各种需求，然后在此基础上确定新系统的功能。</p>
 <ul>
 <li>调查重点：<strong>数据</strong>和<strong>业务处理</strong>。</li>
 <li>确定业务规则。</li>
@@ -663,25 +1030,33 @@
 <li>业务规则分析</li>
 <li>数据流程分析</li>
 </ol>
-<h2 id="数据字典"><a href="#数据字典" class="headerlink" title="数据字典"></a>数据字典</h2><ul>
-<li><p><strong>数据项</strong>是不可再分的数据单元。</p>
+<h2 id="数据字典">数据字典</h2>
+<ul>
+<li>
+<p><strong>数据项</strong>是不可再分的数据单元。</p>
 <p>数据项描述：数据项编号、数据项名，数据项含义说明、别名、数据类型、长度、取值访问、取值含义、与其他数据项的逻辑关系。</p>
 </li>
-<li><p><strong>数据结构</strong>反映数据之间的组合关系，由若干个数据项组成，或者是若干个数据结构组成。</p>
+<li>
+<p><strong>数据结构</strong>反映数据之间的组合关系，由若干个数据项组成，或者是若干个数据结构组成。</p>
 <p>数据结构描述：数据结构编号、数据结构名称、含义说明，组成。</p>
 </li>
-<li><p><strong>数据流</strong>是数据结构在系统内传输途径，表示某一个过程的输入或输出。</p>
+<li>
+<p><strong>数据流</strong>是数据结构在系统内传输途径，表示某一个过程的输入或输出。</p>
 <p>数据流描述：数据流名、说明、数据流来源、数据流去向、组成、平均流量、高峰期流量。</p>
 </li>
-<li><p><strong>数据存储</strong>是数据结构停留或保存的地方，也是数据流的来源和去向。</p>
+<li>
+<p><strong>数据存储</strong>是数据结构停留或保存的地方，也是数据流的来源和去向。</p>
 <p>数据存储描述：数据存储编号、说明、编号、流入的数据流、流出的数据流、组成、数据量、存取方式。</p>
 </li>
-<li><p><strong>处理过程</strong>描述业务处理的处理逻辑和输入、输出。</p>
+<li>
+<p><strong>处理过程</strong>描述业务处理的处理逻辑和输入、输出。</p>
 <p>处理过程描述：处理过程编号，处理过程名，说明，输入数据流，输出数据流，处理简要说明。</p>
 </li>
 </ul>
-<h1 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h1><p>概念模型是现实世界和机器世界的中介，既独立于数据库的逻辑结构，也独立于某一数据库管理系统，概念模型必须能够真实充分的反映现实世界。</p>
-<h2 id="E-R模型"><a href="#E-R模型" class="headerlink" title="E-R模型"></a>E-R模型</h2><p>实体之间的联系：</p>
+<h1>概念模型</h1>
+<p>概念模型是现实世界和机器世界的中介，既独立于数据库的逻辑结构，也独立于某一数据库管理系统，概念模型必须能够真实充分的反映现实世界。</p>
+<h2 id="E-R模型">E-R模型</h2>
+<p>实体之间的联系：</p>
 <ol>
 <li>1对1</li>
 <li>1对多</li>
@@ -692,25 +1067,31 @@
 <p>联系用菱形表示。</p>
 <p>示例：</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141224150.png" alt="image-20231203141224150"></p>
-<h2 id="概念结构设计方法步骤"><a href="#概念结构设计方法步骤" class="headerlink" title="概念结构设计方法步骤"></a>概念结构设计方法步骤</h2><ul>
-<li><p>自顶向下方法</p>
+<h2 id="概念结构设计方法步骤">概念结构设计方法步骤</h2>
+<ul>
+<li>
+<p>自顶向下方法</p>
 <p>从全局出发，先设计出全局概念模型框架，然后逐步细化。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141724418.png" alt="image-20231203141724418"></p>
 </li>
-<li><p>自底向上方法</p>
+<li>
+<p>自底向上方法</p>
 <p>从局部应用出发，先设计出各局部应用的概念模型，然后再对局部应用的概念模型进行综合，形成全局概念模型。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141731681.png" alt="image-20231203141731681"></p>
 </li>
-<li><p>逐步扩张方法</p>
+<li>
+<p>逐步扩张方法</p>
 <p>首先定义最基本、最核心的概念模型，逐步扩大至其相关的概念模型，以滚雪球的方式进行概念模型的扩张，最终形成全局的概念模型。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141738620.png" alt="image-20231203141738620"></p>
 </li>
-<li><p>混合策略方法</p>
+<li>
+<p>混合策略方法</p>
 <p>采用自顶向下和自底向上相结合的方法。用自顶向下策略设计一个全局概念结构的框架，以它为骨架集成自底向上策略中设计的各局部概念接结构。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203141747092.png" alt="image-20231203141747092"></p>
 </li>
 </ul>
-<h2 id="数据抽象"><a href="#数据抽象" class="headerlink" title="数据抽象"></a>数据抽象</h2><p><strong>抽象方法-分类</strong></p>
+<h2 id="数据抽象">数据抽象</h2>
+<p><strong>抽象方法-分类</strong></p>
 <p>分类定义某一概念作为现实世界中一组对象的类型，这些对象具有某些共同的特性和行为。</p>
 <p>它抽象了对象值和型之间的“is member of”的语义。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203142030070.png" alt="image-20231203142030070"></p>
@@ -722,7 +1103,8 @@
 <p>概括将一组具有共同特性的对象合并成更高一层意义上的对象。</p>
 <p>它抽象了类型之间的“is subset of”的语义。</p>
 <p><img src="/2023/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/image-20231203142154509.png" alt="image-20231203142154509"></p>
-<h1 id="关系模型"><a href="#关系模型" class="headerlink" title="关系模型"></a>关系模型</h1><p>关系模式示例：</p>
+<h1>关系模型</h1>
+<p>关系模式示例：</p>
 <p>商品（<u>商品编码</u>，商品名，条形码，进价，售价，单位，备注，数量，仓库号）</p>
 <p>仓库（<u>仓库号</u>，仓库电话，仓库面积）</p>
 ]]></content>
@@ -733,121 +1115,6 @@
         <tag>数据库理论</tag>
         <tag>数据字典</tag>
         <tag>关系模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据库的管理和维护</title>
-    <url>/2023/12/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86%E5%92%8C%E7%BB%B4%E6%8A%A4/</url>
-    <content><![CDATA[<p>简单记录数据库的安全管理、并发控制中的事务，备份和恢复管理。</p>
-<span id="more"></span>
-<h1 id="安全性管理"><a href="#安全性管理" class="headerlink" title="安全性管理"></a>安全性管理</h1><h2 id="SQL-server三级认证作用以及认证和授权内容"><a href="#SQL-server三级认证作用以及认证和授权内容" class="headerlink" title="SQL server三级认证作用以及认证和授权内容"></a>SQL server三级认证作用以及认证和授权内容</h2><ul>
-<li>服务器级别认证：身份验证，通过操作系统级别的安全验证来访问数据库系统。</li>
-<li>数据库级别认证：通过数据库用户账户进行控制，要访问一个数据库，必须拥有一个数据库的一个用户账号身份，该用户对应的权限访问数据库中的数据。</li>
-<li>数据库对象级别认证：常见的数据库对象级别认证包括对表、视图、存储过程、函数等数据库对象的访问权限控制。</li>
-</ul>
-<h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><ul>
-<li>对象权限：用户是否具有权限执行某一语句，主要用于控制创建数据库或数据库中对象而涉及的权限。（CRUD）。</li>
-<li>语句权限：用户对数据库执行操作的权限。(创建数据库、视图、表、存储函数等)。</li>
-<li>隐私权限：系统预定义而不需要授权就有的权限，包括固定服务器角色、固定数据库角色和数据库对象所有者所拥有的权限。</li>
-</ul>
-<p>权限操作</p>
-<p>授权</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grant [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
-<p>撤销权限</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">revoke [权限名] on [数据库名.表名] to [用户名@IP地址]</span><br></pre></td></tr></table></figure>
-<p>禁止权限</p>
-<p>MySQL中没有禁止权限，通过撤销权限来实现禁止。</p>
-<p>SQL server：<code>deny [权限名] on [数据库名.表名] to [用户名@IP地址]</code>。</p>
-<p>权限查看</p>
-<p>MySQL：<code>show grants</code>，<code>show grants for &#39;username&#39;@&#39;localhost&#39;</code>。</p>
-<p>SQL server：<code>execute sp_helprotect [@name=&#39;对象名或授权语句名&#39;, @username=&#39;用户名&#39;, @grantorname=&#39;授权的用户账号名&#39;]</code>。</p>
-<h1 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h1><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务是由用户定义的一系列数据操作语句构成，这些操作语句要么全部执行要么全部不执行，是数据库运行的最小的、不可分割的工作单位。</p>
-<p><strong>ACID</strong></p>
-<ul>
-<li>原子性：一个事务对于数据的所有操作都是不可分割的整体，要么全部执行，要么全部不执行。</li>
-<li>一致性：事务执行完成后，数据库中的内容必须全部更新，确保数据一致性。</li>
-<li>隔离性：一个事务执行不能被其他事务干扰，一个事务内部操作及其使用的数据对其他并发事务是隔离的，并发执行的各个事务之间不能互相干扰。</li>
-<li>持续性：一个事务一旦提交，它对数据库中数据的改变就是永久的。</li>
-</ul>
-<p>显示事务：事务有显示的开始和结束标记。</p>
-<p>MySQL：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 开启事务</span><br><span class="line">begin;</span><br><span class="line"># 回滚事务</span><br><span class="line">rollback;</span><br><span class="line"># 提交事务</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-<p>SQL server：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span> transact;</span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-<p>隐式事务：每一条数据操作语句都自动成为一个事务。</p>
-<h2 id="并发控制概述"><a href="#并发控制概述" class="headerlink" title="并发控制概述"></a>并发控制概述</h2><p>并发执行能提高系统资源的利用率，改善短事务的响应时间，但并发执行可能破坏事务的ACID特性。</p>
-<h3 id="并发操作导致的问题"><a href="#并发操作导致的问题" class="headerlink" title="并发操作导致的问题"></a>并发操作导致的问题</h3><ul>
-<li><strong>丢失更新</strong>：两个或两个以上的事务在更新同一数据值时，会发生某些修改被覆盖（丢失）的问题。（都在更新，但后面的更新数值覆盖前面更新结果，最后数值不对）。</li>
-<li><strong>读“脏”数据</strong>：一个事务读取了另一个事务失败运行过程中的数据。事务T1更新数值，事务T2读取了这个数值，但事务T1失败了，回滚事务，事务T2读的数值和数据库中不一致。<strong>一个事务读到另一个事务还没有提交的数据</strong>。</li>
-<li><strong>不可重复读</strong>：不可重复读是指事务T1读取数据后，事务T2对该数据进行读取并执行更新操作，修改了T1读取的数据，T1操作完数据后，又重新读取这个数据，会发现读到的结果与前一次不一样。<strong>一个事务先后读取同一条记录，但两次读取的数据不同</strong>。</li>
-<li><strong>幻读</strong>：<strong>一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在</strong>。</li>
-</ul>
-<h3 id="并发控制方法"><a href="#并发控制方法" class="headerlink" title="并发控制方法"></a>并发控制方法</h3><p><strong>排他锁</strong></p>
-<p>写锁，只允许一个事务对数据进行修改，其他事务无法同时对该行数据进行读取或修改操作。</p>
-<p><strong>共享锁</strong></p>
-<p>读锁，允许多个事务同时读取同一行数据，但不允许任何事务对该行数据进行修改。</p>
-<h2 id="封锁技术"><a href="#封锁技术" class="headerlink" title="封锁技术"></a>封锁技术</h2><ul>
-<li>一级封锁协议：事务在修改数据对象之前必须对其加X锁，直到事务结束时才释放锁。可以防止丢失更新的问题，当不能保证可重复读和脏读。</li>
-<li>二级封锁协议：是指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后立即释放S锁</strong>。可以防止数据丢失更新、读“脏”数据。</li>
-<li>三级封锁协议：指在一级封锁协议基础上，加上事务T在读取数据之前必须先对其加S锁，<strong>读取完后并不释放S锁，直到事务T结束才释放</strong>。可以防止丢失更新、不读“脏”数据，不可重复读。</li>
-</ul>
-<h3 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h3><p>某一个事务一直等待锁，进程“饿死”状态。</p>
-<p>通过先来先服务解决。</p>
-<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>每个事务相互等待其他事务释放封锁，都不能进行。</p>
-<p>死锁预防：</p>
-<ul>
-<li>一次性封锁：要求每个事务必须一次性将所有要使用的诗句全部加锁后执行。扩大了封锁的范围，降低了系统的并发度。</li>
-<li>顺序封锁：要求所有事务必须按照一个预先约定的封锁顺序对所要用到的数据对象进行封锁。很难预先确定所有数据对象的加锁顺序。</li>
-</ul>
-<p>死锁诊断和解除：</p>
-<ul>
-<li>超时法：对每个锁设定一个时限，如果某个事务的等待时间超过了该时限，就认为发生了死锁，此时调用解锁程序，以解除死锁。时限难于设置，若设置太长，则会导致死锁发生后不能及时发现；也有可能误判死锁。</li>
-<li>事务等待图法：特殊的有向图G=(T,U)。T为结点的集合，每个结点表示正在运行的事务；U 为边的集合，每条边表示事务等待的情况。若T1等待T2，那么T1、T2之间划一条有向边，从T1指向T2。建立事务等待图之后，诊断死锁的问题就变成了判断有向图G中是否存在回路的问题。</li>
-</ul>
-<h3 id="并发调度可串行性"><a href="#并发调度可串行性" class="headerlink" title="并发调度可串行性"></a>并发调度可串行性</h3><p>多个并发执行是正确的，当且仅当结果与按某一顺序串行的执行这些事务时的结果相同，则称这种调度策略为可串行化的调度。</p>
-<p>可串行性是并发事务正确调度的准则。目前数据库管理系统普遍采用<strong>两段锁协议</strong>来实现并发调度的可串行化，从而保证调度的正确性。</p>
-<p>事务必须分为两个阶段对数据对象进行加锁和解锁：</p>
-<ul>
-<li><p>在对任何数据进行读写操作之前，要先申请并获得对该数据的封锁。</p>
-<p>事务可以申请获得任何数据对象上的任何类型的锁，但是不允许释放任何锁。</p>
-</li>
-<li><p>在释放一个封锁之后，事务不再申请和获得对该数据的封锁。</p>
-<p>事务可以释放任何数据对象上的任何类型的锁，但不允许申请任何锁。</p>
-</li>
-</ul>
-<p>事务遵守两段封锁协议是可串行化调度的<strong>充分条件，而不是必要条件</strong>。</p>
-<h1 id="备份及恢复管理"><a href="#备份及恢复管理" class="headerlink" title="备份及恢复管理"></a>备份及恢复管理</h1><h2 id="数据备份"><a href="#数据备份" class="headerlink" title="数据备份"></a>数据备份</h2><ul>
-<li><p><strong>完全备份</strong></p>
-<p>将备份整个数据库，不仅包括用户表、系统表、索引、视图、存储过程等所有数据库对象，还包括事务日志部分。</p>
-<p>MySQL在cmd命令行实现完全备份和恢复：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">完全备份</span></span><br><span class="line">mysqldump -u username -p mydatabase &gt; backup.sql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原备份</span></span><br><span class="line">mysql -u username -p mydatabase &lt; backup.sql</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p><strong>差分备份</strong></p>
-<p>仅备份自上次完全备份以来数据改变部分的内容。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份名为mydatabase的数据库中表mytable中<span class="built_in">id</span>大于100的行</span></span><br><span class="line">mysqldump -u username -p mydatabase mytable --where=&quot;id &gt; 100&quot; &gt; diff_backup.sql</span><br></pre></td></tr></table></figure>
-<p>恢复和完全备份相同。</p>
-</li>
-</ul>
-<ul>
-<li><p><strong>事务日志备份</strong></p>
-<p>对事务日志进行备份，备份时复制自上次备份以来对数据库所做的改变。</p>
-<p>事务日志备份和差分备份有所不同。差分备份无法将数据库恢复到出现故障前某一个指定的时刻，它只能将数据库恢复到上一次差分备份结束的时刻。</p>
-</li>
-<li><p><strong>文件或文件组备份</strong></p>
-<p>数据库由磁盘上的许多文件构成。如果数据库非常大，执行完全备份是不可行的，可以使用文件备份或文件组备份来备份数据库的一部分。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>数据库理论</tag>
-        <tag>并发控制</tag>
-        <tag>事务管理</tag>
-        <tag>备份</tag>
       </tags>
   </entry>
   <entry>
@@ -1763,201 +2030,6 @@ $$<br>
         <tag>操作系统</tag>
         <tag>进程</tag>
         <tag>处理机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL常用语法</title>
-    <url>/2023/12/03/MySQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<p>MySQL增删改查，多表查询，视图，存储过程，存储函数，游标。</p>
-<span id="more"></span>
-<h1>DDL</h1>
-<h2 id="表操作-修改">表操作-修改</h2>
-<p>添加字段</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add 字段名 类型(长度) [约束];</span><br></pre></td></tr></table></figure>
-<p>修改数据类型</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 modify 字段名 新数据类型(长度);</span><br></pre></td></tr></table></figure>
-<p>修改字段名和字段类型</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 change 旧字段名 新字段名 类型(长度) [约束];</span><br></pre></td></tr></table></figure>
-<p>删除字段</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 drop 字段名;</span><br></pre></td></tr></table></figure>
-<p>修改表名</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 rename to 新表名;</span><br></pre></td></tr></table></figure>
-<h2 id="约束">约束</h2>
-<h2 id="外键">外键</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint 外键名称 foreign key 外键字段名 references 主表(列名)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add constraint 外键名称 foreign key (外键字段名) references 主表 (主表列名);</span><br></pre></td></tr></table></figure>
-<h1>索引</h1>
-<ol>
-<li>
-<p>创建索引</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create index index_name on table_name (index_col_name, ...);</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>查看索引</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show index from table_name;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>删除索引</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop index index_name on table_name;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1>视图</h1>
-<ol>
-<li>
-<p>创建视图</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create view view_name as select语句</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>查询</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看视图语句</span><br><span class="line">show create view view_name;</span><br><span class="line"># 查看视图数据</span><br><span class="line">select * from view_name ...;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>修改</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create [or replace] view view_name as select语句;</span><br><span class="line">alter view view_name as select语句;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>删除</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop view [if exists] view_name ...;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1>存储过程</h1>
-<ol>
-<li>
-<p>创建</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure 存储过程名称([[in or out]参数列表])</span><br><span class="line">begin</span><br><span class="line"> -- SQL语句</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>调用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">call 名称 ([参数]);</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>删除</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop procedure [if exists] procedure_name ...;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="参数">参数</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>含义</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>IN</td>
-<td>作为输入</td>
-<td>默认</td>
-</tr>
-<tr>
-<td>OUT</td>
-<td>作为输出，返回值</td>
-<td></td>
-</tr>
-<tr>
-<td>INOUT</td>
-<td>即可作为输入参数也可作为输出参数</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="变量">变量</h2>
-<ol>
-<li>
-<p>查看系统变量</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES ; -- 查看所有系统变量</span><br><span class="line">SHOW [ SESSION | GLOBAL ] VARIABLES LIKE &#x27;......&#x27;; -- 可以通过LIKE模糊匹配方式查找变量</span><br><span class="line">SELECT @@[SESSION | GLOBAL] 系统变量名; -- 查看指定变量的值</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>设置系统变量</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET [ SESSION | GLOBAL ] 系统变量名 = 值 ;</span><br><span class="line">SET @@[SESSION | GLOBAL] 系统变量名 = 值 ;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>用户自定义变量赋值</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET @var_name = expr [, @var_name = expr] ... ;</span><br><span class="line">SET @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line"></span><br><span class="line">SELECT @var_name := expr [, @var_name := expr] ... ;</span><br><span class="line">SELECT 字段名 INTO @var_name FROM 表名;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>自定义变量使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT @var_name</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>局部变量</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 声明</span><br><span class="line">declare 变量名 变量类型 [default ...];</span><br><span class="line"></span><br><span class="line"># 赋值</span><br><span class="line">set 变量名 = 值;</span><br><span class="line">set 变量名 := 值;</span><br><span class="line">select 字段名 into 变量名 from 表名 ...;</span><br></pre></td></tr></table></figure>
-<h2 id="条件-循环语句">条件/循环语句</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if 条件 then</span><br><span class="line">	...</span><br><span class="line">elseif 条件2 then</span><br><span class="line">	...</span><br><span class="line">else</span><br><span class="line">	...</span><br><span class="line">end if;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">while 条件 do</span><br><span class="line">	-- SQL逻辑</span><br><span class="line">end while;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 先执行一次逻辑，然后判定UNTIL条件是否满足，如果满足，则退出。如果不满足，则继续下一次循环</span><br><span class="line">REPEAT</span><br><span class="line">    SQL逻辑...;</span><br><span class="line">    UNTIL 条件</span><br><span class="line">END REPEAT;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[begin_label:] LOOP</span><br><span class="line">	SQL逻辑...</span><br><span class="line">END LOOP [end_label];</span><br><span class="line"></span><br><span class="line">LEAVE label; -- 退出指定标记的循环体</span><br><span class="line">ITERATE label; -- 直接进入下一次循环</span><br></pre></td></tr></table></figure>
-<h1>游标</h1>
-<ol>
-<li>
-<p>声明游标</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare 游标名称 cursor for 查询语句;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>打开游标</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">open 游标名称;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>获取游标</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fetch 游标 into 变量 [, 变量 ...];</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>关闭游标</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">close 游标名称;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>示例</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure p8()</span><br><span class="line">begin</span><br><span class="line">    declare t_index char(6);</span><br><span class="line">    declare price float;</span><br><span class="line">    declare flag bool default true;</span><br><span class="line">    declare cur_update cursor for</span><br><span class="line">        (select goods.goodsno, goods.saleprice from goods join category c on c.categoryno = goods.categoryno where c.categoryno = &#x27;cn001&#x27;);</span><br><span class="line">    declare continue handler for not found set flag := false;</span><br><span class="line"></span><br><span class="line">    open cur_update;</span><br><span class="line">    while flag do</span><br><span class="line">        fetch cur_update into t_index, price;</span><br><span class="line">        update goods set saleprice = price * 0.9 where goodsno = t_index;</span><br><span class="line">    end while;</span><br><span class="line">    close cur_update;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-<p>MySQL游标的关闭是通过处理异常来关闭的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">declare continue handler for not found set flag := false;</span><br></pre></td></tr></table></figure>
-<h1>触发器</h1>
-<p>触发器是与表相关的数据库对象，指在<code>insert/update/delete</code>之前<code>before</code>或之后<code>after</code>，触发并执行触发器中定义的SQL语句。</p>
-<table>
-<thead>
-<tr>
-<th>触发器类型</th>
-<th>NEW 和 OLD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>INSERT</td>
-<td>NEW 表示将要或者已经新增的数据</td>
-</tr>
-<tr>
-<td>UPDATE</td>
-<td>OLD 表示修改之前的数据，NEW表示将要或已经修改后的数据</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>OLD 表示将要或者已经删除的数据</td>
-</tr>
-</tbody>
-</table>
-<ol>
-<li>
-<p>创建</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create trigger trigger_name</span><br><span class="line">before/after insert/update/delete</span><br><span class="line">on tb1_name for each row -- 行级触发器</span><br><span class="line">begin</span><br><span class="line">	-- SQL执行</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>查看</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show triggers;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>删除</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop trigger trigger_name;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>示例</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create trigger supplier_delete_trigger</span><br><span class="line">    before delete on supplier for each row</span><br><span class="line">begin</span><br><span class="line">    delete from salebill where salebill.goodsno in</span><br><span class="line">           (select g.goodsno from goods g join supplier s on g.supplierno = s.supplierno where s.supplierno = OLD.supplierno);</span><br><span class="line">    delete from goods where goods.supplierno = OLD.supplierno;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-        <tag>MySQL常用命令</tag>
       </tags>
   </entry>
 </search>
