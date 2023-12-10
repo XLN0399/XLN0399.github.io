@@ -20,23 +20,23 @@
     var CONFIG = {"hostname":"xln0399.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。">
+  <meta name="description" content="进程之间实现网络通信，windows系统下C语言实现，直接对实现的必要代码进行解释。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关系数据理论">
-<meta property="og:url" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:title" content="进程网络通信简单实现">
+<meta property="og:url" content="http://xln0399.github.io/2023/12/05/%E8%BF%9B%E7%A8%8B%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="落叶枫林">
-<meta property="og:description" content="对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。">
+<meta property="og:description" content="进程之间实现网络通信，windows系统下C语言实现，直接对实现的必要代码进行解释。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png">
-<meta property="article:published_time" content="2023-12-02T02:33:00.000Z">
-<meta property="article:modified_time" content="2023-12-02T07:46:53.446Z">
+<meta property="article:published_time" content="2023-12-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-12-05T07:22:23.339Z">
 <meta property="article:author" content="柠">
-<meta property="article:tag" content="数据库理论">
-<meta property="article:tag" content="关系范式">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="进程通信">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png">
 
-<link rel="canonical" href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/">
+<link rel="canonical" href="http://xln0399.github.io/2023/12/05/%E8%BF%9B%E7%A8%8B%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/">
 
 
 <script id="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>关系数据理论 | 落叶枫林</title>
+  <title>进程网络通信简单实现 | 落叶枫林</title>
   
 
 
@@ -197,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/">
+    <link itemprop="mainEntityOfPage" href="http://xln0399.github.io/2023/12/05/%E8%BF%9B%E7%A8%8B%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关系数据理论
+          进程网络通信简单实现
         </h1>
 
         <div class="post-meta">
@@ -221,7 +221,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-12-02 10:33:00 / 修改时间：15:46:53" itemprop="dateCreated datePublished" datetime="2023-12-02T10:33:00+08:00">2023-12-02</time>
+              <time title="创建时间：2023-12-05 00:00:00 / 修改时间：15:22:23" itemprop="dateCreated datePublished" datetime="2023-12-05T00:00:00+08:00">2023-12-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,7 +229,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
                 </span>
             </span>
 
@@ -239,7 +239,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>801</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -258,101 +258,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>对数据库中关系的第一范式、第二范式、第三范式等基础理论知识记录说明。</p>
+        <p>进程之间实现网络通信，windows系统下C语言实现，直接对实现的必要代码进行解释。</p>
 <span id="more"></span>
-<h1>基本概念</h1>
-<p>函数依赖</p>
-<p>一组属性的值可以决定另一组属性的值。$x \rightarrow f(x)$。</p>
-<p>非平凡函数依赖：$X\rightarrow Y ;且 Y \nsubseteq X$</p>
-<p>平凡函数依赖：$X\rightarrow Y ;且 Y \subseteq X$</p>
-<p>完全函数依赖：非主属性完全依赖于主属性，少一个都不能推出。</p>
-<p>部分函数依赖：非主属性可以又主属性部分推出得到。</p>
-<h1>范式</h1>
-<h2 id="第一范式">第一范式</h2>
-<p>一个关系模式R的所有属性都是不可分的基本数据项。</p>
-<p>反例：</p>
-<img src="/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/image-20231202151257178.png" alt="image-20231202151257178" style="zoom:70%;">
-<p>成绩这一列还能再分，不满足第一范式。</p>
-<h2 id="第二范式">第二范式</h2>
-<p>满足第一范式基础上，<strong>每个非主属性都完全依赖于码。</strong></p>
-<table>
-<thead>
-<tr>
-<th>员工编号</th>
-<th>销售日期</th>
-<th>销售金额</th>
-<th>小组编号</th>
-<th>组长名称</th>
-</tr>
-</thead>
-</table>
-<p>这里员工编号和销售日期可以确定一条销售金额，主属性是员工编号和销售日期，但是由员工编号可以推出小组编号和组长名称。小组编号和组长名称是部分函数依赖于码。所以不满足第二范式。</p>
-<p>可拆分表：</p>
-<table>
-<thead>
-<tr>
-<th>员工编号</th>
-<th>销售日期</th>
-<th>销售金额</th>
-</tr>
-</thead>
-</table>
-<table>
-<thead>
-<tr>
-<th>员工编号</th>
-<th>小组编号</th>
-<th>组长名称</th>
-</tr>
-</thead>
-</table>
-<p>从第一范式到第二范式就是<strong>消除非主属性对码的部分函数依赖</strong>。</p>
-<h2 id="第三范式">第三范式</h2>
-<p>满足第二范式的基础上，每个非主属性对码都不传递依赖于R的候选码。</p>
-<p>例如：</p>
-<table>
-<thead>
-<tr>
-<th>员工编号</th>
-<th>小组编号</th>
-<th>组长名称</th>
-</tr>
-</thead>
-</table>
-<p>存在着$员工编号\rightarrow 小组编号$，$员工编号\rightarrow 组长名称$，就有$员工编号\rightarrow 小组编号\rightarrow 组长名称$。存在传递依赖，不满足第三范式。</p>
-<p>可拆分表：</p>
-<table>
-<thead>
-<tr>
-<th>员工编号</th>
-<th>小组编号</th>
-</tr>
-</thead>
-</table>
-<table>
-<thead>
-<tr>
-<th>小组编号</th>
-<th>组长名称</th>
-</tr>
-</thead>
-</table>
-<p>从第二范式到第三范式就是<strong>消除非主属性对码的传递依赖</strong>。</p>
-<h2 id="BC范式">BC范式</h2>
-<p>在第三范式基础上，消除主属性对主键的部分和传递依赖。</p>
-<p>示例：</p>
-<table>
-<thead>
-<tr>
-<th>歌曲编号</th>
-<th>歌曲名称</th>
-<th>歌手</th>
-<th>……</th>
-</tr>
-</thead>
-</table>
-<p>这里的歌曲编号、歌曲名称、歌手是候选码（主键），但存在$歌曲名称\rightarrow歌手$的部分依赖，不符合BC范式。</p>
-<p>这里第二范式、第三范式都是对非主属性消除部分依赖和传递依赖，BC范式是对主属性消除部分依赖和传递依赖。</p>
+<p>导入网络通信socket头文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ws2tcpip.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib, <span class="string">&quot;ws2_32.lib&quot;</span>)</span></span><br></pre></td></tr></table></figure>
+<h2 id="初始化Winsock库">初始化Winsock库</h2>
+<p>winsock库主要作用是为应用程序提供网络通信功能，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   WSADATA wsaData;</span><br><span class="line"><span class="type">int</span> iResult = WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData);</span><br><span class="line">   <span class="keyword">if</span> (iResult != <span class="number">0</span>) &#123;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">&quot;WSAStartup failed: %d\n&quot;</span>, iResult);</span><br><span class="line">       <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>WSAStartup()</code>函数初始化Winsock库。</li>
+<li><code>MAKEWORD(2, 2)</code>将两个字节组合成一个字，它的值为<code>0x0202</code>，表示要使用Winsock版本2.2。</li>
+<li><code>&amp;wsaData</code>：指向一个<code>WSADATA</code>结构体的指针。<code>WSADATA</code>结构体包含了关于Winsock库的信息，例如最高版本号、最大套接字描述符等。</li>
+<li><code>WSAStartup()</code>成功，它将返回0。否则，它将返回一个非零错误代码。</li>
+</ol>
+<h2 id="初始化存储地址信息结构体">初始化存储地址信息结构体</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">addrinfo</span> hints;</span><br><span class="line">   <span class="built_in">ZeroMemory</span>(&amp;hints, <span class="built_in">sizeof</span>(hints));</span><br><span class="line">   hints.ai_family = AF_INET;</span><br><span class="line">   hints.ai_socktype = SOCK_STREAM;</span><br><span class="line">   hints.ai_protocol = IPPROTO_TCP;</span><br><span class="line">   hints.ai_flags = AI_PASSIVE;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>addrinfo</code>结构体包含了关于网络地址、协议和套接字类型的信息。</li>
+<li><code>ZeroMemory()</code>清空结构体中，确保结构体中所有的字段都设置为默认值或已知状态。</li>
+<li><code>hints.ai_family = AF_INET</code>，设置使用IPv4地址族。</li>
+<li><code>hints.ai_socktype = SOCK_STREAM</code>使用流式套接字（如TCP）。</li>
+<li><code>hints.ai_protocol = IPPROTO_TCP</code>，表示使用TCP协议。</li>
+<li><code>hints.ai_flags = AI_PASSIVE</code>，创建一个被动套接字（即监听套接字），等待连接请求。</li>
+</ol>
+<h2 id="将主机名和端口转换为地址信息链表">将主机名和端口转换为地址信息链表</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">addrinfo</span> * <span class="title">result</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line"><span class="type">int</span> iResult = getaddrinfo(<span class="literal">NULL</span>, <span class="string">&quot;8888&quot;</span>, &amp;hints, &amp;result);</span><br><span class="line">   <span class="keyword">if</span> (iResult != <span class="number">0</span>) &#123;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">&quot;getaddrinfo failed: %d\n&quot;</span>, iResult);</span><br><span class="line">       WSACleanup();</span><br><span class="line">       <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>getaddrinfo()</code>解析服务器地址和端口信息，失败返回<code>0</code>。</li>
+<li>第一个参数是指向主机名或IP地址的指针，<code>NULL</code>表示使用本地主机。</li>
+<li>第二参数表示连接服务器的端口号。</li>
+<li>第三个参数包含了网络地址，协议和嵌套字类型的信息，用来初始化。</li>
+<li><code>WSACleanup()</code>初始化Winsock库之后，始终进行清理操作。</li>
+</ol>
+<h2 id="创建嵌套字">创建嵌套字</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SOCKET ListenSocket = INVALID_SOCKET;    </span><br><span class="line">ListenSocket = socket(result-&gt;ai_family, result-&gt;ai_socktype, result-&gt;ai_protocol);</span><br><span class="line"><span class="keyword">if</span> (ListenSocket == INVALID_SOCKET) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;socket failed with error: %ld\n&quot;</span>, WSAGetLastError());</span><br><span class="line">    freeaddrinfo(result);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -368,7 +307,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://xln0399.github.io/2023/12/02/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA/" title="关系数据理论">http://xln0399.github.io/2023/12/02/关系数据理论/</a>
+    <a href="http://xln0399.github.io/2023/12/05/%E8%BF%9B%E7%A8%8B%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" title="进程网络通信简单实现">http://xln0399.github.io/2023/12/05/进程网络通信简单实现/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -379,8 +318,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA/" rel="tag"># 数据库理论</a>
-              <a href="/tags/%E5%85%B3%E7%B3%BB%E8%8C%83%E5%BC%8F/" rel="tag"># 关系范式</a>
+              <a href="/tags/c/" rel="tag"># c++</a>
+              <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" rel="tag"># 进程通信</a>
+              <a href="/tags/c/" rel="tag"># c</a>
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
           </div>
 
         
@@ -389,12 +330,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/11/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="计算机网络章节总复习">
-      <i class="fa fa-chevron-left"></i> 计算机网络章节总复习
+    <a href="/2023/12/04/opencv%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" rel="prev" title="opencv基础使用">
+      <i class="fa fa-chevron-left"></i> opencv基础使用
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/12/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AE%A1%E7%90%86%E5%92%8C%E7%BB%B4%E6%8A%A4/" rel="next" title="数据库的管理和维护">
-      数据库的管理和维护 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/12/08/Elaticsearch/" rel="next" title="Elaticsearch">
+      Elaticsearch <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -454,7 +395,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">范式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8C%83%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">第一范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8C%83%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">第二范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">第三范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BC%E8%8C%83%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">BC范式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96Winsock%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">初始化Winsock库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%98%E5%82%A8%E5%9C%B0%E5%9D%80%E4%BF%A1%E6%81%AF%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">2.</span> <span class="nav-text">初始化存储地址信息结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E4%B8%BB%E6%9C%BA%E5%90%8D%E5%92%8C%E7%AB%AF%E5%8F%A3%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%9C%B0%E5%9D%80%E4%BF%A1%E6%81%AF%E9%93%BE%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">将主机名和端口转换为地址信息链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B5%8C%E5%A5%97%E5%AD%97"><span class="nav-number">4.</span> <span class="nav-text">创建嵌套字</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -604,61 +545,6 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-          load: ['[tex]/mhchem'],
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-          packages: {'[+]': ['mhchem']},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
